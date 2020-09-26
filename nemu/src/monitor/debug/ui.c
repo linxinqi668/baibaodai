@@ -12,6 +12,21 @@
 void cpu_exec(uint32_t);
 
 // 打印无符号整数的二进制表示
+// my_self
+char * print_binary_vector(unsigned int val){
+    char * res = (char *) malloc(33); // 分配32个字节的空间
+    for (int i = 31; i >= 0; i--){
+        // 取出当前数字
+        int x = val % 2;
+        // 放入res字符串中
+        *(res + i) = '0' + x;
+        val = val / 2;
+    }
+    // 加上结束符
+    *(res + 32) = '\0';
+
+    return res;
+}
 
 
 
@@ -79,6 +94,9 @@ static int cmd_info(char *args) {
 				
 				// 打印值
 				printf("register %s: %u\n", register_name[i][j], register_value);
+				char * vec = print_binary_vector(register_value);
+				printf("bin_vec: %s\n", vec);
+				free(vec);
 			}
 		}
 	}
