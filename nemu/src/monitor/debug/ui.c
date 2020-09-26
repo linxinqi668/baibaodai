@@ -36,6 +36,17 @@ static int cmd_q(char *args) {
 	return -1;
 }
 
+static int cmd_si(char *args) {
+	char const * step_num = (char const *) args;
+	int n;
+	if (args == NULL)
+		n = 1;
+	else
+		n = atoi(step_num);
+	cpu_exec(n);
+	return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -48,6 +59,8 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */
+	// 多步执行指令, 缺省为1步。
+	{ "si", "N Step Further", cmd_si},
 
 };
 
