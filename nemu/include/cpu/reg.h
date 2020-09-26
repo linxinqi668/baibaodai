@@ -15,7 +15,8 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  */
 
 typedef struct {
-	struct {
+	// 这边的8个寄存器与下面的eax什么的功能不同, 所以分开定义
+	union {
 		uint32_t _32;
 		uint16_t _16;
 		uint8_t _8[2];
