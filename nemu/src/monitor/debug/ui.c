@@ -57,7 +57,7 @@ static int cmd_info(char *args) {
 	};
 
 	if (strcmp(args, "r") == 0){
-		
+
 		for (int i = 0; i < 3; i++){
 			for (int j = 0; j < 8; j++){
 				// 取出该寄存器的值
@@ -74,7 +74,7 @@ static int cmd_info(char *args) {
 				}
 				
 				// 打印值
-				printf("寄存器%s中的值为: %ud\n", register_name[i][j], register_value);
+				printf("register %s: %u\n", register_name[i][j], register_value);
 			}
 		}
 	}
