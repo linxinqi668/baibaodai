@@ -2,10 +2,12 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
+// #include "reg.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
 
 void cpu_exec(uint32_t);
 
@@ -47,8 +49,37 @@ static int cmd_si(char *args) {
 	return 0;
 }
 
-static int cmd_info_r(char *args) {
-	printf("fuck your mother!\n");
+static int cmd_info(char *args) {
+	char * register_name[3][8] = {
+		{"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"},
+		{"ax", "cx", "dx", "bx", "sp", "bp", "si", "di"},
+		{"al", "cl", "dl", "bl", "ah", "ch", "dh", "bh"}
+	};
+
+	if (strcmp(args, "r") == 0){
+		
+		for (int i = 0; i < 3; i++){
+			for (int j = 0; j < 8; j++){
+				// 取出该寄存器的值
+				uint32_t register_value;
+				if (i == 0)
+					register_value = cpu.gpr[j]._32;
+				else if (i == 1)
+					register_value = cpu.gpr[j]._16;
+				else {
+					if (j <= 3)
+						register_value = cpu.gpr[j]._8[0];
+					else
+						register_value = cpu.gpr[j]._8[1];
+				}
+				
+				// 打印值
+				printf("寄存器%s中的值为: %ud\n", register_name[i][j], register_value);
+			}
+		}
+	}
+	else
+		printf("this is w\n");
 	return -1;
 }
 
@@ -66,7 +97,7 @@ static struct {
 	/* TODO: Add more commands */
 	// 多步执行指令, 缺省为1步。
 	{ "si", "N Step Further", cmd_si},
-	{ "info", "Check The Register Infomation", cmd_info_r},
+	{ "info", "Check The Register Infomation", cmd_info},
 
 };
 
