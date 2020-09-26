@@ -66,7 +66,7 @@ static struct {
 	/* TODO: Add more commands */
 	// 多步执行指令, 缺省为1步。
 	{ "si", "N Step Further", cmd_si},
-	{ "info r", "Check The Register Infomation", cmd_info_r},
+	{ "info", "Check The Register Infomation", cmd_info_r},
 
 };
 
