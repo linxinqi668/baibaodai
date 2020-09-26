@@ -11,6 +11,9 @@
 
 void cpu_exec(uint32_t);
 
+// 打印无符号整数的二进制表示
+
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
