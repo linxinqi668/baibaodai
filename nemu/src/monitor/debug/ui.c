@@ -47,6 +47,11 @@ static int cmd_si(char *args) {
 	return 0;
 }
 
+static int cmd_info_r(char *args) {
+	printf("fuck your mother!\n");
+	return -1;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -61,6 +66,7 @@ static struct {
 	/* TODO: Add more commands */
 	// 多步执行指令, 缺省为1步。
 	{ "si", "N Step Further", cmd_si},
+	{ "info r", "Check The Register Infomation", cmd_info_r},
 
 };
 
