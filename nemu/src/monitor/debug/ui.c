@@ -14,6 +14,7 @@ void cpu_exec(uint32_t);
 // 打印无符号整数的二进制表示
 
 
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
@@ -49,7 +50,7 @@ static int cmd_si(char *args) {
 	else
 		n = atoi(step_num);
 	cpu_exec(n);
-	return 0;
+	return -1;
 }
 
 static int cmd_info(char *args) {
@@ -100,7 +101,8 @@ static struct {
 	/* TODO: Add more commands */
 	// 多步执行指令, 缺省为1步。
 	{ "si", "N Step Further", cmd_si},
-	{ "info", "Check The Register Infomation", cmd_info},
+	// 查看信息
+	{ "info", "Check The Register Or Watchpoint Infomation", cmd_info},
 
 };
 
