@@ -519,7 +519,7 @@ uint32_t expr(char *e, bool *success) {
 
 	// 找出tokens中的减号
 	int i;
-	for (i = 1; i < nr_token && (tokens[i].type == 'm'); i++)
+	for (i = 1; i < nr_token && (tokens[i].type == Neg); i++)
 		if (tokens[i-1].type == Right || tokens[i-1].type == Integer
 		    || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name){
 			tokens[i].type = Sub; printf("find\n");}
