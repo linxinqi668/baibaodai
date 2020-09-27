@@ -10,7 +10,7 @@
 
 enum {
 	NOTYPE = 256, EQ, Integer = 'i', Left = '(', Right = ')',
-	Multiply = '*', Div = '/', Plus = '+', Sub = '-'
+	Multiply = '*', Div = '/', Plus = '+', Sub = '-', First = 'f'
 
 	/* TODO: Add more token types */
 };
@@ -28,7 +28,8 @@ static struct rule {
 
 	// 1st level
 	{" +",	NOTYPE},				// spaces
-	{"[0-9]+", Integer},             // get an integer 这里可能需要更改
+	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
+	{"(.)", First},                 // double parenthesis
 
 	// 2nd level
 	{"\\(", Left},                  // left parenthesis
@@ -94,8 +95,8 @@ static bool make_token(char *e) {
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
-				printf("%s\n", e + position);
-				printf("%d\n", substr_len);
+				// printf("%s\n", e + position);
+				// printf("%d\n", substr_len);
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
 				 * to record the token in the array `tokens'. For certain types
