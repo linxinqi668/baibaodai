@@ -471,6 +471,7 @@ uint32_t get_value(int p, int q) {
 
 		// 3. 根据dominant operator求值
 		char d_op = tokens[p + d_op_ind].type;
+		printf("!!!%c!!!!\n", d_op);
 		switch (d_op) {
 			case Plus: {ret_val = value1 + value2; break;}
 			case Sub: {ret_val = value1 - value2; break;}
@@ -481,7 +482,7 @@ uint32_t get_value(int p, int q) {
 			case AND: {ret_val = value1 && value2; break;}
 			case OR: {ret_val = value1 || value2; break;}
 
-			default: { printf("!!!%c!!!!\n",d_op) ;Assert(0, "取出的操作符不太对劲儿");}
+			default: {Assert(0, "取出的操作符不太对劲儿");}
 		}
 	}
 
