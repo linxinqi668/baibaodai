@@ -108,7 +108,7 @@ static int cmd_info(char *args) {
 
 static int cmd_x(char *args){
 	printf("兄弟! 你需要以字节为单位反过来看每一个小串, 然后再连起来, 可得到\n\
-			低地址到高地址的内存表示, 本机是大端序.\n");
+低地址到高地址的内存表示, 本机是大端序.\n");
 
 	char * first_arg = strtok(args, " ");
 	char * second_arg = strtok(NULL, " ");
