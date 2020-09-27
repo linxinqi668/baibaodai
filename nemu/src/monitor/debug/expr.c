@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <regex.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 enum {
 	NOTYPE = 256, EQ, Integer = 'i', Left = '(', Right = ')',
@@ -82,7 +83,6 @@ static bool make_token(char *e) {
 	
 	nr_token = 0; // token计数器
 
-	// printf("%s\n", e); 没问题
 
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
@@ -128,7 +128,6 @@ static bool make_token(char *e) {
 
 				Assert(nr_token <= 32, "the tokens array over flow!");
 				
-
 				// 一些特殊的token必须经过某些处理, 现在还用不到
 				switch(rules[i].token_type) {
 					// default: panic("please implement me");
@@ -346,32 +345,51 @@ int find_dominant_operator(char * sub_expression) {
 }
 /**************************************************************/
 
-/* 求解表达式的值 主体 *******************************************/
+/* 检查字符串是否为整数 ******************************************/
+bool is_integer(char * expression) {
+
+    int len = strlen(expression);
+
+    for (int i = 0; i < len; i++){
+        if (!isdigit(expression[i]))
+            return false;
+    }
+    
+    return true;
+
+}
+/**************************************************************/
+
+/* 求解表达式的值主程序 ******************************************/
+// 用32位的数据来保存位运算的结果
 uint32_t get_value(char * expression, int p, int q) {
-	Assert(p <= q, "啊啊啊啊我也不知道怎么办啊");
-	if (p == q) {
-		return expression[p] - '0';
-	}
-	else if (check_parentheses(expression, p, q) == true) {
-		return get_value(expression, p+1, q-1);
-	}
-	else {
+	// 先取出 p 至 q 的字符串
+	char * sub_expression = sub_str(expression, p, q);
+	uint32_t ret_val;
+
+	if (p > q) {
+		printf("出现了不可计算的情况, 结果不可信");
+		ret_val = 0;
+
+	} else if (is_integer(sub_expression)) {
+		ret_val = atoi(sub_expression);
+
+	} else if (check_parentheses(expression, p, q) == true) {
+		ret_val = get_value(expression, p+1, q-1);
+
+	} else {
 		/* Complicated */
-		// 1. 获取当前子串 记得释放
-		char * sub_expression = sub_str(expression, p, q);
-		// 2. 找出当前子串的dominant operator
+		// 1. 找出当前子串的dominant operator
 		int d_op_ind = find_dominant_operator(sub_expression);
 		Assert(d_op_ind != -1, "找不到dominant operator!");
 
-
-		// 3. 根据dominant operator求解表达式
+		// 2. 根据dominant operator求解表达式
 		uint32_t value1 = get_value(expression, p, p + d_op_ind-1);
 		uint32_t value2 = get_value(expression, p + d_op_ind + 1, q);
-
 		Assert(value1 >= value2, "出现负数啦");
 
+		// 3. 根据dominant operator求值
 		char d_op = sub_expression[d_op_ind];
-		free(sub_expression); // 释放空间
 		switch (d_op) {
 			case '+': {return value1 + value2; break;}
 			case '-': {return value1 - value2; break;}
@@ -380,6 +398,9 @@ uint32_t get_value(char * expression, int p, int q) {
 			default: Assert(0, "取出的操作符不太对劲儿");
 		}
 	}
+
+	free(sub_expression);
+    return ret_val;
 }
 /***************************************************************/
 
@@ -390,7 +411,6 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-
 	*success = true;
 
 	/* TODO: Insert codes to evaluate the expression. */
@@ -405,22 +425,20 @@ uint32_t expr(char *e, bool *success) {
 	for (int i = 0; i < nr_token; i++)
 		strcat(expression, tokens[i].str);
 
-	// printf("%s\n", expression);
-
 	// 计算表达式
 	int len = strlen(expression);
 	uint32_t res = get_value(expression, 0, len-1);
-	printf("%u\n", res);
+	printf("计算结果为: %d\n", res);
 	
 	// 测试部分, 打印中取出的token
 	// for (int i = 0; i < nr_token; i++){
 	// 	printf("%s ", tokens[i].str);
 	// }
 
-
 	// 释放tokens中的字符串空间
 	for (int i = 0; i < nr_token; i++)
 		free(tokens[i].str);
+
 	// 释放表达式空间
 	free(expression);
 
