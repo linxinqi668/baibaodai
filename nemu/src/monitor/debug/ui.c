@@ -118,7 +118,11 @@ static int cmd_x(char *args){
 	sscanf(first_arg, "%lu", &num);
 	sscanf(second_arg, "%x", &st_addr);
 
-	printf("%lu %u\n", num, st_addr);
+	// printf("%lu %u\n", num, st_addr);
+
+	// 取出内存数据
+	uint32_t res = swaddr_read(st_addr, num * 4);
+	printf("%x", res);
 	return -1;
 }
 
