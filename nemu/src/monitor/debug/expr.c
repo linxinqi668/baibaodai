@@ -162,12 +162,15 @@ uint32_t expr(char *e, bool *success) {
 	/* TODO: Insert codes to evaluate the expression. */
 
 	// 前面已经进行过了make_token
+
+	// 根据tokens解析得到的表达式计算表达式的值
+	
 	
 
 	// 测试部分, 打印中取出的token
-	for (int i = 0; i < nr_token; i++){
-		printf("%s ", tokens[i].str);
-	}
+	// for (int i = 0; i < nr_token; i++){
+	// 	printf("%s ", tokens[i].str);
+	// }
 
 
 	// 释放tokens中的字符串空间
