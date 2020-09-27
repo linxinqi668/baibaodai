@@ -140,6 +140,14 @@ static bool make_token(char *e) {
 						tokens[ nr_token ].str = new_space;
 						break;
 					}
+					case Reg_Name: {
+						// 同上
+						char * new_space = (char *)malloc(substr_len + 1);
+						strncpy(new_space, substr_start, substr_len);
+						new_space[substr_len] = '\0';
+						tokens[ nr_token ].str = new_space;
+						break;
+					}
 					default: {
 						// 将type对应的字符拷贝进str
 						char * new_space = (char *)malloc(2);
@@ -352,7 +360,7 @@ int assign_priority(char c) {
 		return 4;
 	else if (c == Neg)
 		return 5;
-	else // 当前最高级为 Factorial
+	else // 阶乘最高
 		return 6;
 }
 /**************************************************************/
@@ -453,6 +461,38 @@ uint32_t factorical(uint32_t n) {
 /*************************************************************/
 
 
+/* 从寄存器中取出数值 *******************************************/
+uint32_t get_reg_val(char * reg_name){
+	char * reg_class[] = {
+		"ax", "cx", "dx", "bx", "sp", "bp", "si", "di"
+	};
+
+	int len = strlen(reg_name);
+	char * reg_type_name = sub_str(reg_name, len-2, len-1); // 取出倒数两个
+	if (strcmp(reg_type_name, "ip") == 0) // 如果是程序计数器, 直接返回即可
+		return cpu.eip;
+	
+	int i;
+	for (i = 0; i < 8; i++) // 如果是16位寄存器与32位寄存器
+		if (strcmp(reg_type_name, reg_class[i]) == 0){
+			if (len == 4)
+				return cpu.gpr[i]._32;
+			else if (len == 3)
+				return cpu.gpr[i]._16;
+			break;
+		}
+
+	char * reg_class_8 = "acdb"; // 如果是8位寄存器
+	for (i = 0; i < 4; i++)
+		if (reg_type_name[0] == reg_class_8[i])
+			return reg_type_name[1] == 'h' ? cpu.gpr[i]._8[1] : cpu.gpr[i]._8[0];
+
+	printf("不可能运行到这里.");
+	return 0;
+}
+/***************************************************************/
+
+
 
 
 /* 求解表达式的值主程序 ******************************************/
@@ -468,8 +508,10 @@ uint32_t get_value(int p, int q) {
 	} else if (p == q) { // 只剩一个数字单元
 		if (tokens[p].type == Hex_Num)
 			ret_val = strtol(tokens[p].str, NULL, 16);
-		else
+		else if (tokens[p].type == Integer)
 			ret_val = atoi(tokens[p].str);
+		else // 单独处理寄存器
+			ret_val = get_reg_val(tokens[p].str);
 	
 	} else if (check_parentheses(p, q) == true) {
 		ret_val = get_value(p+1, q-1); // 每个括号单元都是用一个字符表示
