@@ -110,7 +110,15 @@ static int cmd_x(char *args){
 	char * first_arg = strtok(args, " ");
 	char * second_arg = strtok(NULL, " ");
 	
-	printf("%s %s\n", first_arg, second_arg);
+	// printf("%s %s\n", first_arg, second_arg);
+
+	// 转换为所需数据
+	size_t num;
+	swaddr_t st_addr;
+	sscanf(first_arg, "%lu", &num);
+	sscanf(second_arg, "%u", &st_addr);
+
+	printf("%lu %u", num, st_addr);
 	return -1;
 }
 
