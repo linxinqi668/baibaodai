@@ -275,22 +275,42 @@ char * sub_str(char * str, int p, int q){
 /*****************************************************************/
 
 
+/* 结合token获取字符串 ******************************************/
+char * combine_token(int p, int q) {
+	int len = 0, i;
+	for (i = p; i <= q; i++)
+		len += strlen(tokens[i].str);
+	char * res = (char *) malloc(len + 1);
+	memset(res, 0, len + 1); // 清空字符串
+
+	// 拼接字符串
+	for (i = p; i <= q; i++)
+		strcat(res, tokens[i].str);
+
+	return res;
+}
+/**************************************************************/
+
+
 
 
 
 
 /* 判断是否是配对的表达式(通过样例) ***********************************/
-bool check_parentheses(char * temp){
+bool check_parentheses(int p, int q){
 	
+	char * temp = combine_token(p, q);
 	int len = strlen(temp);
 
 	// 首先, 表达式的开头与结尾必须是一对括号
 	if (temp[0] != '(' || temp[len-1] != ')') {
+		free(temp);
 		return false;
 	}
 
 	// 其次, 表达式必须符合括号匹配
 	if (!is_match(temp)){
+		free(temp);
 		return false;
 	}
 	
@@ -301,11 +321,12 @@ bool check_parentheses(char * temp){
 	Assert(strlen(sub_temp) == len-2, "子串错误！");
 
 	if (!is_match(sub_temp)){
+		free(temp);
 		free(sub_temp);
 		return false;
 	}
 
-	free(sub_temp);
+	free(sub_temp); free(temp);
 	return true;
 }
 /**************************************************************/
@@ -401,6 +422,7 @@ int find_dominant_operator(int p, int q) {
 
 
 /* 检查字符串是否为整数 ******************************************/
+// unuesed.
 bool is_integer(char * expression) {
 
     int len = strlen(expression);
@@ -427,38 +449,20 @@ bool is_negative(char * sub_expression) {
 }
 /**************************************************************/
 
-/* 结合token获取字符串 ******************************************/
-char * combine_token(int p, int q) {
-	int len = 0, i;
-	for (i = p; i <= q; i++)
-		len += strlen(tokens[i].str);
-	char * res = (char *) malloc(len + 1);
-	memset(res, 0, len + 1); // 清空字符串
-
-	// 拼接字符串
-	for (i = p; i <= q; i++)
-		strcat(res, tokens[i].str);
-
-	return res;
-}
-/**************************************************************/
-
 
 
 
 /* 求解表达式的值主程序 ******************************************/
 // 用32位的数据来保存位运算的结果
 uint32_t get_value(int p, int q) {
-	// 先取出 token p 至 token q 之间的字符串 记得释放
-	char * sub_expression = combine_token(p, q);
-	// printf("%s\n", sub_expression);
+
 	uint32_t ret_val;
 
 	if (p > q) {
-		printf("出现了不可计算的情况, 结果不可信");
+		printf("我猜表达式输错了\n");
 		ret_val = 0;
 
-	} else if (p == q) {
+	} else if (p == q) { // 只剩一个数字单元
 		ret_val = atoi(tokens[p].str);
 
 	//} else if (is_factorial(sub_expression)) {
@@ -467,8 +471,8 @@ uint32_t get_value(int p, int q) {
 	//} else if (is_negative(sub_expression)) {
 	//	ret_val = negative(sub_expression); // 待实现
 	
-	} else if (check_parentheses(sub_expression) == true) {
-		ret_val = get_value(p+1, q-1); // 每个单位都是用一个字符表示
+	} else if (check_parentheses(p, q) == true) {
+		ret_val = get_value(p+1, q-1); // 每个括号单元都是用一个字符表示
 
 	} else {
 		/* Complicated */
