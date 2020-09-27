@@ -8,10 +8,10 @@
 #include <stdlib.h>
 
 enum {
-	NOTYPE = 256, EQ
+	NOTYPE = 256, EQ, Integer = 'i', Left = '(', Right = ')',
+	Multiply = '*', Div = '/', Plus = '+', Sub = '-'
 
 	/* TODO: Add more token types */
-
 };
 
 static struct rule {
@@ -27,19 +27,19 @@ static struct rule {
 
 	// 1st level
 	{" +",	NOTYPE},				// spaces
-	{"[0-9]", 'i'},                     // get an integer
+	{"[0-9]*", Integer},            // get an integer
 
 	// 2nd level
-	{"\\(", '('},                        // left parenthesis
-	{"\\)", ')'},                        // right parenthesis
+	{"\\(", Left},                  // left parenthesis
+	{"\\)", Right},                 // right parenthesis
 
 	// 3rd level
-	{"\\*", '*'},                   // multiply
-	{"/", '/'}, 					// div
+	{"\\*", Multiply},              // multiply
+	{"/", Div}, 					// div
 
 	// 4th level
-	{"\\+", '+'},					// plus
-	{"-", '-'},                     // subtract
+	{"\\+", Plus},					// plus
+	{"-", Sub},                     // subtract
 	{"==", EQ},						// equal
 	
 
@@ -47,7 +47,7 @@ static struct rule {
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
 
-static regex_t re[NR_REGEX]; // 是一个指针
+static regex_t re[NR_REGEX]; // 是一个指针数组
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
