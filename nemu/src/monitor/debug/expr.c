@@ -521,7 +521,7 @@ uint32_t expr(char *e, bool *success) {
 	// 找出tokens中的减号
 	int i;
 	for (i = 0; i < nr_token; i++) {
-		printf("%c\n", tokens[i].type);
+		printf("%c", tokens[i].type);
 	}
 
 	for (i = 1; i < nr_token && (tokens[i].type == Neg); i++){
