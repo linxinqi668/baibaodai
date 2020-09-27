@@ -350,9 +350,9 @@ int assign_priority(char c) {
 		return 3;
 	else if (c == Left || c == Right)
 		return 4;
-	else if (c == Factorial)
+	else if (c == Neg)
 		return 5;
-	else // 当前最高级为 Neg
+	else // 当前最高级为 Factorial
 		return 6;
 }
 /**************************************************************/
