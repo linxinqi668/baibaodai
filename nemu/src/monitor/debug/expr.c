@@ -498,8 +498,10 @@ uint32_t expr(char *e, bool *success) {
 			tokens[i].type = Sub;
 
 	// 设置tokens中运算符的优先级
-	for (i = 0; i < nr_token; i++)
+	for (i = 0; i < nr_token; i++){
 		tokens[i].priority = assign_priority(tokens[i].type);
+		printf("%d\n", tokens[i].priority);
+	}
 	
 	// for (i = 0; i < nr_token; i++)
 	// 	printf("%d ", tokens[i].priority);
