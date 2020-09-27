@@ -125,7 +125,7 @@ static int cmd_x(char *args){
 	for (int i = 0; i < num; i++) {
 		res = swaddr_read(st_addr, 4);
 		// 输出
-		printf("0x%08x  ", res);
+		printf("0x%x  ", res);
 		if ( (i+1) % 5 == 0)
 			printf("\n");
 		// 更新起始地址
