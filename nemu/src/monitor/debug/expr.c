@@ -346,6 +346,8 @@ int find_dominant_operator(int p, int q) {
 	int min_priority = 1000;
 	int index = -1;
 
+	printf("%d %d\n", p, q);
+
 	bool in_range = false; // 判断操作符是否在括号内部
 	int i;
 	for (i = p; i <= q; i++) {
