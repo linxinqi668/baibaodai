@@ -441,7 +441,7 @@ char * combine_token(int p, int q) {
 uint32_t get_value(int p, int q) {
 	// 先取出 token p 至 token q 之间的字符串 记得释放
 	char * sub_expression = combine_token(p, q);
-	printf("%s\n", sub_expression);
+	printf("!!!!%s\n", sub_expression);
 	uint32_t ret_val;
 
 	if (p > q) {
