@@ -271,20 +271,17 @@ char * sub_str(char * str, int p, int q){
 
 
 /* 判断是否是配对的表达式(通过样例) ***********************************/
-bool check_parentheses(char * expression, int p, int q){
-	// 获取p至q子串
-	char * temp = sub_str(expression, p, q);
+bool check_parentheses(char * temp){
+	
 	int len = strlen(temp);
 
 	// 首先, 表达式的开头与结尾必须是一对括号
 	if (temp[0] != '(' || temp[len-1] != ')') {
-		free(temp);
 		return false;
 	}
 
 	// 其次, 表达式必须符合括号匹配
 	if (!is_match(temp)){
-		free(temp);
 		return false;
 	}
 	
@@ -295,11 +292,11 @@ bool check_parentheses(char * expression, int p, int q){
 	Assert(strlen(sub_temp) == len-2, "子串错误！");
 
 	if (!is_match(sub_temp)){
-		free(temp); free(sub_temp);
+		free(sub_temp);
 		return false;
 	}
 
-	free(temp); free(sub_temp);
+	free(sub_temp);
 	return true;
 }
 /**************************************************************/
@@ -375,6 +372,7 @@ int find_dominant_operator(int p, int q) {
 
 		// 剩余的符号都是操作符
 		printf("%c!!!!\n", tokens[i].type);
+
 		if (index == -1) { // 如果还没有赋值
 			index = i;
 			min_priority = tokens[i].priority;
@@ -420,15 +418,31 @@ bool is_factorical(char * sub_expression) {
 bool is_negative(char * sub_expression) {
 	return false;
 }
+/**************************************************************/
+
+/* 结合token获取字符串 ******************************************/
+char * combine_token(int p, int q) {
+	int len = 0, i;
+	for (i = p; i <= q; i++)
+		len += strlen(tokens[i].str);
+	char * res = (char *) malloc(len + 1);
+	memset(res, 0, len + 1); // 清空字符串
+
+	// 拼接字符串
+	for (i = p; i <= q; i++)
+		strcat(res, tokens[i].str);
+
+	return res;
+}
 
 
 
 
 /* 求解表达式的值主程序 ******************************************/
 // 用32位的数据来保存位运算的结果
-uint32_t get_value(char * expression, int p, int q) {
-	// 先取出 p 至 q 的字符串
-	char * sub_expression = sub_str(expression, p, q);
+uint32_t get_value(int p, int q) {
+	// 先取出 token p 至 token q 之间的字符串 记得释放
+	char * sub_expression = combine_token(p, q);
 	uint32_t ret_val;
 
 	if (p > q) {
@@ -444,8 +458,8 @@ uint32_t get_value(char * expression, int p, int q) {
 	//} else if (is_negative(sub_expression)) {
 	//	ret_val = negative(sub_expression); // 待实现
 	
-	} else if (check_parentheses(expression, p, q) == true) {
-		ret_val = get_value(expression, p+1, q-1);
+	} else if (check_parentheses(sub_expression) == true) {
+		ret_val = get_value(p+1, q-1); // 每个单位都是用一个字符表示
 
 	} else {
 		/* Complicated */
@@ -454,8 +468,8 @@ uint32_t get_value(char * expression, int p, int q) {
 		Assert(d_op_ind != -1, "找不到dominant operator!");
 
 		// 2. 根据dominant operator求解表达式
-		uint32_t value1 = get_value(expression, p, p + d_op_ind-1);
-		uint32_t value2 = get_value(expression, p + d_op_ind + 1, q);
+		uint32_t value1 = get_value(p, d_op_ind-1);
+		uint32_t value2 = get_value(d_op_ind + 1, q);
 
 		// 3. 根据dominant operator求值
 		char d_op = tokens[p + d_op_ind].type;
@@ -528,8 +542,8 @@ uint32_t expr(char *e, bool *success) {
 	printf("%s\n", expression);
 
 	// 计算表达式
-	int len = strlen(expression);
-	uint32_t res = get_value(expression, 0, len-1);
+	// int len = strlen(expression);
+	uint32_t res = get_value(0, nr_token-1);
 	printf("计算结果为: %d\n", res);
 
 
