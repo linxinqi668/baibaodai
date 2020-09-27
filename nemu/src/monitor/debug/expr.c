@@ -27,7 +27,7 @@ static struct rule {
 
 	// 1st level
 	{" +",	NOTYPE},				// spaces
-	{"[0-9]+", Integer},             // get an integer 这里卡了特别久
+	{"[0-9]+", Integer},             // get an integer 这里可能需要更改
 
 	// 2nd level
 	{"\\(", Left},                  // left parenthesis
@@ -166,7 +166,7 @@ uint32_t expr(char *e, bool *success) {
 
 	// 测试部分, 打印中取出的token
 	for (int i = 0; i < nr_token; i++){
-		printf("%c , %s\n", tokens[i].type, tokens[i].str);
+		printf("%s ", tokens[i].str);
 	}
 
 
