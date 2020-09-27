@@ -27,7 +27,7 @@ static struct rule {
 
 	// 1st level
 	{" +",	NOTYPE},				// spaces
-	{"\\w+", Integer},             // get an integer 这里卡了特别久
+	{"[0-9]+", Integer},             // get an integer 这里卡了特别久
 
 	// 2nd level
 	{"\\(", Left},                  // left parenthesis
