@@ -473,7 +473,7 @@ uint32_t get_value(int p, int q) {
 		/* Complicated */
 		// 1. 找出当前子串的dominant operator
 		int d_op_ind = find_dominant_operator(p, q);
-		printf("操作符为:%c \n", tokens[d_op_ind].type);
+		// printf("操作符为:%c \n", tokens[d_op_ind].type);
 		Assert(d_op_ind != -1, "找不到dominant operator!");
 
 		// 2. 根据dominant operator求解表达式
