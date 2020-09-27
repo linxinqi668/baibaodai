@@ -168,7 +168,7 @@ uint32_t expr(char *e, bool *success) {
 	for (int i = 0; i < nr_token; i++)
 		free(tokens[i].str);
 
-	panic("please implement me");
+	// panic("please implement me");
 	return 0;
 }
 
