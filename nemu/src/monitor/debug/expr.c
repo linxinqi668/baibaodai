@@ -117,6 +117,7 @@ static bool make_token(char *e) {
 
 				int l = strlen(new_space);
 				printf("%d\n !!!!", l);
+				printf("%s\n", new_space);
 
 				// 更新指针
 				tokens[ nr_token ].str = new_space;
