@@ -9,10 +9,10 @@
 #include <ctype.h>
 
 enum {
-	NOTYPE = 256, EQ, Integer = 'i', Left = '(', Right = ')',
-	Multiply = '*', Div = '/', Plus = '+', Sub = '-', First = 'f',
+	NOTYPE = 256, EQ = '=', Integer = 'i', Left = '(', Right = ')',
+	Multiply = '*', Div = '/', Plus = '+', Sub = '-',
 	Hex_Num = 'h', Reg_Name = 'r', NEQ = 'n', AND = 'A', OR = 'O',
-	Factorial = 'F', DeReference = '?'
+	Factorial = 'F', DeReference = '?', Neg = 'm'
 
 	/* TODO: Add more token types */
 };
@@ -33,7 +33,6 @@ static struct rule {
 	{"0[xX][0-9a-fA-F]+", Hex_Num},      // hex-num
 	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
 	{"\\$[a-z]+", Reg_Name},    // Register name
-	{"(.)", First},                 // double parenthesis
 
 	// 2nd level
 	{"\\(", Left},                  // left parenthesis
@@ -45,7 +44,7 @@ static struct rule {
 
 	// 4th level
 	{"\\+", Plus},					// plus
-	{"-", Sub},                     // subtract
+	{"-", Neg},                     // Negitive number
 	{"==", EQ},						// equal
 	{"!=", NEQ},                    // not equal
 
@@ -81,6 +80,7 @@ void init_regex() {
 typedef struct token {
 	int type;
 	char * str; // 为了避免缓冲区溢出, 直接利用堆的空间即可
+	int priority; // 运算的优先级
 } Token;
 
 Token tokens[32];
@@ -310,47 +310,52 @@ bool check_parentheses(char * expression, int p, int q){
 
 
 /* 获取某个运算符的优先级 *****************************************/
-char * priority[2][2] = {
-	{"+", "-"},
-	{"*", "/"}
-};
-
-int get_priority(char operator){
-	bool check = false;
-	int i, j;
-	for (i = 0; i < 2; i++)
-		for (j = 0; j < 2; j++)
-			if (priority[i][j][0] == operator) {
-				check = true;
-				return i;
-			}
-	Assert(check == true, "操作符的优先级无定义");
-	return 10000;
+int assign_priority(char c) {
+	if (c == AND || c == OR)
+		return 0;
+	else if (c == EQ || c == NEQ)
+		return 1;
+	else if (c == Plus || c == Sub)
+		return 2;
+	else if (c == Multiply || c == Div)
+		return 3;
+	else if (c == Left || c == Right)
+		return 4;
+	else
+		return 5;
 }
 /**************************************************************/
 
 
-
+/* 判断是否可作为dominant operator ******************************/
+bool is_d_op(char c) {
+	// 暂时不包含指针解引用
+	if (c == Plus || c == Sub || c == Multiply || 
+	    c == Div || c == Left || c == Right ||
+		c == AND || c == OR || c == NEQ || c == EQ)
+		return true;
+	
+	return false;
+}
 
 
 
 /* 寻找dominant operator ***************************************/
-int find_dominant_operator(char * sub_expression) {
-	int len = strlen(sub_expression);
+int find_dominant_operator(int p, int q) {
 
 	int min_priority = 1000;
 	int index = -1;
 
 	bool in_range = false; // 判断操作符是否在括号内部
 	int i;
-	for (i = 0; i < len; i++) {
-		char c = sub_expression[i];
-		// 必须是操作符或者括号
-		if (! (c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')'))
+	for (i = p; i <= q; i++) {
+		char c = tokens[i].type; // 取出操作的种类
+		// 必须能够作为dominant operator
+		if (!is_d_op(c))
 			continue;
 		
 		// 若遇到右括号, 则更改当前的in_range状态
-		if (c == ')') {
+		if (c == Right) {
 			if (in_range)
 				in_range = false;
 			continue;
@@ -361,7 +366,7 @@ int find_dominant_operator(char * sub_expression) {
 			continue;
 		
 		// 若遇到左括号, 就开启in_range状态
-		if (c == '(') {
+		if (c == Left) {
 			in_range = true;
 			continue;
 		}
@@ -369,10 +374,10 @@ int find_dominant_operator(char * sub_expression) {
 		// 剩余的符号都是操作符
 		if (index == -1) { // 如果还没有赋值
 			index = i;
-			min_priority = get_priority(c);
-		} else if (get_priority(c) <= min_priority) {
+			min_priority = tokens[i].priority;
+		} else if (tokens[i].priority <= min_priority) {
 			index = i;
-			min_priority = get_priority(c);
+			min_priority = tokens[i].priority;
 		}
 	}
 
@@ -403,6 +408,14 @@ bool is_integer(char * expression) {
 /**************************************************************/
 
 
+/* 判断表达式是否为阶乘 ******************************************/
+bool is_factorical(char * sub_expression) {
+	return false;
+}
+
+bool is_negative(char * sub_expression) {
+	return false;
+}
 
 
 
@@ -421,13 +434,19 @@ uint32_t get_value(char * expression, int p, int q) {
 	} else if (is_integer(sub_expression)) {
 		ret_val = atoi(sub_expression);
 
+	//} else if (is_factorial(sub_expression)) {
+	//	ret_val = factorial(sub_expression); // 待实现
+	
+	//} else if (is_negative(sub_expression)) {
+	//	ret_val = negative(sub_expression); // 待实现
+	
 	} else if (check_parentheses(expression, p, q) == true) {
 		ret_val = get_value(expression, p+1, q-1);
 
 	} else {
 		/* Complicated */
 		// 1. 找出当前子串的dominant operator
-		int d_op_ind = find_dominant_operator(sub_expression);
+		int d_op_ind = find_dominant_operator(p, q);
 		Assert(d_op_ind != -1, "找不到dominant operator!");
 
 		// 2. 根据dominant operator求解表达式
@@ -435,12 +454,17 @@ uint32_t get_value(char * expression, int p, int q) {
 		uint32_t value2 = get_value(expression, p + d_op_ind + 1, q);
 
 		// 3. 根据dominant operator求值
-		char d_op = sub_expression[d_op_ind];
+		char d_op = tokens[p + d_op_ind].type;
 		switch (d_op) {
-			case '+': {return value1 + value2; break;}
-			case '-': {return value1 - value2; break;}
-			case '*': {return value1 * value2; break;}
-			case '/': {return value1 / value2; break;}
+			case Plus: {ret_val = value1 + value2; break;}
+			case Sub: {ret_val = value1 - value2; break;}
+			case Multiply: {ret_val = value1 * value2; break;}
+			case Div: {ret_val = value1 / value2; break;}
+			case EQ: {ret_val = value1 == value2; break;}
+			case NEQ: {ret_val = value1 != value2; break;}
+			case AND: {ret_val = value1 && value2; break;}
+			case OR: {ret_val = value1 || value2; break;}
+
 			default: Assert(0, "取出的操作符不太对劲儿");
 		}
 	}
@@ -465,8 +489,22 @@ uint32_t expr(char *e, bool *success) {
 	}
 	*success = true;
 
-	// 找出解引用的*号
+	// 找出tokens中的减号
+	int i;
+	for (i = 1; i < nr_token; i++)
+		if (tokens[i-1].type == Right || tokens[i-1].type == Integer
+		    || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name)
+			tokens[i].type = Sub;
+
+	// 设置tokens中运算符的优先级
+	for (i = 0; i < nr_token; i++)
+		tokens[i].priority = assign_priority(tokens[i].type);
 	
+	for (i = 0; i < nr_token; i++)
+		printf("%d ", tokens[i].priority);
+	printf("\n");
+	
+	// 找出tokens中的解引用
 
 
 	// 拼接表达式
@@ -474,9 +512,10 @@ uint32_t expr(char *e, bool *success) {
 	char * expression = (char *)malloc(expression_size); // 先设置100个字节的空间
 	memset(expression, 0, expression_size);
 
-	int i;
 	for (i = 0; i < nr_token; i++)
 		strcat(expression, tokens[i].str);
+
+	
 	printf("%s\n", expression);
 
 	// 计算表达式
