@@ -30,8 +30,8 @@ static struct rule {
 
 	// 1st level
 	{" +",	NOTYPE},				// spaces
+	{"\b0[xX][0-9a-fA-F]+\b", Hex_Num},      // hex-num
 	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
-	{"0[xX][0-9a-fA-F]+", Hex_Num},      // hex-num
 	{"\\$[a-z]+", Reg_Name},    // Register name
 	{"(.)", First},                 // double parenthesis
 
