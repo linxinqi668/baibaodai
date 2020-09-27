@@ -167,7 +167,7 @@ uint32_t expr(char *e, bool *success) {
 
 	// 拼接表达式
 	char * expression = (char *)malloc(100);
-	memset(expression, 0, 100);
+	memset(expression, 0, sizeof(int));
 
 	for (int i = 0; i < nr_token; i++)
 		strcat(expression, tokens[i].str);
