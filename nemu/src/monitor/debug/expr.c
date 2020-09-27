@@ -27,7 +27,7 @@ static struct rule {
 
 	// 1st level
 	{" +",	NOTYPE},				// spaces
-	{"1", Integer},            // get an integer
+	{"[0-9]*", Integer},            // get an integer
 
 	// 2nd level
 	{"\\(", Left},                  // left parenthesis
@@ -94,8 +94,8 @@ static bool make_token(char *e) {
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
-				printf("%s\n", e + position);
-				printf("%d\n", substr_len);
+				// printf("%s\n", e + position);
+				// printf("%d\n", substr_len);
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
 				 * to record the token in the array `tokens'. For certain types
@@ -114,11 +114,11 @@ static bool make_token(char *e) {
 				// 开辟一块新的空间来保存该子串, 留一个字符作为结束符
 				char * new_space = (char *)malloc(substr_len + 1);
 				strncpy(new_space, substr_start, substr_len);
-				new_space[substr_len] = '\0';
+				new_space[substr_len] = '\0'; // strcpy不会添加上\0结束符
 
-				int l = strlen(new_space);
-				printf("%d\n !!!!", l);
-				printf("%s\n", new_space);
+				// int l = strlen(new_space);
+				// printf("%d\n !!!!", l);
+				// printf("%s\n", new_space);
 
 				// 更新指针
 				tokens[ nr_token ].str = new_space;
