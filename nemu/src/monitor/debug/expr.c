@@ -387,7 +387,6 @@ uint32_t get_value(char * expression, int p, int q) {
 		// 2. 根据dominant operator求解表达式
 		uint32_t value1 = get_value(expression, p, p + d_op_ind-1);
 		uint32_t value2 = get_value(expression, p + d_op_ind + 1, q);
-		Assert(value1 >= value2, "出现负数啦");
 
 		// 3. 根据dominant operator求值
 		char d_op = sub_expression[d_op_ind];
