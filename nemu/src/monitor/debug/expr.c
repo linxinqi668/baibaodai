@@ -521,8 +521,8 @@ uint32_t expr(char *e, bool *success) {
 	int i;
 	for (i = 1; i < nr_token && (tokens[i].type == 'm'); i++)
 		if (tokens[i-1].type == Right || tokens[i-1].type == Integer
-		    || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name)
-			tokens[i].type = Sub;
+		    || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name){
+			tokens[i].type = Sub; printf("find\n");}
 
 	// 设置tokens中运算符的优先级
 	for (i = 0; i < nr_token; i++)
