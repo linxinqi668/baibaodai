@@ -526,6 +526,10 @@ uint32_t expr(char *e, bool *success) {
 	// 设置tokens中运算符的优先级
 	for (i = 0; i < nr_token; i++)
 		tokens[i].priority = assign_priority(tokens[i].type);
+
+	for (i = 0; i < nr_token; i++) {
+		printf("%s\n", tokens[i].str);
+	}
 	
 	
 	// 找出tokens中的解引用
