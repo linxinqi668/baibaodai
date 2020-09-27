@@ -27,7 +27,7 @@ static struct rule {
 
 	// 1st level
 	{" +",	NOTYPE},				// spaces
-	{"[0-9]*", 'i'},                     // get an integer
+	{"[0-9]", 'i'},                     // get an integer
 
 	// 2nd level
 	{"\\(", '('},                        // left parenthesis
