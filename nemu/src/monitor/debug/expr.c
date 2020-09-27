@@ -164,7 +164,7 @@ uint32_t expr(char *e, bool *success) {
 
 	// 测试部分, 打印中取出的token
 	for (int i = 0; i < nr_token; i++){
-		printf("%c , %s", tokens[i].type, tokens[i].str);
+		printf("%c , %s\n", tokens[i].type, tokens[i].str);
 	}
 
 
