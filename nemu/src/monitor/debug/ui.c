@@ -120,9 +120,15 @@ static int cmd_x(char *args){
 
 	// printf("%lu %u\n", num, st_addr);
 
-	// 取出内存数据
-	uint32_t res = swaddr_read(st_addr, num * 4);
-	printf("%x", res);
+	// 打印内存数据
+	uint32_t res;
+	for (int i = 0; i < num; i++) {
+		res = swaddr_read(st_addr, 4);
+		// 输出
+		printf("%x", res);
+		// 更新起始地址
+		st_addr = st_addr + 0x4;
+	}
 	return -1;
 }
 
