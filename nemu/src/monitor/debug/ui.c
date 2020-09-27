@@ -116,8 +116,7 @@ static int cmd_x(char *args){
 	size_t num;
 	swaddr_t st_addr;
 	sscanf(first_arg, "%lu", &num);
-	printf("%s %s\n", first_arg, second_arg);
-	sscanf(second_arg, "%u", &st_addr);
+	sscanf(second_arg, "%x", &st_addr);
 
 	printf("%lu %u\n", num, st_addr);
 	return -1;
