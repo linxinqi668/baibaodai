@@ -468,7 +468,7 @@ uint32_t get_value(int p, int q) {
 	} else if (p == q) { // 只剩一个数字单元
 		if (tokens[p].type == Hex_Num){
 			ret_val = strtol(tokens[p].str, NULL, 10);
-			printf("%u",ret_val);
+			printf("%s",tokens[p].str);
 		}
 		else
 			ret_val = atoi(tokens[p].str);
