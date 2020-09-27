@@ -110,7 +110,7 @@ static int cmd_x(char *args){
 	char * first_arg = strtok(args, " ");
 	char * second_arg = strtok(NULL, " ");
 	
-	// printf("%s %s\n", first_arg, second_arg);
+	printf("%s %s\n", first_arg, second_arg);
 
 	// 转换为所需数据
 	size_t num;
