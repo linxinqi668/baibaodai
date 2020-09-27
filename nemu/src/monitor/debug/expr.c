@@ -515,6 +515,9 @@ uint32_t expr(char *e, bool *success) {
 
 	for (i = 0; i < nr_token; i++)
 		strcat(expression, tokens[i].str);
+	
+	for (i = 0; i < nr_token; i++)
+		printf("%c\n", tokens[i].type);
 
 	
 	printf("%s\n", expression);
@@ -523,11 +526,7 @@ uint32_t expr(char *e, bool *success) {
 	int len = strlen(expression);
 	uint32_t res = get_value(expression, 0, len-1);
 	printf("计算结果为: %d\n", res);
-	
-	// 测试部分, 打印中取出的token
-	// for (int i = 0; i < nr_token; i++){
-	// 	printf("%s ", tokens[i].str);
-	// }
+
 
 	// 释放tokens中的字符串空间
 	for (i = 0; i < nr_token; i++)
