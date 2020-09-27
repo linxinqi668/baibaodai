@@ -466,7 +466,10 @@ uint32_t get_value(int p, int q) {
 		ret_val = 0;
 
 	} else if (p == q) { // 只剩一个数字单元
-		ret_val = atoi(tokens[p].str);
+		if (tokens[p].type == Hex_Num)
+			ret_val = strtol(tokens[p].str, NULL, 10);
+		else
+			ret_val = atoi(tokens[p].str);
 	
 	} else if (check_parentheses(p, q) == true) {
 		ret_val = get_value(p+1, q-1); // 每个括号单元都是用一个字符表示
