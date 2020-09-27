@@ -33,6 +33,7 @@ static struct rule {
 	{"0[xX][0-9a-fA-F]+", Hex_Num},      // hex-num
 	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
 	{"\\$[a-z]+", Reg_Name},    // Register name
+	{"!", Factorial},               // Factorial
 
 	// 2nd level
 	{"\\(", Left},                  // left parenthesis
@@ -337,6 +338,7 @@ bool check_parentheses(int p, int q){
 
 
 /* 获取某个运算符的优先级 *****************************************/
+// 效率略低 瞎写的
 int assign_priority(char c) {
 	if (c == AND || c == OR)
 		return 0;
@@ -348,8 +350,10 @@ int assign_priority(char c) {
 		return 3;
 	else if (c == Left || c == Right)
 		return 4;
-	else
+	else if (c == Factorial)
 		return 5;
+	else // 当前最高级为 Neg
+		return 6;
 }
 /**************************************************************/
 
@@ -359,7 +363,8 @@ bool is_d_op(char c) {
 	// 暂时不包含指针解引用
 	if (c == Plus || c == Sub || c == Multiply || 
 	    c == Div || c == Left || c == Right ||
-		c == AND || c == OR || c == NEQ || c == EQ)
+		c == AND || c == OR || c == NEQ || c == EQ ||
+		c == Factorial || c == Neg)
 		return true;
 	
 	return false;
@@ -439,15 +444,13 @@ bool is_integer(char * expression) {
 /**************************************************************/
 
 
-/* 判断表达式是否为阶乘 ******************************************/
-bool is_factorical(char * sub_expression) {
-	return false;
-}
 
-bool is_negative(char * sub_expression) {
-	return false;
+
+/* 求解阶乘 ****************************************************/
+uint32_t factorical(uint32_t n) {
+	return n == 1 ? 1 : n * factorical(n-1);
 }
-/**************************************************************/
+/*************************************************************/
 
 
 
@@ -464,12 +467,6 @@ uint32_t get_value(int p, int q) {
 
 	} else if (p == q) { // 只剩一个数字单元
 		ret_val = atoi(tokens[p].str);
-
-	//} else if (is_factorial(sub_expression)) {
-	//	ret_val = factorial(sub_expression); // 待实现
-	
-	//} else if (is_negative(sub_expression)) {
-	//	ret_val = negative(sub_expression); // 待实现
 	
 	} else if (check_parentheses(p, q) == true) {
 		ret_val = get_value(p+1, q-1); // 每个括号单元都是用一个字符表示
@@ -482,11 +479,18 @@ uint32_t get_value(int p, int q) {
 		Assert(d_op_ind != -1, "找不到dominant operator!");
 
 		// 2. 根据dominant operator求解表达式
-		uint32_t value1 = get_value(p, d_op_ind-1);
-		uint32_t value2 = get_value(d_op_ind + 1, q);
+		char d_op = tokens[d_op_ind].type;
+		uint32_t value1, value2;
+		if (d_op == Factorial)
+			value1 = get_value(p, d_op_ind-1);
+		else if (d_op == Neg)
+			value2 = get_value(d_op_ind + 1, q);
+		else {
+			value1 = get_value(p, d_op_ind-1);
+			value2 = get_value(d_op_ind + 1, q);
+		}
 
 		// 3. 根据dominant operator求值
-		char d_op = tokens[d_op_ind].type;
 		switch (d_op) {
 			case Plus: {ret_val = value1 + value2; break;}
 			case Sub: {ret_val = value1 - value2; break;}
@@ -496,6 +500,8 @@ uint32_t get_value(int p, int q) {
 			case NEQ: {ret_val = value1 != value2; break;}
 			case AND: {ret_val = value1 && value2; break;}
 			case OR: {ret_val = value1 || value2; break;}
+			case Factorial: {ret_val = factorical(value1); break;}
+			case Neg: {ret_val = -value2; break;}
 
 			default: {Assert(0, "取出的操作符不太对劲儿");}
 		}
