@@ -47,7 +47,7 @@ static struct rule {
 
 };
 
-#define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
+#define NR_REGEX ( sizeof(rules) / sizeof(rules[0]) )
 
 static regex_t re[NR_REGEX];
 
@@ -147,7 +147,9 @@ static bool make_token(char *e) {
 	return true; 
 }
 
-/* char_stack *************************************************************/
+
+
+/* char_Stack *************************************************************/
 typedef struct {
 	char * element;
 	int top; // 栈顶指针 未放入
@@ -194,6 +196,10 @@ char top(stack_p x){
 }
 /*********************************************************************/
 
+
+
+
+
 /* 判断括号是否匹配 *****************************************************/
 bool is_match(char * str){
     int len = strlen(str);
@@ -231,6 +237,10 @@ bool is_match(char * str){
 }
 /*****************************************************************/
 
+
+
+
+
 /* sub_str *******************************************************/
 char * sub_str(char * str, int p, int q){
 	// 返回p至q的子串
@@ -244,6 +254,11 @@ char * sub_str(char * str, int p, int q){
 	return res;
 }
 /*****************************************************************/
+
+
+
+
+
 
 /* 判断是否是配对的表达式(通过样例) ***********************************/
 bool check_parentheses(char * expression, int p, int q){
@@ -279,6 +294,11 @@ bool check_parentheses(char * expression, int p, int q){
 }
 /**************************************************************/
 
+
+
+
+
+
 /* 获取某个运算符的优先级 *****************************************/
 char * priority[2][2] = {
 	{"+", "-"},
@@ -299,9 +319,11 @@ int get_priority(char operator){
 /**************************************************************/
 
 
+
+
+
+
 /* 寻找dominant operator ***************************************/
-// 先实现算数表达式吧, 太复杂了(我太菜了)
-// 至少能通过简单的测试
 int find_dominant_operator(char * sub_expression) {
 	int len = strlen(sub_expression);
 
@@ -346,6 +368,12 @@ int find_dominant_operator(char * sub_expression) {
 }
 /**************************************************************/
 
+
+
+
+
+
+
 /* 检查字符串是否为整数 ******************************************/
 bool is_integer(char * expression) {
 
@@ -360,6 +388,11 @@ bool is_integer(char * expression) {
 
 }
 /**************************************************************/
+
+
+
+
+
 
 /* 求解表达式的值主程序 ******************************************/
 // 用32位的数据来保存位运算的结果
@@ -404,6 +437,12 @@ uint32_t get_value(char * expression, int p, int q) {
 }
 /***************************************************************/
 
+
+
+
+
+
+/* 输出表达式的值 ************************************************/
 uint32_t expr(char *e, bool *success) {
 
 	// 如果找不到正常的表达式就直接退出
@@ -413,9 +452,8 @@ uint32_t expr(char *e, bool *success) {
 	}
 	*success = true;
 
-	/* TODO: Insert codes to evaluate the expression. */
-
 	// tokens数组已经填充
+	
 
 	// 拼接表达式
 	int expression_size = 100;
@@ -445,4 +483,5 @@ uint32_t expr(char *e, bool *success) {
 	// panic("please implement me");
 	return 0;
 }
+/*******************************************************************/
 
