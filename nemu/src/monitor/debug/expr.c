@@ -526,10 +526,10 @@ uint32_t expr(char *e, bool *success) {
 
 	for (i = 1; i < nr_token; i++){
 		printf("%d\n", tokens[i].type == Neg);
-		printf("%c!!!!!!!!!!!!!!!\n", tokens[i].type);
-		if (tokens[i-1].type == Right || tokens[i-1].type == Integer
-		    || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name){
-			tokens[i].type = Sub; printf("find\n");}
+		// printf("%c!!!!!!!!!!!!!!!\n", tokens[i].type);
+		//if (tokens[i-1].type == Right || tokens[i-1].type == Integer
+		//    || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name){
+		//	tokens[i].type = Sub; printf("find\n");}
 	}
 
 	// 设置tokens中运算符的优先级
