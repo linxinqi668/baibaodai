@@ -47,7 +47,7 @@ static struct rule {
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
 
-static regex_t re[NR_REGEX];
+static regex_t re[NR_REGEX]; // 是一个指针
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
@@ -82,12 +82,11 @@ static bool make_token(char *e) {
 	
 	nr_token = 0; // token计数器
 
-	printf("%s\n", e);
+	// printf("%s\n", e); 没问题
 
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
-			// 1的匹配长度
 			if(regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
 				char *substr_start = e + position; // 子串的起始位置
 				int substr_len = pmatch.rm_eo; // 子串的长度
