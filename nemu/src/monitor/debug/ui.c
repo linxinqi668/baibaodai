@@ -138,6 +138,21 @@ static int cmd_x(char *args){
 	return -1;
 }
 
+static int cmd_p(char *args){
+	// long long res = 0;
+	bool * is_valid = (bool *) malloc(1); // 判断是否是合法的表达式
+	expr(args, is_valid); // 结果通过expr函数打印
+	if (*is_valid){ // 如果成功就返回-1
+		free(is_valid);
+		return -1;
+	}
+	else {
+		free(is_valid);
+		printf("表达式输入有误?\n");
+		return 0;
+	}
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -156,6 +171,8 @@ static struct {
 	{ "info", "Check The Register Or Watchpoint Infomation", cmd_info},
 	// 扫描内存
 	{ "x", "Print N * 4 Bytes After The Input Address", cmd_x},
+	// 表达式求值
+	{ "p", "Get The Expression Value", cmd_p}
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))

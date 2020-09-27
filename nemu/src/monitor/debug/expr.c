@@ -98,23 +98,29 @@ static bool make_token(char *e) {
 				 * of tokens, some extra actions should be performed.
 				 */
 				
+				// 丢弃空格
+				if ( rules[i].token_type == NOTYPE)
+					continue;
+				
 				// 记录token的类型
 				tokens[ nr_token ].type = rules[i].token_type;
+
+				Assert(substr_len > 31, "oh ho buf overflow!");
 
 				// 开辟一块新的空间来保存该子串, 留一个字符作为结束符
 				char * new_space = (char *)malloc(substr_len + 1);
 				strncpy(new_space, substr_start, substr_len);
 
+
 				// 更新指针
 				tokens[ nr_token ].str = new_space;
+				// 确保字符串相等
+				Assert(!(strlen(new_space) == substr_len), "copy failed!");
 
 				// 更新计数器
 				nr_token++;
 
-				if (nr_token >= 32) {
-					printf("tokens is full !");
-					break;
-				}
+				Assert(nr_token >= 33, "the tokens array over flow!");
 				
 
 				switch(rules[i].token_type) {
@@ -136,13 +142,28 @@ static bool make_token(char *e) {
 
 uint32_t expr(char *e, bool *success) {
 	// 记得释放tokens中的字符串空间
-	
+
+	// 如果找不到正常的表达式就直接退出
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
+
+	// 前面已经进行过了make_token
+	
+
+	// 测试部分, 打印中取出的token
+	for (int i = 0; i < nr_token; i++){
+		printf("%c , %s", tokens[i].type, tokens[i].str);
+	}
+
+
+	// 释放tokens中的字符串空间
+	for (int i = 0; i < nr_token; i++)
+		free(tokens[i].str);
+
 	panic("please implement me");
 	return 0;
 }
