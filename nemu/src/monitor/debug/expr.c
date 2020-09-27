@@ -382,6 +382,7 @@ int find_dominant_operator(int p, int q) {
 			index = i;
 			min_priority = tokens[i].priority;
 		}
+		printf("%d\n", min_priority);
 	}
 
 	return index;
