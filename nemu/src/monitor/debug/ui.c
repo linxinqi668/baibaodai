@@ -123,7 +123,7 @@ static int cmd_x(char *args){
 	// 打印内存数据
 	uint32_t res;
 	for (int i = 0; i < num; i++) {
-		res = swaddr_read(st_addr, 4);
+		res = swaddr_read(st_addr, 8);
 		// 输出
 		printf("0x%x  ", res);
 		if ( (i+1) % 5 == 0)
