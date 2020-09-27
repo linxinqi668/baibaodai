@@ -128,7 +128,7 @@ static bool make_token(char *e) {
 				
 
 				switch(rules[i].token_type) {
-					default: panic("please implement me");
+					// default: panic("please implement me");
 				}
 
 				break;
