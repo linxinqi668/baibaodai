@@ -483,7 +483,7 @@ uint32_t get_value(int p, int q) {
 			case AND: {ret_val = value1 && value2; break;}
 			case OR: {ret_val = value1 || value2; break;}
 
-			default: Assert(0, "取出的操作符不太对劲儿");
+			default: { printf("%c\n",d_op) ;Assert(0, "取出的操作符不太对劲儿");}
 		}
 	}
 
