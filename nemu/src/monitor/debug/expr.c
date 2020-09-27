@@ -22,9 +22,26 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 
+	// token_type is an integer, so use a char to represent it.
+
+	// 1st level
 	{" +",	NOTYPE},				// spaces
+	{"[0-9]*", 'i'},                     // get an integer
+
+	// 2nd level
+	{"\\(", '('},                        // left parenthesis
+	{"\\)", ')'},                        // right parenthesis
+
+	// 3rd level
+	{"\\*", '*'},                   // multiply
+	{"/", '/'}, 					// div
+
+	// 4th level
 	{"\\+", '+'},					// plus
-	{"==", EQ}						// equal
+	{"-", '-'},                     // subtract
+	{"==", EQ},						// equal
+	
+
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -48,6 +65,7 @@ void init_regex() {
 	}
 }
 
+// 单元结构体
 typedef struct token {
 	int type;
 	char str[32];
@@ -57,7 +75,7 @@ Token tokens[32];
 int nr_token;
 
 static bool make_token(char *e) {
-	int position = 0;
+	int position = 0; // 当前扫描的位置
 	int i;
 	regmatch_t pmatch;
 	
@@ -66,6 +84,7 @@ static bool make_token(char *e) {
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
+			// 1的匹配长度
 			if(regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
