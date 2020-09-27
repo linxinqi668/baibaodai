@@ -458,8 +458,8 @@ uint32_t get_value(int p, int q) {
 		printf("出现了不可计算的情况, 结果不可信");
 		ret_val = 0;
 
-	} else if (is_integer(sub_expression)) {
-		ret_val = atoi(sub_expression);
+	} else if (p == q) {
+		ret_val = atoi(tokens[p].str);
 
 	//} else if (is_factorial(sub_expression)) {
 	//	ret_val = factorial(sub_expression); // 待实现
