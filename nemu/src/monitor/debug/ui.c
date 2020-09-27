@@ -113,7 +113,7 @@ static int cmd_x(char *args){
 	char * first_arg = strtok(args, " ");
 	char * second_arg = strtok(NULL, " ");
 	
-	printf("%s %s\n", first_arg, second_arg);
+	// printf("%s %s\n", first_arg, second_arg);
 
 	// 转换为所需数据
 	size_t num;
@@ -128,9 +128,9 @@ static int cmd_x(char *args){
 	for (int i = 0; i < num; i++) {
 		res = swaddr_read(st_addr, 4);
 		// 输出
-		printf("%s: 0x%08x\n", second_arg, res);
-		if ( (i+1) % 5 == 0)
-			printf("\n");
+		printf("%08x: 0x%08x\n", st_addr, res);
+		// if ( (i+1) % 5 == 0)
+		// 	printf("\n");
 		// 更新起始地址
 		st_addr = st_addr + 4;
 	}
