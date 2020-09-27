@@ -129,7 +129,7 @@ static int cmd_x(char *args){
 		if ( (i+1) % 5 == 0)
 			printf("\n");
 		// 更新起始地址
-		st_addr = st_addr + 0x4;
+		st_addr = st_addr + 4;
 	}
 	printf("\n");
 	return -1;
