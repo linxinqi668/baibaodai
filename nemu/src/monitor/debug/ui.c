@@ -96,12 +96,21 @@ static int cmd_info(char *args) {
 				printf("%s: %u    ", register_name[i][j], register_value);
 				char * vec = print_binary_vector(register_value);
 				printf("bin_vec: %s\n", vec);
+				// 释放内存
 				free(vec);
 			}
 		}
 	}
 	else
 		printf("this is w\n");
+	return -1;
+}
+
+static int cmd_x(char *args){
+	char * first_arg = strtok(args, " ");
+	char * second_arg = strtok(NULL, " ");
+	
+	printf("%s %s\n", first_arg, second_arg);
 	return -1;
 }
 
@@ -121,7 +130,8 @@ static struct {
 	{ "si", "N Step Further", cmd_si},
 	// 查看信息
 	{ "info", "Check The Register Or Watchpoint Infomation", cmd_info},
-
+	// 扫描内存
+	{ "x", "Print N * 4 Bytes After The Input Address", cmd_x},
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
