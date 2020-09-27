@@ -450,7 +450,7 @@ char * combine_token(int p, int q) {
 uint32_t get_value(int p, int q) {
 	// 先取出 token p 至 token q 之间的字符串 记得释放
 	char * sub_expression = combine_token(p, q);
-	printf("%s\n", sub_expression);
+	// printf("%s\n", sub_expression);
 	uint32_t ret_val;
 
 	if (p > q) {
@@ -473,7 +473,7 @@ uint32_t get_value(int p, int q) {
 		/* Complicated */
 		// 1. 找出当前子串的dominant operator
 		int d_op_ind = find_dominant_operator(p, q);
-		printf("操作符为:%c \n", tokens[d_op_ind].type);
+		// printf("操作符为:%c \n", tokens[d_op_ind].type);
 		Assert(d_op_ind != -1, "找不到dominant operator!");
 
 		// 2. 根据dominant operator求解表达式
@@ -497,7 +497,7 @@ uint32_t get_value(int p, int q) {
 	}
 
 	free(sub_expression);
-	printf("ret_val: %u\n", ret_val);
+	// printf("ret_val: %u\n", ret_val);
     return ret_val;
 }
 /***************************************************************/
@@ -516,20 +516,17 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 	*success = true;
-	printf("%d", nr_token);
 
 	// 找出tokens中的减号
 	int i;
-	for (i = 0; i < nr_token; i++) {
-		printf("%c", tokens[i].type);
-	}
-
 	for (i = 1; i < nr_token; i++){
 		if (tokens[i].type != Neg)
 			continue;
 		if (tokens[i-1].type == Right || tokens[i-1].type == Integer
 		   || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name){
-			tokens[i].type = Sub; printf("find\n");}
+			tokens[i].type = Sub;
+			tokens[i].str[0] = Sub;
+		}
 	}
 
 	// 设置tokens中运算符的优先级
