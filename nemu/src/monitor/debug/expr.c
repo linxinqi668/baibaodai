@@ -488,6 +488,7 @@ uint32_t get_value(int p, int q) {
 	}
 
 	free(sub_expression);
+	printf("%u\n", ret_val);
     return ret_val;
 }
 /***************************************************************/
