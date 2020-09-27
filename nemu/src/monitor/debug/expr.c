@@ -143,8 +143,8 @@ static bool make_token(char *e) {
 						// 将type对应的字符拷贝进str
 						char * new_space = (char *)malloc(2);
 						memset(new_space, 0, 2);
-						new_space[0] = (char)tokens[i].type;
-						tokens[i].str = new_space;
+						new_space[0] = (char)tokens[nr_token].type;
+						tokens[nr_token].str = new_space;
 					}
 				}
 
