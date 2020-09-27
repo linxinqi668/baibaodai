@@ -94,8 +94,8 @@ static bool make_token(char *e) {
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
-				printf("%s\n", e + position);
-				printf("%d\n", substr_len);
+				// printf("%s\n", e + position);
+				// printf("%d\n", substr_len);
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
 				 * to record the token in the array `tokens'. For certain types
@@ -109,7 +109,7 @@ static bool make_token(char *e) {
 				// 记录token的类型
 				tokens[ nr_token ].type = rules[i].token_type;
 
-				Assert(substr_len > 31, "oh ho buf overflow!");
+				Assert(substr_len <= 31, "oh ho buf overflow!");
 
 				// 开辟一块新的空间来保存该子串, 留一个字符作为结束符
 				char * new_space = (char *)malloc(substr_len + 1);
