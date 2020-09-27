@@ -31,9 +31,9 @@ static struct rule {
 	// 1st level
 	{" +",	NOTYPE},				// spaces
 	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
-	{"(.)", First},                 // double parenthesis
 	{"\b0[xX][0-9a-fA-F]+\b", Hex_Num},      // hex-num
 	{"\b\\$[a-z]+\b", Reg_Name},    // Register name
+	{"(.)", First},                 // double parenthesis
 
 	// 2nd level
 	{"\\(", Left},                  // left parenthesis
