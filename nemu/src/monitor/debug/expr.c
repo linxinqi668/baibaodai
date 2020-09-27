@@ -520,29 +520,11 @@ uint32_t expr(char *e, bool *success) {
 		printf("%d\n", tokens[i].priority);
 	}
 	
-	// for (i = 0; i < nr_token; i++)
-	// 	printf("%d ", tokens[i].priority);
-	// printf("\n");
 	
 	// 找出tokens中的解引用
 
 
-	// 拼接表达式
-	int expression_size = 100;
-	char * expression = (char *)malloc(expression_size); // 先设置100个字节的空间
-	memset(expression, 0, expression_size);
-
-	for (i = 0; i < nr_token; i++)
-		strcat(expression, tokens[i].str);
-	
-	for (i = 0; i < nr_token; i++)
-		printf("%c\n", tokens[i].type);
-
-	
-	printf("%s\n", expression);
-
 	// 计算表达式
-	// int len = strlen(expression);
 	uint32_t res = get_value(0, nr_token-1);
 	printf("计算结果为: %d\n", res);
 
@@ -551,8 +533,6 @@ uint32_t expr(char *e, bool *success) {
 	for (i = 0; i < nr_token; i++)
 		free(tokens[i].str);
 
-	// 释放表达式空间
-	free(expression);
 
 	// panic("please implement me");
 	return 0;
