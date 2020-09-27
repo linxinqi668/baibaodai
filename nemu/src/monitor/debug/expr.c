@@ -477,11 +477,12 @@ uint32_t expr(char *e, bool *success) {
 	int i;
 	for (i = 0; i < nr_token; i++)
 		strcat(expression, tokens[i].str);
+	printf("%s\n", expression);
 
 	// 计算表达式
-	int len = strlen(expression);
-	uint32_t res = get_value(expression, 0, len-1);
-	printf("计算结果为: %d\n", res);
+	// int len = strlen(expression);
+	// uint32_t res = get_value(expression, 0, len-1);
+	// printf("计算结果为: %d\n", res);
 	
 	// 测试部分, 打印中取出的token
 	// for (int i = 0; i < nr_token; i++){
