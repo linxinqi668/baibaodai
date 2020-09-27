@@ -119,29 +119,37 @@ static bool make_token(char *e) {
 				// 记录token的类型
 				tokens[ nr_token ].type = rules[i].token_type;
 
-				// 开辟一块新的空间来保存该子串, 留一个字符作为结束符
-				char * new_space = (char *)malloc(substr_len + 1);
-				strncpy(new_space, substr_start, substr_len);
-				new_space[substr_len] = '\0'; // strcpy不会添加上\0结束符
-
-				// int l = strlen(new_space);
-				// printf("%d\n !!!!", l);
-				// printf("%s\n", new_space);
-
-				// 更新指针
-				tokens[ nr_token ].str = new_space;
-				// 确保字符串相等
-				Assert(strlen(new_space) == substr_len, "copy failed!");
+				
+				// 除了数字 与 寄存器以外剩余的符号都可以用一个字符来表示
+				switch(rules[i].token_type) {
+					// default: panic("please implement me");
+					case Integer: {
+						// 将数字拷贝进str;
+						char * new_space = (char *)malloc(substr_len + 1);
+						strncpy(new_space, substr_start, substr_len);
+						new_space[substr_len] = '\0';
+						tokens[ nr_token ].str = new_space;
+						break;
+					}
+					case Hex_Num: {
+						// 同上
+						char * new_space = (char *)malloc(substr_len + 1);
+						strncpy(new_space, substr_start, substr_len);
+						new_space[substr_len] = '\0';
+						tokens[ nr_token ].str = new_space;
+						break;
+					}
+					default: {
+						// 将type对应的字符拷贝进str
+						char * new_space = (char *)malloc(2);
+						memset(new_space, 0, 2);
+						new_space[0] = (char)tokens[i].type;
+					}
+				}
 
 				// 更新计数器
 				nr_token++;
-
 				Assert(nr_token <= 32, "the tokens array over flow!");
-				
-				// 一些特殊的token必须经过某些处理, 现在还用不到
-				switch(rules[i].token_type) {
-					// default: panic("please implement me");
-				}
 
 				break;
 			}
