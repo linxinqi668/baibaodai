@@ -166,8 +166,9 @@ uint32_t expr(char *e, bool *success) {
 	// 前面已经进行过了make_token
 
 	// 拼接表达式
-	char * expression = (char *)malloc(100);
-	memset(expression, 0, sizeof(int));
+	int expression_size = 100;
+	char * expression = (char *)malloc(expression_size); // 先设置100个字节的空间
+	memset(expression, 0, expression_size);
 
 	for (int i = 0; i < nr_token; i++)
 		strcat(expression, tokens[i].str);
