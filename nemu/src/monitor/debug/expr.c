@@ -10,7 +10,9 @@
 
 enum {
 	NOTYPE = 256, EQ, Integer = 'i', Left = '(', Right = ')',
-	Multiply = '*', Div = '/', Plus = '+', Sub = '-', First = 'f'
+	Multiply = '*', Div = '/', Plus = '+', Sub = '-', First = 'f',
+	Hex_Num = 'h', Reg_Name = 'r', NEQ = 'n', AND = 'A', OR = 'O',
+	Factorial = 'F', DeReference = '?'
 
 	/* TODO: Add more token types */
 };
@@ -30,6 +32,8 @@ static struct rule {
 	{" +",	NOTYPE},				// spaces
 	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
 	{"(.)", First},                 // double parenthesis
+	{"\b0[xX][0-9a-fA-F]+\b", Hex_Num},      // hex-num
+	{"\b\\$[a-z]+\b", Reg_Name},    // Register name
 
 	// 2nd level
 	{"\\(", Left},                  // left parenthesis
@@ -43,6 +47,11 @@ static struct rule {
 	{"\\+", Plus},					// plus
 	{"-", Sub},                     // subtract
 	{"==", EQ},						// equal
+	{"!=", NEQ},                    // not equal
+
+	// 5th level
+	{"&&", AND},                    // and
+	{"||", OR},                     // or
 	
 
 };
@@ -208,7 +217,8 @@ bool is_match(char * str){
     stack_p s = Creat_Stack(len);
 
     // 进行匹配
-    for (int i = 0; i < len; i++)
+	int i;
+    for (i = 0; i < len; i++)
         switch (str[i]){
             case '(':{
                 push(s, str[i]); break;
@@ -307,8 +317,9 @@ char * priority[2][2] = {
 
 int get_priority(char operator){
 	bool check = false;
-	for (int i = 0; i < 2; i++)
-		for (int j = 0; j < 2; j++)
+	int i, j;
+	for (i = 0; i < 2; i++)
+		for (j = 0; j < 2; j++)
 			if (priority[i][j][0] == operator) {
 				check = true;
 				return i;
@@ -331,7 +342,8 @@ int find_dominant_operator(char * sub_expression) {
 	int index = -1;
 
 	bool in_range = false; // 判断操作符是否在括号内部
-	for (int i = 0; i < len; i++) {
+	int i;
+	for (i = 0; i < len; i++) {
 		char c = sub_expression[i];
 		// 必须是操作符或者括号
 		if (! (c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c == ')'))
@@ -378,8 +390,9 @@ int find_dominant_operator(char * sub_expression) {
 bool is_integer(char * expression) {
 
     int len = strlen(expression);
-
-    for (int i = 0; i < len; i++){
+	
+	int i;
+    for (i = 0; i < len; i++){
         if (!isdigit(expression[i]))
             return false;
     }
@@ -452,15 +465,17 @@ uint32_t expr(char *e, bool *success) {
 	}
 	*success = true;
 
-	// tokens数组已经填充
+	// 找出解引用的*号
 	
+
 
 	// 拼接表达式
 	int expression_size = 100;
 	char * expression = (char *)malloc(expression_size); // 先设置100个字节的空间
 	memset(expression, 0, expression_size);
 
-	for (int i = 0; i < nr_token; i++)
+	int i;
+	for (i = 0; i < nr_token; i++)
 		strcat(expression, tokens[i].str);
 
 	// 计算表达式
@@ -474,7 +489,7 @@ uint32_t expr(char *e, bool *success) {
 	// }
 
 	// 释放tokens中的字符串空间
-	for (int i = 0; i < nr_token; i++)
+	for (i = 0; i < nr_token; i++)
 		free(tokens[i].str);
 
 	// 释放表达式空间
