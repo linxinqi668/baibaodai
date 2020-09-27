@@ -144,6 +144,7 @@ static bool make_token(char *e) {
 						char * new_space = (char *)malloc(2);
 						memset(new_space, 0, 2);
 						new_space[0] = (char)tokens[i].type;
+						tokens[i].str = new_space;
 					}
 				}
 
