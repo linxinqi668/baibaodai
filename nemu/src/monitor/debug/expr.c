@@ -5,6 +5,7 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <stdlib.h>
 
 enum {
 	NOTYPE = 256, EQ
@@ -68,7 +69,7 @@ void init_regex() {
 // 单元结构体
 typedef struct token {
 	int type;
-	char str[32];
+	char * str; // 为了避免缓冲区溢出, 直接利用堆的空间即可
 } Token;
 
 Token tokens[32];
@@ -79,15 +80,15 @@ static bool make_token(char *e) {
 	int i;
 	regmatch_t pmatch;
 	
-	nr_token = 0;
+	nr_token = 0; // token计数器
 
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
 			// 1的匹配长度
 			if(regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
-				char *substr_start = e + position;
-				int substr_len = pmatch.rm_eo;
+				char *substr_start = e + position; // 子串的起始位置
+				int substr_len = pmatch.rm_eo; // 子串的长度
 
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
@@ -96,6 +97,25 @@ static bool make_token(char *e) {
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
 				 */
+				
+				// 记录token的类型
+				tokens[ nr_token ].type = rules[i].token_type;
+
+				// 开辟一块新的空间来保存该子串, 留一个字符作为结束符
+				char * new_space = (char *)malloc(substr_len + 1);
+				strncpy(new_space, substr_start, substr_len);
+
+				// 更新指针
+				tokens[ nr_token ].str = new_space;
+
+				// 更新计数器
+				nr_token++;
+
+				if (nr_token >= 32) {
+					printf("tokens is full !");
+					break;
+				}
+				
 
 				switch(rules[i].token_type) {
 					default: panic("please implement me");
@@ -115,6 +135,8 @@ static bool make_token(char *e) {
 }
 
 uint32_t expr(char *e, bool *success) {
+	// 记得释放tokens中的字符串空间
+	
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
