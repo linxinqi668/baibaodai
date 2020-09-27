@@ -157,6 +157,8 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 
+	*success = true;
+
 	/* TODO: Insert codes to evaluate the expression. */
 
 	// 前面已经进行过了make_token
