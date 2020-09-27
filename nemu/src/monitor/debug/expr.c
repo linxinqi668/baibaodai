@@ -519,6 +519,10 @@ uint32_t expr(char *e, bool *success) {
 
 	// 找出tokens中的减号
 	int i;
+	for (i = 0; i < nr_token; i++) {
+		printf("%c\n", tokens[i].type);
+	}
+
 	for (i = 1; i < nr_token && (tokens[i].type == Neg); i++)
 		if (tokens[i-1].type == Right || tokens[i-1].type == Integer
 		    || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name){
@@ -527,10 +531,6 @@ uint32_t expr(char *e, bool *success) {
 	// 设置tokens中运算符的优先级
 	for (i = 0; i < nr_token; i++)
 		tokens[i].priority = assign_priority(tokens[i].type);
-
-	for (i = 0; i < nr_token; i++) {
-		printf("%c\n", tokens[i].type);
-	}
 	
 	
 	// 找出tokens中的解引用
