@@ -371,7 +371,6 @@ int find_dominant_operator(int p, int q) {
 		}
 
 		// 剩余的符号都是操作符
-		printf("%c!!!!\n", tokens[i].type);
 
 		if (index == -1) { // 如果还没有赋值
 			index = i;
@@ -380,7 +379,6 @@ int find_dominant_operator(int p, int q) {
 			index = i;
 			min_priority = tokens[i].priority;
 		}
-		printf("%d\n", min_priority);
 	}
 
 	return index;
