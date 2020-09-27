@@ -516,6 +516,7 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 	*success = true;
+	printf("%d", nr_token);
 
 	// 找出tokens中的减号
 	int i;
