@@ -114,6 +114,7 @@ static bool make_token(char *e) {
 				// 开辟一块新的空间来保存该子串, 留一个字符作为结束符
 				char * new_space = (char *)malloc(substr_len + 1);
 				strncpy(new_space, substr_start, substr_len);
+				new_space[substr_len] = '\0';
 
 				int l = strlen(new_space);
 				printf("%d\n !!!!", l);
