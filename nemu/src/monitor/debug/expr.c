@@ -500,9 +500,9 @@ uint32_t expr(char *e, bool *success) {
 	for (i = 0; i < nr_token; i++)
 		tokens[i].priority = assign_priority(tokens[i].type);
 	
-	for (i = 0; i < nr_token; i++)
-		printf("%d ", tokens[i].priority);
-	printf("\n");
+	// for (i = 0; i < nr_token; i++)
+	// 	printf("%d ", tokens[i].priority);
+	// printf("\n");
 	
 	// 找出tokens中的解引用
 
@@ -519,9 +519,9 @@ uint32_t expr(char *e, bool *success) {
 	printf("%s\n", expression);
 
 	// 计算表达式
-	// int len = strlen(expression);
-	// uint32_t res = get_value(expression, 0, len-1);
-	// printf("计算结果为: %d\n", res);
+	int len = strlen(expression);
+	uint32_t res = get_value(expression, 0, len-1);
+	printf("计算结果为: %d\n", res);
 	
 	// 测试部分, 打印中取出的token
 	// for (int i = 0; i < nr_token; i++){
