@@ -528,9 +528,9 @@ uint32_t expr(char *e, bool *success) {
 	for (i = 0; i < nr_token; i++)
 		tokens[i].priority = assign_priority(tokens[i].type);
 
-	// for (i = 0; i < nr_token; i++) {
-	// 	printf("%s\n", tokens[i].str);
-	// }
+	for (i = 0; i < nr_token; i++) {
+		printf("%c\n", tokens[i].type);
+	}
 	
 	
 	// 找出tokens中的解引用
