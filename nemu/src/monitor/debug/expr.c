@@ -481,13 +481,13 @@ uint32_t get_value(int p, int q) {
 		uint32_t value2 = get_value(d_op_ind + 1, q);
 
 		// 3. 根据dominant operator求值
-		char d_op = tokens[p + d_op_ind].type;
+		char d_op = tokens[d_op_ind].type;
 		switch (d_op) {
 			case Plus: {ret_val = value1 + value2; break;}
 			case Sub: {ret_val = value1 - value2; break;}
 			case Multiply: {ret_val = value1 * value2; break;}
 			case Div: {ret_val = value1 / value2; break;}
-			case EQ: {ret_val = value1 == value2; break;}
+			case EQ: {ret_val = (value1 == value2); break;}
 			case NEQ: {ret_val = value1 != value2; break;}
 			case AND: {ret_val = value1 && value2; break;}
 			case OR: {ret_val = value1 || value2; break;}
