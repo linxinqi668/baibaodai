@@ -119,12 +119,12 @@ static bool make_token(char *e) {
 				// 更新指针
 				tokens[ nr_token ].str = new_space;
 				// 确保字符串相等
-				Assert(!(strlen(new_space) == substr_len), "copy failed!");
+				Assert(strlen(new_space) == substr_len, "copy failed!");
 
 				// 更新计数器
 				nr_token++;
 
-				Assert(nr_token >= 33, "the tokens array over flow!");
+				Assert(nr_token <= 32, "the tokens array over flow!");
 				
 
 				switch(rules[i].token_type) {
