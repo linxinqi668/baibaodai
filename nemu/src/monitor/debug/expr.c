@@ -500,8 +500,7 @@ uint32_t get_value(int p, int q) {
 			default: {Assert(0, "取出的操作符不太对劲儿");}
 		}
 	}
-
-	free(sub_expression);
+	
 	// printf("ret_val: %u\n", ret_val);
     return ret_val;
 }
