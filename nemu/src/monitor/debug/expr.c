@@ -148,6 +148,8 @@ static bool make_token(char *e) {
 	return true; 
 }
 
+// stack
+
 uint32_t expr(char *e, bool *success) {
 	// 记得释放tokens中的字符串空间
 
@@ -163,8 +165,15 @@ uint32_t expr(char *e, bool *success) {
 
 	// 前面已经进行过了make_token
 
-	// 根据tokens解析得到的表达式计算表达式的值
-	
+	// 拼接表达式
+	char * expression = (char *)malloc(100);
+	memset(expression, 0, 100);
+
+	for (int i = 0; i < nr_token; i++)
+		strcat(expression, tokens[i].str);
+
+	printf("%s\n", expression);
+
 	
 
 	// 测试部分, 打印中取出的token
