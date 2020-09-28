@@ -66,25 +66,9 @@ void cpu_exec(volatile uint32_t n) {
 		 * instruction decode, and the actual execution. */
 		int instr_len = exec(cpu.eip); // 执行一条指令
 
-		// 计算所有表达式的值
-		WP* watch_point = get_head(); // 头指针, 如果是空的说明没有监视点, 直接会跳过下一段。
-
-		while (watch_point) {
-			watch_point->old_value = watch_point->now_value;
-			bool * is_valid = (bool *) malloc(1);
-			watch_point->now_value = expr(watch_point->expr, is_valid);
-			Assert(*is_valid == true, "表达式无法求值.");
-
-			if (watch_point->old_value != watch_point->now_value) { // 如果值发生变化
-				nemu_state = STOP;
-				printf("监视点发生变化, 请输入指令:\n");
-				return;
-			}
-
-			watch_point = watch_point->next;
-		}
-
 		cpu.eip += instr_len;
+
+
 
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
@@ -96,6 +80,25 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
+		// 计算所有表达式的值
+		WP* watch_point = get_head(); // 头指针, 如果是空的说明没有监视点, 直接会跳过下一段。
+		bool exist_change = false;
+		while (watch_point) {
+			watch_point->old_value = watch_point->now_value;
+			bool * is_valid = (bool *) malloc(1);
+			watch_point->now_value = expr(watch_point->expr, is_valid);
+			Assert(*is_valid == true, "表达式无法求值.");
+
+			if (watch_point->old_value != watch_point->now_value)
+				exist_change = true;
+				
+			watch_point = watch_point->next;
+		}
+
+		if (exist_change) {
+			nemu_state = STOP;
+			printf("监视点发生变化, 请输入指令查看.\n");
+		}
 
 
 #ifdef HAS_DEVICE
