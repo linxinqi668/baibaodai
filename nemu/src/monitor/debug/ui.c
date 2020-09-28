@@ -110,8 +110,8 @@ static int cmd_info(char *args) {
 			return 0;
 		}
 		strtok(args, " ");
-		printf("here\n");
 		char * choice = strtok(NULL, " ");
+		printf("%s\n", choice);
 		if (strcmp(choice, "-c") == 0) { // 只打印变化的监视点
 			while (wp) {
 				if (wp->old_value != wp->now_value) {
