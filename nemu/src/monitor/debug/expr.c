@@ -587,7 +587,8 @@ uint32_t expr(char *e, bool *success) {
 		if (tokens[i].type != Neg && tokens[i].type != DeReference)
 			continue;
 		if (tokens[i-1].type == Right || tokens[i-1].type == Integer
-		   || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name){
+		   || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name
+		   || tokens[i-1].type == Factorial){
 			   if (tokens[i].type == Neg)
 					tokens[i].type = Sub;
 			   else
