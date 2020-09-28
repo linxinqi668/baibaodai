@@ -69,7 +69,13 @@ static int cmd_si(char *args) {
 	return 0;
 }
 
-static int cmd_info(char *args) {
+static int cmd_info(char *args) { 
+
+	if (args == NULL) {
+		printf("请输入: info w or info r.\n");
+		return 0;
+	}
+
 	char * register_name[3][8] = {
 		{"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"},
 		{"ax", "cx", "dx", "bx", "sp", "bp", "si", "di"},
@@ -109,7 +115,12 @@ static int cmd_info(char *args) {
 			printf("无监视点.\n");
 			return 0;
 		}
-		strtok(args, " ");
+		char * type = strtok(args, " ");
+
+		if (strcmp(type, "w") != 0) {
+			printf("请输入info w 或者 info -a.\n");
+			return 0;
+		}
 		char * choice = strtok(NULL, " ");
 		// printf("%s\n", choice);
 		if (choice == NULL) {
@@ -142,11 +153,28 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args){
+
+	if (args == NULL) {
+		printf("请输入: x number_of_dword addr.\n");
+		return 0;
+	}
+
 	printf("兄弟! 你需要以字节为单位反过来看每一个小串, 然后再连起来, 可得到\n\
 低地址到高地址的内存表示, 本机是大端序.\n\n");
 
 	char * first_arg = strtok(args, " ");
+
+	if (first_arg == NULL) {
+		printf("请输入: x number_of_dword addr.\n");
+		return 0;
+	}
+
 	char * second_arg = strtok(NULL, " ");
+
+	if (second_arg == NULL) {
+		printf("请输入: x number_of_dword addr.\n");
+		return 0;
+	}
 	
 	// printf("%s %s\n", first_arg, second_arg);
 
@@ -175,6 +203,11 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
+	
+	if (args == NULL) {
+		printf("请输入正确表达式.\n");
+		return 0;
+	}
 
 	bool * is_valid = (bool *) malloc(1); // 判断是否是合法的表达式
 	uint32_t res = expr(args, is_valid);
@@ -191,6 +224,10 @@ static int cmd_p(char *args){
 }
 
 static int cmd_w(char *args) {
+	if (args == NULL) {
+		printf("请输入: w + expression.\n");
+		return 0;
+	}
 	bool * is_valid = (bool *) malloc(1);
 	// 申请一个监视点
 	WP* new_point = new_wp();
