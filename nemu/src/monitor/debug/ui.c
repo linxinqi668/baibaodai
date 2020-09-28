@@ -205,7 +205,7 @@ static int cmd_free(char *args) {
 	
 	WP* pool = get_pool();
 
-	if (strcmp(args, "a")) { // 删除所有监视点
+	if (strcmp(args, "a") == 0) { // 删除所有监视点
 		int i;
 		int num = get_num();
 		for (i = 0; i < num; i++)
