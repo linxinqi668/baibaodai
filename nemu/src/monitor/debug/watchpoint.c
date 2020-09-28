@@ -15,6 +15,7 @@ void init_wp_pool() {
 		wp_pool[i].now_value = 0;
 		wp_pool[i].old_value = 0;
 		wp_pool[i].expr = NULL;
+		wp_pool[i].status = false; // 设置为空闲
 	}
 	wp_pool[NR_WP - 1].next = NULL;
 	wp_pool[0].pred = NULL;
@@ -52,6 +53,9 @@ WP* new_wp() {
 		res = head;
 	}
 
+	// 设置为忙碌
+	res->status = true;
+
 	return res;
 }
 
@@ -60,6 +64,9 @@ void free_wp(WP* wp) {
 
 	// 确保传入的不是空指针
 	Assert(wp != NULL, "free空指针\n");
+
+	// 设置为空闲
+	wp->status = false;
 
 	// 首先将wp指向的节点退出忙碌链表
 	if (wp == head) { // 当wp指向头结点时
@@ -88,5 +95,9 @@ void free_wp(WP* wp) {
 
 WP* get_head() {
 	return head;
+}
+
+WP* get_pool() {
+	return wp_pool;
 }
 
