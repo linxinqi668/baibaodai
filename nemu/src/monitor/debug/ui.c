@@ -113,12 +113,17 @@ static int cmd_info(char *args) {
 		char * choice = strtok(NULL, " ");
 		// printf("%s\n", choice);
 		if (strcmp(choice, "-c") == 0) { // 只打印变化的监视点
+			int cnt = 0;
 			while (wp) {
 				if (wp->old_value != wp->now_value) {
 					printf("监视点编号: %d, 值的变化为: %u -> %u\n", wp->NO, wp->old_value,
 					        wp->now_value);
+					++cnt;
 				}
 				wp = wp->next;
+			}
+			if (cnt == 0) {
+				printf("无变化的监视点.\n");
 			}
 		} else if (strcmp(choice, "-a") == 0) { // 打印所有监视点
 			while (wp) {
