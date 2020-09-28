@@ -210,7 +210,7 @@ static int cmd_free(char *args) {
 		int num = get_num();
 		for (i = 0; i < num; i++)
 			free_wp(&pool[i]);
-
+		printf("here\n");
 		return 0;
 	}
 
