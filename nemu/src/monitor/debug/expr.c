@@ -533,7 +533,7 @@ uint32_t get_value(int p, int q) {
 			value1 = get_value(p, d_op_ind-1);
 			value2 = unused;
 		}
-		else if (d_op == Neg || DeReference) {
+		else if (d_op == Neg || d_op == DeReference) {
 			value2 = get_value(d_op_ind + 1, q);
 			value1 = unused;
 		}
