@@ -608,7 +608,6 @@ uint32_t expr(char *e, bool *success) {
 
 	// 计算表达式
 	uint32_t res = get_value(0, nr_token-1);
-	printf("计算结果为: %d\n", res);
 
 
 	// 释放tokens中的字符串空间
@@ -617,7 +616,7 @@ uint32_t expr(char *e, bool *success) {
 
 
 	// panic("please implement me");
-	return 0;
+	return res;
 }
 /*******************************************************************/
 

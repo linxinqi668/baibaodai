@@ -66,7 +66,7 @@ static int cmd_si(char *args) {
 	else
 		n = atoi(step_num);
 	cpu_exec(n);
-	return -1;
+	return 0;
 }
 
 static int cmd_info(char *args) {
@@ -103,9 +103,30 @@ static int cmd_info(char *args) {
 			}
 		}
 	}
-	else
-		printf("this is w\n");
-	return -1;
+	else { // 显示监视点的信息
+		WP* wp = get_head(); // 获取头指针
+		if (wp == NULL) {
+			printf("无监视点.\n");
+			return 0;
+		}
+		strtok(args, " ");
+		char * choice = strtok(NULL, " ");
+		if (strcmp(choice, "-c") == 0) { // 只打印变化的监视点
+			while (wp) {
+				if (wp->old_value != wp->now_value) {
+					printf("监视点编号: %d, 值的变化为: %u -> %u\n", wp->NO, wp->old_value,
+					        wp->now_value);
+				}
+			}
+		} else if (strcmp(choice, "-a") == 0) { // 打印所有监视点
+			while (wp) {
+				printf("监视点编号: %d, 其值为: %u -> %u\n", wp->NO, wp->old_value,
+					    wp->now_value);
+			}
+		} else 
+			printf("info w -c, 或者 info w -a.\n");
+	}
+	return 0;
 }
 
 static int cmd_x(char *args){
@@ -138,22 +159,36 @@ static int cmd_x(char *args){
 		st_addr = st_addr + 4;
 	}
 	printf("\n");
-	return -1;
+	return 0;
 }
 
 static int cmd_p(char *args){
 	// long long res = 0;
 	bool * is_valid = (bool *) malloc(1); // 判断是否是合法的表达式
 	expr(args, is_valid); // 结果通过expr函数打印
-	if (*is_valid){ // 如果成功就返回-1
+	if (*is_valid){
 		free(is_valid);
-		return -1;
+		return 0; // 返回0，不会终端main loop;
 	}
 	else {
 		free(is_valid);
 		printf("表达式输入有误?\n");
 		return 0;
 	}
+}
+
+static int cmd_w(char *args) {
+	bool * is_valid = (bool *) malloc(1);
+	// 申请一个监视点
+	WP* new_point = new_wp();
+	new_point->expr = args;
+	new_point->old_value = expr(args, is_valid); // 求值
+	new_point->now_value = new_point->old_value;
+
+	Assert(*is_valid == true, "表达式无法求值!\n");
+	free(is_valid);
+
+	return 0; // 不退出main loop;
 }
 
 static int cmd_help(char *args);
@@ -175,7 +210,9 @@ static struct {
 	// 扫描内存
 	{ "x", "Print N * 4 Bytes After The Input Address", cmd_x},
 	// 表达式求值
-	{ "p", "Get The Expression Value", cmd_p}
+	{ "p", "Get The Expression Value", cmd_p},
+	// 设置监视点
+	{ "w", "Set A WatchPoint", cmd_w}
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
