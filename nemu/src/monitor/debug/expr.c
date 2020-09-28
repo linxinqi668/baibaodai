@@ -404,6 +404,7 @@ int find_dominant_operator(int p, int q) {
 			cnt--;
 			if (cnt == 0)
 				in_range = false;
+			printf("meet right, and cnt becomes to %d\n", cnt);
 			continue;
 		}
 
@@ -415,6 +416,7 @@ int find_dominant_operator(int p, int q) {
 		if (c == Left) {
 			in_range = true;
 			cnt++;
+			printf("meet left, and cnt becomes to %d\n", cnt);
 			continue;
 		}
 
