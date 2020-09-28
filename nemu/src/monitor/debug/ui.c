@@ -112,6 +112,10 @@ static int cmd_info(char *args) {
 		strtok(args, " ");
 		char * choice = strtok(NULL, " ");
 		// printf("%s\n", choice);
+		if (choice == NULL) {
+			printf("请输入info w -a 或者 info w -c.\n");
+			return 0;
+		}
 		if (strcmp(choice, "-c") == 0) { // 只打印变化的监视点
 			int cnt = 0;
 			while (wp) {
@@ -131,7 +135,7 @@ static int cmd_info(char *args) {
 					    wp->now_value);
 				wp = wp->next;
 			}
-		} else 
+		} else
 			printf("info w -c, 或者 info w -a.\n");
 	}
 	return 0;
