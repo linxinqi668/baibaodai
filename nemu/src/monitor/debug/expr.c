@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#define unused 0;
+
 enum {
 	NOTYPE = 256, EQ = '=', Integer = 'i', Left = '(', Right = ')',
 	Multiply = '*', Div = '/', Plus = '+', Sub = '-',
@@ -40,7 +42,7 @@ static struct rule {
 	{"\\)", Right},                 // right parenthesis
 
 	// 3rd level
-	{"\\*", Multiply},              // multiply
+	{"\\*", DeReference},              // pointer dereference
 	{"/", Div}, 					// div
 
 	// 4th level
@@ -360,7 +362,7 @@ int assign_priority(char c) {
 		return 4;
 	else if (c == Neg)
 		return 5;
-	else // 阶乘最高
+	else // 阶乘 与 指针解引用 优先级相同
 		return 6;
 }
 /**************************************************************/
@@ -372,7 +374,7 @@ bool is_d_op(char c) {
 	if (c == Plus || c == Sub || c == Multiply || 
 	    c == Div || c == Left || c == Right ||
 		c == AND || c == OR || c == NEQ || c == EQ ||
-		c == Factorial || c == Neg)
+		c == Factorial || c == Neg || c == DeReference)
 		return true;
 	
 	return false;
@@ -526,10 +528,14 @@ uint32_t get_value(int p, int q) {
 		// 2. 根据dominant operator求解表达式
 		char d_op = tokens[d_op_ind].type;
 		uint32_t value1, value2;
-		if (d_op == Factorial)
+		if (d_op == Factorial) {
 			value1 = get_value(p, d_op_ind-1);
-		else if (d_op == Neg)
+			value2 = unused;
+		}
+		else if (d_op == Neg || DeReference) {
 			value2 = get_value(d_op_ind + 1, q);
+			value1 = unused;
+		}
 		else {
 			value1 = get_value(p, d_op_ind-1);
 			value2 = get_value(d_op_ind + 1, q);
@@ -547,6 +553,7 @@ uint32_t get_value(int p, int q) {
 			case OR: {ret_val = value1 || value2; break;}
 			case Factorial: {ret_val = factorical(value1); break;}
 			case Neg: {ret_val = -value2; break;}
+			case DeReference: {Assert(0, "还未添加指针解引用功能\n"); break;}
 
 			default: {Assert(0, "取出的操作符不太对劲儿");}
 		}
@@ -572,15 +579,17 @@ uint32_t expr(char *e, bool *success) {
 	}
 	*success = true;
 
-	// 找出tokens中的减号
+	// 找出tokens中的减号 以及 乘号
 	int i;
 	for (i = 1; i < nr_token; i++){
-		if (tokens[i].type != Neg)
+		if (tokens[i].type != Neg && tokens[i].type != DeReference)
 			continue;
 		if (tokens[i-1].type == Right || tokens[i-1].type == Integer
 		   || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name){
-			tokens[i].type = Sub;
-			tokens[i].str[0] = Sub;
+			   if (tokens[i].type == Neg)
+					tokens[i].type = Sub;
+			   else
+			   		tokens[i].type = Multiply;
 		}
 	}
 
