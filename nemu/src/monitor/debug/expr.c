@@ -408,10 +408,6 @@ int find_dominant_operator(int p, int q) {
 			printf("meet right, and cnt becomes to %d\n", cnt);
 			continue;
 		}
-
-		// 若在括号内部
-		if (in_range == true)
-			continue;
 		
 		// 若遇到左括号, 就开启in_range状态
 		if (c == Left) {
@@ -420,6 +416,10 @@ int find_dominant_operator(int p, int q) {
 			printf("meet left, and cnt becomes to %d\n", cnt);
 			continue;
 		}
+
+		// 若在括号内部
+		if (in_range == true)
+			continue;
 
 		// 剩余的符号都是操作符
 
