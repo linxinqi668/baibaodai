@@ -391,6 +391,7 @@ int find_dominant_operator(int p, int q) {
 	// printf("%d %d\n!!!!!", p, q);
 
 	bool in_range = false; // 判断操作符是否在括号内部
+	int cnt = 0; // 记录左括号的个数
 	int i;
 	for (i = p; i <= q; i++) {
 		char c = tokens[i].type; // 取出操作的种类
@@ -400,7 +401,8 @@ int find_dominant_operator(int p, int q) {
 		
 		// 若遇到右括号, 则更改当前的in_range状态
 		if (c == Right) {
-			if (in_range)
+			cnt--;
+			if (cnt == 0)
 				in_range = false;
 			continue;
 		}
@@ -412,6 +414,7 @@ int find_dominant_operator(int p, int q) {
 		// 若遇到左括号, 就开启in_range状态
 		if (c == Left) {
 			in_range = true;
+			cnt++;
 			continue;
 		}
 
