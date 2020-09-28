@@ -15,7 +15,8 @@ void cpu_exec(uint32_t);
 // my_self
 char * print_binary_vector(unsigned int val){
     char * res = (char *) malloc(33); // 分配32个字节的空间
-    for (int i = 31; i >= 0; i--){
+	int i;
+    for (i = 31; i >= 0; i--){
         // 取出当前数字
         int x = val % 2;
         // 放入res字符串中
@@ -77,8 +78,9 @@ static int cmd_info(char *args) {
 
 	if (strcmp(args, "r") == 0){
 
-		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < 8; j++){
+		int i, j;
+		for (i = 0; i < 3; i++){
+			for (j = 0; j < 8; j++){
 				// 取出该寄存器的值
 				uint32_t register_value;
 				if (i == 0)
@@ -125,7 +127,8 @@ static int cmd_x(char *args){
 
 	// 打印内存数据
 	uint32_t res;
-	for (int i = 0; i < num; i++) {
+	int i;
+	for (i = 0; i < num; i++) {
 		res = swaddr_read(st_addr, 4);
 		// 输出
 		printf("%08x: 0x%08x\n", st_addr, res);
