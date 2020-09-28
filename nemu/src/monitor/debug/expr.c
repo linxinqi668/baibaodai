@@ -395,6 +395,7 @@ int find_dominant_operator(int p, int q) {
 	int i;
 	for (i = p; i <= q; i++) {
 		char c = tokens[i].type; // 取出操作的种类
+		printf("%c\n ", c);
 		// 必须能够作为dominant operator
 		if (!is_d_op(c))
 			continue;
