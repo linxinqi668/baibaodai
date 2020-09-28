@@ -429,7 +429,7 @@ int find_dominant_operator(int p, int q) {
 		}
 	}
 
-	printf("找到的操作符为: %c", tokens[index].type);
+	printf("找到的操作符为: %c, 位置为: %d\n", tokens[index].type, index);
 
 	return index;
 }
