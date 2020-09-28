@@ -1,5 +1,6 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
+#include <stdlib.h>
 
 #define NR_WP 100
 
@@ -71,6 +72,10 @@ void free_wp(WP* wp) {
 
 	// 设置为空闲
 	wp->status = false;
+
+	// 释放空间
+	free(wp->expr);
+	wp->expr = NULL;
 
 	// 首先将wp指向的节点退出忙碌链表
 	if (wp == head) { // 当wp指向头结点时

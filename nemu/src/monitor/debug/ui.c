@@ -194,7 +194,8 @@ static int cmd_w(char *args) {
 	bool * is_valid = (bool *) malloc(1);
 	// 申请一个监视点
 	WP* new_point = new_wp();
-	new_point->expr = args;
+	new_point->expr = (char *) malloc( strlen(args) );
+	strcpy(new_point->expr, args); // 复制表达式
 	new_point->old_value = expr(args, is_valid); // 求值
 	new_point->now_value = new_point->old_value;
 
