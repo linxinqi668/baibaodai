@@ -111,7 +111,7 @@ static int cmd_info(char *args) {
 		}
 		strtok(args, " ");
 		char * choice = strtok(NULL, " ");
-		printf("%s\n", choice);
+		// printf("%s\n", choice);
 		if (strcmp(choice, "-c") == 0) { // 只打印变化的监视点
 			while (wp) {
 				if (wp->old_value != wp->now_value) {
@@ -166,11 +166,12 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
-	// long long res = 0;
+
 	bool * is_valid = (bool *) malloc(1); // 判断是否是合法的表达式
-	expr(args, is_valid); // 结果通过expr函数打印
+	uint32_t res = expr(args, is_valid);
 	if (*is_valid){
 		free(is_valid);
+		printf("%u\n", res);
 		return 0; // 返回0，不会终端main loop;
 	}
 	else {
