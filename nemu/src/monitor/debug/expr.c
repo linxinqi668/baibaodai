@@ -104,7 +104,7 @@ static bool make_token(char *e) {
 				char *substr_start = e + position; // 子串的起始位置
 				int substr_len = pmatch.rm_eo; // 子串的长度
 
-				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				// Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
 				// printf("%s\n", e + position);
