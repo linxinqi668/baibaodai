@@ -65,6 +65,10 @@ void free_wp(WP* wp) {
 	// 确保传入的不是空指针
 	Assert(wp != NULL, "free空指针\n");
 
+	// 如果本来就是空闲的
+	if (wp->status == false)
+		return;
+
 	// 设置为空闲
 	wp->status = false;
 
@@ -99,5 +103,9 @@ WP* get_head() {
 
 WP* get_pool() {
 	return wp_pool;
+}
+
+int get_num() {
+	return NR_WP;
 }
 

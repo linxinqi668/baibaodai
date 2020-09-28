@@ -22,5 +22,6 @@ WP* new_wp();
 void free_wp(WP*);
 WP* get_head();
 WP* get_pool();
+int get_num();
 
 #endif

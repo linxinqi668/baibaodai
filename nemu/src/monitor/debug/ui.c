@@ -200,11 +200,22 @@ static int cmd_w(char *args) {
 	return 0; // 不退出main loop;
 }
 
+// 几乎没有错哈哈哈哈
 static int cmd_free(char *args) {
+	
+	WP* pool = get_pool();
+
+	if (strcmp(args, "a")) { // 删除所有监视点
+		int i;
+		int num = get_num();
+		for (i = 0; i < num; i++)
+			free_wp(&pool[i]);
+
+		return 0;
+	}
 
 	// 获取节点编号
 	int wp_code = atoi(args);
-	WP* pool = get_pool();
 
 	// 检查节点是否为忙碌
 	if (pool[wp_code].status == false) {
@@ -241,7 +252,7 @@ static struct {
 	// 设置监视点
 	{ "w", "Set A WatchPoint", cmd_w},
 	// 释放监视点
-	{ "d", "Input A Num To Free A WatchPoint", cmd_free}
+	{ "d", "Input A Num Or a To Free A WatchPoint", cmd_free}
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
