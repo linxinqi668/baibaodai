@@ -70,7 +70,7 @@ void free_wp(WP* wp) {
 
 	// 首先将wp指向的节点退出忙碌链表
 	if (wp == head) { // 当wp指向头结点时
-		head = NULL;
+		head = head->next;
 	} else if (wp->next == NULL) { // 当wp指向最后一个节点时
 		wp->pred->next = NULL;
 	} else { // 当wp指向中间节点时
