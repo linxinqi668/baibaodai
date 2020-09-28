@@ -209,6 +209,13 @@ static int cmd_free(char *args) {
 	
 	WP* pool = get_pool();
 
+	if (args == NULL) {
+		printf("请输入如下指令释放:\n");
+		printf("d a 删除所有监视点.\n");
+		printf("d wp_code 删除编号为wp_code的监视点.\n");
+		return 0;
+	}
+
 	if (strcmp(args, "a") == 0) { // 删除所有监视点
 		int i;
 		int num = get_num();
