@@ -100,6 +100,9 @@ void cpu_exec(volatile uint32_t n) {
 			printf("监视点发生变化, 请输入指令查看.\n");
 		}
 
+		// cpu更新eip后检测是否到达断点, 所以断点处的代码未执行。
+		// 使用 si 指令 或者 c 指令可继续执行。
+
 
 #ifdef HAS_DEVICE
 		extern void device_update();

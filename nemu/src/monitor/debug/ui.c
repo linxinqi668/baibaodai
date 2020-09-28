@@ -69,6 +69,7 @@ static int cmd_si(char *args) {
 	return 0;
 }
 
+// 可以重新组织一下代码, 处理args的特殊情况有点混乱。
 static int cmd_info(char *args) { 
 
 	if (args == NULL) {
