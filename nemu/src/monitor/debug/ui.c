@@ -118,11 +118,13 @@ static int cmd_info(char *args) {
 					printf("监视点编号: %d, 值的变化为: %u -> %u\n", wp->NO, wp->old_value,
 					        wp->now_value);
 				}
+				wp = wp->next;
 			}
 		} else if (strcmp(choice, "-a") == 0) { // 打印所有监视点
 			while (wp) {
 				printf("监视点编号: %d, 其值为: %u -> %u\n", wp->NO, wp->old_value,
 					    wp->now_value);
+				wp = wp->next;
 			}
 		} else 
 			printf("info w -c, 或者 info w -a.\n");
