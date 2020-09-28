@@ -388,14 +388,14 @@ int find_dominant_operator(int p, int q) {
 	int min_priority = 1000;
 	int index = -1;
 
-	 printf("%d %d!!!!!\n", p, q);
+	// printf("%d %d!!!!!\n", p, q);
 
 	bool in_range = false; // 判断操作符是否在括号内部
 	int cnt = 0; // 记录左括号的个数
 	int i;
 	for (i = p; i <= q; i++) {
 		char c = tokens[i].type; // 取出操作的种类
-		printf("%c\n ", c);
+		// printf("%c\n ", c);
 		// 必须能够作为dominant operator
 		if (!is_d_op(c))
 			continue;
@@ -432,7 +432,7 @@ int find_dominant_operator(int p, int q) {
 		}
 	}
 
-	printf("找到的操作符为: %c, 位置为: %d\n", tokens[index].type, index);
+	// printf("找到的操作符为: %c, 位置为: %d\n", tokens[index].type, index);
 
 	return index;
 }
@@ -550,7 +550,7 @@ uint32_t get_value(int p, int q) {
 			value2 = get_value(d_op_ind + 1, q);
 		}
 
-		 printf("%u %u this is values\n", value1, value2);
+		// printf("%u %u this is values\n", value1, value2);
 		// 3. 根据dominant operator求值
 		switch (d_op) {
 			case Plus: {ret_val = value1 + value2; break;}
@@ -604,10 +604,10 @@ uint32_t expr(char *e, bool *success) {
 		}
 	}
 
-	for (i = 0; i < nr_token; i++)
-		printf("%c  ", tokens[i].type);
+	// for (i = 0; i < nr_token; i++)
+	// 	printf("%c  ", tokens[i].type);
 
-	printf("\n");
+	// printf("\n");
 
 	// 设置tokens中运算符的优先级
 	for (i = 0; i < nr_token; i++)
