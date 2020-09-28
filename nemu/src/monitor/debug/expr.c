@@ -527,6 +527,7 @@ uint32_t get_value(int p, int q) {
 
 		// 2. 根据dominant operator求解表达式
 		char d_op = tokens[d_op_ind].type;
+		printf("%c this is dop\n", d_op);
 		uint32_t value1, value2;
 		if (d_op == Factorial) {
 			value1 = get_value(p, d_op_ind-1);
