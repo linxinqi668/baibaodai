@@ -185,7 +185,7 @@ typedef struct {
 	int max_size; // 栈最大元素个数
 } stack, *stack_p; // stack_p是指向栈结构体的指针
 
-stack_p Creat_Stack(int max_size){
+stack_p Create_Stack(int max_size){
 	// 开辟空间
 	stack_p new_stack = (stack_p) malloc(sizeof(stack));
 	new_stack->element = (char *) malloc(sizeof(max_size+2));
@@ -234,7 +234,7 @@ bool is_match(char * str){
     int len = strlen(str);
 
     // 开辟一个栈
-    stack_p s = Creat_Stack(len);
+    stack_p s = Create_Stack(len);
 
     // 进行匹配
 	int i;
@@ -301,7 +301,6 @@ char * combine_token(int p, int q) {
 	return res;
 }
 /**************************************************************/
-
 
 
 
