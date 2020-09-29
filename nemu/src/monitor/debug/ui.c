@@ -211,10 +211,10 @@ static int cmd_p(char *args){
 	}
 
 	bool * is_valid = (bool *) malloc(1); // 判断是否是合法的表达式
-	uint32_t res = expr(args, is_valid);
+	int res = expr(args, is_valid);
 	if (*is_valid){
 		free(is_valid);
-		printf("%u\n", res);
+		printf("%d\n", res);
 		return 0; // 返回0，不会终端main loop;
 	}
 	else {
