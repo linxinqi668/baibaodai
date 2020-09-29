@@ -441,34 +441,12 @@ int find_dominant_operator(int p, int q) {
 
 
 
-
-
-
-/* 检查字符串是否为整数 ******************************************/
-// unuesed.
-bool is_integer(char * expression) {
-
-    int len = strlen(expression);
-	
-	int i;
-    for (i = 0; i < len; i++){
-        if (!isdigit(expression[i]))
-            return false;
-    }
-    
-    return true;
-
-}
-/**************************************************************/
-
-
-
-
 /* 求解阶乘 ****************************************************/
 uint32_t factorical(uint32_t n) {
 	return n == 1 ? 1 : n * factorical(n-1);
 }
 /*************************************************************/
+
 
 
 /* 从寄存器中取出数值 *******************************************/
