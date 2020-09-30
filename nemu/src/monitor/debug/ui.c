@@ -183,7 +183,16 @@ static int cmd_x(char *args){
 	size_t num;
 	swaddr_t st_addr;
 	sscanf(first_arg, "%lu", &num);
-	sscanf(second_arg, "%x", &st_addr);
+	bool * is_valid = (bool *) malloc(1);
+	st_addr = expr(second_arg, is_valid); // 表达式求值
+
+	if (!is_valid) {
+		printf("请输入合理的表达式!\n");
+		free(is_valid);
+		return 0;
+	}
+
+	free(is_valid);
 
 	// printf("%lu %u\n", num, st_addr);
 
@@ -194,8 +203,6 @@ static int cmd_x(char *args){
 		res = swaddr_read(st_addr, 4);
 		// 输出
 		printf("%08x: 0x%08x\n", st_addr, res);
-		// if ( (i+1) % 5 == 0)
-		// 	printf("\n");
 		// 更新起始地址
 		st_addr = st_addr + 4;
 	}
