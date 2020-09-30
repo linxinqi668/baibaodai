@@ -361,7 +361,7 @@ int assign_priority(char c) {
 		return 4;
 	else if (c == Not)
 		return 5;
-	else // 指针解引用 优先级相同
+	else // 负号 与 指针解引用 优先级相同
 		return 6;
 }
 /**************************************************************/
