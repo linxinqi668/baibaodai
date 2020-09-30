@@ -359,7 +359,7 @@ int assign_priority(char c) {
 		return 3;
 	else if (c == Left || c == Right)
 		return 4;
-	else if (c == Neg || c == Not)
+	else if (c == Neg)
 		return 5;
 	else // 指针解引用 优先级相同
 		return 6;
