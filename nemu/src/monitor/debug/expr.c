@@ -14,7 +14,7 @@ enum {
 	NOTYPE = 256, EQ = '=', Integer = 'i', Left = '(', Right = ')',
 	Multiply = '*', Div = '/', Plus = '+', Sub = '-',
 	Hex_Num = 'h', Reg_Name = 'r', NEQ = 'n', AND = 'A', OR = 'O',
-	Not = 'F', DeReference = '?', Neg = 'm'
+	Not = '!', DeReference = '?', Neg = 'm'
 
 	/* TODO: Add more token types */
 };
@@ -445,14 +445,6 @@ int find_dominant_operator(int p, int q) {
 }
 /**************************************************************/
 
-
-
-
-/* 求解阶乘 ****************************************************/
-uint32_t factorical(uint32_t n) {
-	return n == 1 ? 1 : n * factorical(n-1);
-}
-/*************************************************************/
 
 
 
