@@ -425,7 +425,7 @@ int find_dominant_operator(int p, int q) {
 		if (index == -1) { // 如果还没有赋值
 			index = i;
 			min_priority = tokens[i].priority;
-		} else if (tokens[i].priority <= min_priority) {
+		} else if (tokens[i].priority < min_priority) {
 			index = i;
 			min_priority = tokens[i].priority;
 		}
