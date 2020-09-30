@@ -14,7 +14,7 @@ enum {
 	NOTYPE = 256, EQ = '=', Integer = 'i', Left = '(', Right = ')',
 	Multiply = '*', Div = '/', Plus = '+', Sub = '-',
 	Hex_Num = 'h', Reg_Name = 'r', NEQ = 'n', AND = 'A', OR = 'O',
-	Factorial = 'F', DeReference = '?', Neg = 'm'
+	Not = 'F', DeReference = '?', Neg = 'm'
 
 	/* TODO: Add more token types */
 };
@@ -35,7 +35,7 @@ static struct rule {
 	{"0[xX][0-9a-fA-F]+", Hex_Num},      // hex-num
 	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
 	{"\\$[a-z]+", Reg_Name},    // Register name
-	{"!", Factorial},               // Factorial
+	{"!", Not},               // Not
 
 	// 2nd level
 	{"\\(", Left},                  // left parenthesis
@@ -359,9 +359,9 @@ int assign_priority(char c) {
 		return 3;
 	else if (c == Left || c == Right)
 		return 4;
-	else if (c == Neg)
+	else if (c == Neg || c == Not)
 		return 5;
-	else // 阶乘 与 指针解引用 优先级相同
+	else // 指针解引用 优先级相同
 		return 6;
 }
 /**************************************************************/
@@ -373,7 +373,7 @@ bool is_d_op(char c) {
 	if (c == Plus || c == Sub || c == Multiply || 
 	    c == Div || c == Left || c == Right ||
 		c == AND || c == OR || c == NEQ || c == EQ ||
-		c == Factorial || c == Neg || c == DeReference)
+		c == Not || c == Neg || c == DeReference)
 		return true;
 	
 	return false;
@@ -522,11 +522,8 @@ uint32_t get_value(int p, int q) {
 		char d_op = tokens[d_op_ind].type;
 		// printf("%c this is dop\n", d_op);
 		uint32_t value1, value2;
-		if (d_op == Factorial) {
-			value1 = get_value(p, d_op_ind-1);
-			value2 = unused;
-		}
-		else if (d_op == Neg || d_op == DeReference) {
+
+		if (d_op == Neg || d_op == DeReference || d_op == Not) {
 			value2 = get_value(d_op_ind + 1, q);
 			value1 = unused;
 		}
@@ -546,7 +543,7 @@ uint32_t get_value(int p, int q) {
 			case NEQ: {ret_val = value1 != value2; break;}
 			case AND: {ret_val = value1 && value2; break;}
 			case OR: {ret_val = value1 || value2; break;}
-			case Factorial: {ret_val = factorical(value1); break;}
+			case Not: {ret_val = !value2; break;}
 			case Neg: {ret_val = -value2; break;}
 			case DeReference: {Assert(0, "还未添加指针解引用功能\n"); break;}
 
@@ -580,8 +577,7 @@ uint32_t expr(char *e, bool *success) {
 		if (tokens[i].type != Neg && tokens[i].type != DeReference)
 			continue;
 		if (tokens[i-1].type == Right || tokens[i-1].type == Integer
-		   || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name
-		   || tokens[i-1].type == Factorial){
+		   || tokens[i-1].type == Hex_Num || tokens[i-1].type == Reg_Name){
 			   if (tokens[i].type == Neg)
 					tokens[i].type = Sub;
 			   else
