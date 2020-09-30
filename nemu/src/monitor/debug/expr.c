@@ -387,15 +387,12 @@ int find_dominant_operator(int p, int q) {
 	int min_priority = 1000;
 	int index = -1;
 
-	// printf("%d %d!!!!!\n", p, q);
-
 	bool in_range = false; // 判断操作符是否在括号内部
 	int cnt = 0; // 记录左括号的个数
 	int i;
 	char dop_type = 0; // 保存当前dop的type
 	for (i = p; i <= q; i++) {
 		char c = tokens[i].type; // 取出操作的种类
-		// printf("%c\n ", c);
 		// 必须能够作为dominant operator
 		if (!is_d_op(c))
 			continue;
@@ -422,7 +419,6 @@ int find_dominant_operator(int p, int q) {
 			continue;
 
 		// 剩余的符号都是操作符
-
 		if (index == -1) { // 如果还没有赋值
 			index = i;
 			min_priority = tokens[i].priority;
@@ -431,8 +427,9 @@ int find_dominant_operator(int p, int q) {
 			index = i;
 			min_priority = tokens[i].priority;
 			dop_type = tokens[i].type;
-		} else if (tokens[i].priority == min_priority && tokens[i].type !=
-		           dop_type) { // 等于的话要保证符号不同
+		} else if (tokens[i].priority == min_priority && tokens[i].type ==
+		           dop_type && tokens[i].type != Neg && tokens[i].type != Not
+				   && tokens[i].type != DeReference) { // 等于的话要保证符号不同
 			index = i;
 			min_priority = tokens[i].priority;
 			dop_type = tokens[i].type;
@@ -515,7 +512,7 @@ uint32_t get_value(int p, int q) {
 		// printf("%c this is dop\n", d_op);
 		uint32_t value1, value2;
 
-		if (d_op == Neg || d_op == DeReference || d_op == Not) {
+		if (d_op == Neg || d_op == DeReference || d_op == Not) { // 运算符优先级最高.
 			value2 = get_value(d_op_ind + 1, q);
 			value1 = unused;
 		}
@@ -537,7 +534,7 @@ uint32_t get_value(int p, int q) {
 			case OR: {ret_val = value1 || value2; break;}
 			case Not: {ret_val = !value2; break;}
 			case Neg: {ret_val = -value2; break;}
-			case DeReference: {Assert(0, "还未添加指针解引用功能\n"); break;}
+			case DeReference: {Assert(0, "可识别指针解引用，但还未添加指针解引用功能\n"); break;}
 
 			default: {Assert(0, "取出的操作符不太对劲儿");}
 		}
