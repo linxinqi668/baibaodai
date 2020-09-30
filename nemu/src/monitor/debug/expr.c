@@ -392,6 +392,7 @@ int find_dominant_operator(int p, int q) {
 	bool in_range = false; // 判断操作符是否在括号内部
 	int cnt = 0; // 记录左括号的个数
 	int i;
+	char dop_type = 0; // 保存当前dop的type
 	for (i = p; i <= q; i++) {
 		char c = tokens[i].type; // 取出操作的种类
 		// printf("%c\n ", c);
@@ -425,9 +426,16 @@ int find_dominant_operator(int p, int q) {
 		if (index == -1) { // 如果还没有赋值
 			index = i;
 			min_priority = tokens[i].priority;
-		} else if (tokens[i].priority < min_priority) {
+			dop_type = tokens[i].type;
+		} else if (tokens[i].priority < min_priority) { // 小于直接替换
 			index = i;
 			min_priority = tokens[i].priority;
+			dop_type = tokens[i].type;
+		} else if (tokens[i].priority == min_priority && tokens[i].type !=
+		           dop_type) { // 等于的话要保证符号不同
+			index = i;
+			min_priority = tokens[i].priority;
+			dop_type = tokens[i].type;
 		}
 	}
 
