@@ -32,17 +32,17 @@ static struct rule {
 
 	// 1st level
 	{" +",	NOTYPE},				// spaces
-	{"0[xX][0-9a-fA-F]+", Hex_Num},      // hex-num
+	{"0[xX][0-9a-fA-F]+", Hex_Num}, // hex-num
 	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
-	{"\\$[a-z]+", Reg_Name},    // Register name
-	{"!", Not},               // Not
+	{"\\$[a-z]+", Reg_Name},        // Register name
+	{"!", Not},                     // Not
 
 	// 2nd level
 	{"\\(", Left},                  // left parenthesis
 	{"\\)", Right},                 // right parenthesis
 
 	// 3rd level
-	{"\\*", DeReference},              // pointer dereference
+	{"\\*", DeReference},           // pointer dereference
 	{"/", Div}, 					// div
 
 	// 4th level
