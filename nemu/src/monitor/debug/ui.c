@@ -30,12 +30,9 @@ char * print_binary_vector(unsigned int val){
 
 void print_reverse(char * info) {
 	int len = strlen(info);
-	int i, cnt = 0;
-	for (i = len - 1; cnt < 8; i -= 2) {
+	int i;
+	for (i = len - 1; i > 0; i -= 2)
 		printf("%c%c", info[i-1], info[i]);
-		cnt += 2;
-	}
-	printf("\n");
 }
 
 
@@ -211,9 +208,10 @@ static int cmd_x(char *args){
 	char * buf = (char *) malloc(100);
 	for (i = 0; i < num; i++) {
 		res = swaddr_read(st_addr, 4);
-		// 输入至buf中
-		sprintf(buf, "%08x: 0x%08x\n", st_addr, res);
-		printf("buf is : %s\n", buf);
+		// 输出
+		sprintf(buf, "%08x\n", res);
+		// printf("buf is : %s\n", buf);
+		printf("%08x: 0x", st_addr);
 		print_reverse(buf);
 		// printf("%08x: 0x%08x\n", st_addr, res);
 		// 更新起始地址
