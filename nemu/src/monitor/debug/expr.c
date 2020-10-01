@@ -31,7 +31,7 @@ static struct rule {
 	// token_type is an integer, so use a char to represent it.
 
 	// 1st level
-	{" ",	NOTYPE},				// spaces
+	{" +",	NOTYPE},				// spaces
 	{"0[xX][0-9a-fA-F]+", Hex_Num}, // hex-num
 	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
 	{"\\$[a-z]+", Reg_Name},        // Register name
@@ -104,7 +104,7 @@ static bool make_token(char *e) {
 				char *substr_start = e + position; // 子串的起始位置
 				int substr_len = pmatch.rm_eo; // 子串的长度
 
-				// Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
 				// printf("%s\n", e + position);
