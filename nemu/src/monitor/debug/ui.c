@@ -167,9 +167,6 @@ static int cmd_x(char *args){
 		return 0;
 	}
 
-	printf("你需要以字节为单位反过来看每一个小串, 然后再连起来, 可得到\n\
-低地址到高地址的内存表示, 本机是大端序.\n\n");
-
 	char * first_arg = strtok(args, " ");
 
 	if (first_arg == NULL) {
@@ -212,7 +209,7 @@ static int cmd_x(char *args){
 		// 输出
 		sprintf(buf, "%08x", res);
 		// printf("buf is : %s\n", buf);
-		printf("%08x: 0x", st_addr);
+		printf("%08x: 0x ", st_addr);
 		print_reverse(buf);
 		// printf("%08x: 0x%08x\n", st_addr, res);
 		// 更新起始地址
