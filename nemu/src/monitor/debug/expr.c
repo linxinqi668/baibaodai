@@ -576,8 +576,8 @@ uint32_t expr(char *e, bool *success) {
 
 	// printf("%d\n", nr_token);
 
-	for (i = 0; i < nr_token; i++)
-		printf("%c  ", tokens[i].type);
+	// for (i = 0; i < nr_token; i++)
+	// 	printf("%c  ", tokens[i].type);
 
 	// printf("\n");
 

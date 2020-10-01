@@ -217,7 +217,7 @@ static int cmd_p(char *args){
 	}
 
 	bool * is_valid = (bool *) malloc(1); // 判断是否是合法的表达式
-	printf("%sx\n", args);
+	// printf("%sx\n", args);
 	int res = expr(args, is_valid);
 	if (*is_valid){
 		free(is_valid);
