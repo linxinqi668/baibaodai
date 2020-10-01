@@ -31,7 +31,7 @@ static struct rule {
 	// token_type is an integer, so use a char to represent it.
 
 	// 1st level
-	{" +",	NOTYPE},				// spaces
+	{" ",	NOTYPE},				// spaces
 	{"0[xX][0-9a-fA-F]+", Hex_Num}, // hex-num
 	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
 	{"\\$[a-z]+", Reg_Name},        // Register name
