@@ -210,7 +210,7 @@ static int cmd_x(char *args){
 	for (i = 0; i < num; i++) {
 		res = swaddr_read(st_addr, 4);
 		// 输出
-		sprintf(buf, "%08x\n", res);
+		sprintf(buf, "%08x", res);
 		// printf("buf is : %s\n", buf);
 		printf("%08x: 0x", st_addr);
 		print_reverse(buf);
