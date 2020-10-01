@@ -12,7 +12,6 @@
 void cpu_exec(uint32_t);
 
 // 打印无符号整数的二进制表示
-// my_self
 char * print_binary_vector(unsigned int val){
     char * res = (char *) malloc(33); // 分配32个字节的空间
 	int i;

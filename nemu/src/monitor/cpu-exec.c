@@ -89,6 +89,8 @@ void cpu_exec(volatile uint32_t n) {
 			watch_point->now_value = expr(watch_point->expr, is_valid);
 			Assert(*is_valid == true, "表达式无法求值.");
 
+			free(is_valid);
+
 			if (watch_point->old_value != watch_point->now_value)
 				exist_change = true;
 				
