@@ -28,6 +28,14 @@ char * print_binary_vector(unsigned int val){
     return res;
 }
 
+void print_reverse(char * info) {
+	int len = strlen(info);
+	int i;
+	for (i = len - 1; i > 0; i -= 2)
+		printf("%c%c", info[i-1], info[i]);
+	printf("\n");
+}
+
 
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
@@ -159,7 +167,7 @@ static int cmd_x(char *args){
 		return 0;
 	}
 
-	printf("兄弟! 你需要以字节为单位反过来看每一个小串, 然后再连起来, 可得到\n\
+	printf("你需要以字节为单位反过来看每一个小串, 然后再连起来, 可得到\n\
 低地址到高地址的内存表示, 本机是大端序.\n\n");
 
 	char * first_arg = strtok(args, " ");
@@ -198,13 +206,17 @@ static int cmd_x(char *args){
 	// 打印内存数据
 	uint32_t res;
 	int i;
+	char * buf = (char *) malloc(100);
 	for (i = 0; i < num; i++) {
 		res = swaddr_read(st_addr, 4);
-		// 输出
-		printf("%08x: 0x%08x\n", st_addr, res);
+		// 输入至buf中
+		sprintf(buf, "%08x: 0x%08x\n", st_addr, res);
+		print_reverse(buf);
+		// printf("%08x: 0x%08x\n", st_addr, res);
 		// 更新起始地址
 		st_addr = st_addr + 4;
 	}
+	free(buf);
 	printf("\n");
 	return 0;
 }
