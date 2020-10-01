@@ -33,6 +33,7 @@ void print_reverse(char * info) {
 	int i;
 	for (i = len - 1; i > 0; i -= 2)
 		printf("%c%c", info[i-1], info[i]);
+	printf("\n");
 }
 
 
