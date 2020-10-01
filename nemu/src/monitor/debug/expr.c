@@ -116,10 +116,8 @@ static bool make_token(char *e) {
 				 */
 				
 				// 丢弃空格
-				if ( rules[i].token_type == NOTYPE) {
-					printf("here\n");
-					continue;
-				}
+				if ( rules[i].token_type == NOTYPE)
+					break;
 				
 				// 记录token的类型
 				tokens[ nr_token ].type = rules[i].token_type;
