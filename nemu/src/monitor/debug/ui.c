@@ -30,9 +30,11 @@ char * print_binary_vector(unsigned int val){
 
 void print_reverse(char * info) {
 	int len = strlen(info);
-	int i;
-	for (i = len - 1; i > 0; i -= 2)
+	int i, cnt = 0;
+	for (i = len - 1; cnt < 8; i -= 2) {
 		printf("%c%c", info[i-1], info[i]);
+		cnt += 2;
+	}
 	printf("\n");
 }
 
@@ -212,7 +214,7 @@ static int cmd_x(char *args){
 		// 输入至buf中
 		sprintf(buf, "%08x: 0x%08x\n", st_addr, res);
 		printf("buf is : %s\n", buf);
-		// print_reverse(buf);
+		print_reverse(buf);
 		// printf("%08x: 0x%08x\n", st_addr, res);
 		// 更新起始地址
 		st_addr = st_addr + 4;
