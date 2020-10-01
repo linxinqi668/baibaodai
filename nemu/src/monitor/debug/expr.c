@@ -11,7 +11,7 @@
 #define unused 0;
 
 enum {
-	NOTYPE = 256, EQ = '=', Integer = 'i', Left = '(', Right = ')',
+	NOTYPE = 'n', EQ = '=', Integer = 'i', Left = '(', Right = ')',
 	Multiply = '*', Div = '/', Plus = '+', Sub = '-',
 	Hex_Num = 'h', Reg_Name = 'r', NEQ = 'n', AND = 'A', OR = 'O',
 	Not = '!', DeReference = '?', Neg = 'm'
