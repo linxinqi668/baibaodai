@@ -33,7 +33,7 @@ static struct rule {
 	// 1st level
 	{" +",	NOTYPE},				// spaces
 	{"0[xX][0-9a-fA-F]+", Hex_Num}, // hex-num
-	{"[0-9]+", Integer},            // get an integer 这里可能需要更改
+	{"[0-9]+", Integer},            // get an integer
 	{"\\$[a-z]+", Reg_Name},        // Register name
 	{"!", Not},                     // Not
 
@@ -229,6 +229,8 @@ char top(stack_p x){
 
 
 
+
+
 /* 判断括号是否匹配 *****************************************************/
 bool is_match(char * str){
     int len = strlen(str);
@@ -271,6 +273,8 @@ bool is_match(char * str){
 
 
 
+
+
 /* sub_str *******************************************************/
 char * sub_str(char * str, int p, int q){
 	// 返回p至q的子串
@@ -284,6 +288,10 @@ char * sub_str(char * str, int p, int q){
 	return res;
 }
 /*****************************************************************/
+
+
+
+
 
 
 /* 结合token获取字符串 ******************************************/
@@ -301,6 +309,7 @@ char * combine_token(int p, int q) {
 	return res;
 }
 /**************************************************************/
+
 
 
 
@@ -346,6 +355,7 @@ bool check_parentheses(int p, int q){
 
 
 
+
 /* 获取某个运算符的优先级 *****************************************/
 // 效率略低 瞎写的
 int assign_priority(char c) {
@@ -365,6 +375,10 @@ int assign_priority(char c) {
 		return 6;
 }
 /**************************************************************/
+
+
+
+
 
 
 /* 判断是否可作为dominant operator ******************************/
