@@ -105,7 +105,7 @@ static int cmd_info(char *args) {
 					if (j <= 3)
 						register_value = cpu.gpr[j]._8[0];
 					else
-						register_value = cpu.gpr[j]._8[1];
+						register_value = cpu.gpr[j-4]._8[1]; // 找到一个bug
 				}
 				
 				// 打印值
