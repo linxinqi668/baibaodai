@@ -208,10 +208,8 @@ static int cmd_x(char *args){
 		res = swaddr_read(st_addr, 4);
 		// 输出
 		sprintf(buf, "%08x", res);
-		// printf("buf is : %s\n", buf);
 		printf("%08x: 0x ", st_addr);
 		print_reverse(buf);
-		// printf("%08x: 0x%08x\n", st_addr, res);
 		// 更新起始地址
 		st_addr = st_addr + 4;
 	}
