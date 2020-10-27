@@ -54,4 +54,8 @@ void write_operand_b(Operand *, uint8_t);
 void write_operand_w(Operand *, uint16_t);
 void write_operand_l(Operand *, uint32_t);
 
+// myself.
+make_helper(decode_ib2rm_l);
+make_helper(decode_ib2rm_w);
+
 #endif
