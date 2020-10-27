@@ -10,6 +10,8 @@
 
 #include "test/test.h" // r2rm, 8 or 16 or 32 bit.
 
+#include "jcc/je.h" // rel, 8bit.
+
 #include "arith/dec.h"
 #include "arith/inc.h"
 #include "arith/neg.h"
