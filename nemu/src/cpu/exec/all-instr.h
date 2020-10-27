@@ -6,6 +6,8 @@
 // my instruction
 #include "call/call.h" // rel, 32bit.
 
+#include "push/push.h" // reg, 32bit.
+
 #include "arith/dec.h"
 #include "arith/inc.h"
 #include "arith/neg.h"
