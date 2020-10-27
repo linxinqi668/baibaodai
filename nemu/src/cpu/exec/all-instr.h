@@ -16,6 +16,9 @@
 #include "cmp/cmp.h" // 8 bit imm to 16 or 32 bit rm.
                      // 有-v
 
+#include "pop/pop.h" // reg, 16 or 32 bit.
+                     // 有-v
+
 
 
 #include "arith/dec.h"
