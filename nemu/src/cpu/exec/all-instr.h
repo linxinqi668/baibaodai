@@ -8,6 +8,8 @@
 
 #include "push/push.h" // reg, 32bit.   no ELAGS.
 
+#include "test/test.h" // r2rm, 8 or 16 or 32 bit.
+
 #include "arith/dec.h"
 #include "arith/inc.h"
 #include "arith/neg.h"
