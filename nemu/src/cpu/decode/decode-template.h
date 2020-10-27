@@ -81,6 +81,11 @@ static int concat3(decode_rm_, SUFFIX, _internal) (swaddr_t eip, Operand *rm, Op
 /* Eb <- Gb
  * Ev <- Gv
  */
+
+/* 可以看出decode r2rm 实际上调用了decode rm
+ * 传入的参数是op_dest与op_src, 所以它的译码结果保留在dest与src中.
+ */
+
 make_helper(concat(decode_r2rm_, SUFFIX)) {
 	return decode_rm_internal(eip, op_dest, op_src);
 }

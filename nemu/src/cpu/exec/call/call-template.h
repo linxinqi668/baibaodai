@@ -2,7 +2,7 @@
 
 make_helper( concat(call_rel_, SUFFIX) ) {
     // decode
-    DATA_TYPE rel = instr_fetch(eip + 1, DATA_BYTE);
+    DATA_TYPE_S rel = instr_fetch(eip + 1, DATA_BYTE);
 
     // set eip only for 4 byte(i am lazy~)
     cpu.eip = cpu.eip + 1 + DATA_BYTE + rel;
