@@ -4,9 +4,9 @@
 #include "data-mov/xchg.h"
 
 // my instruction
-#include "call/call.h" // rel, 32bit.
+#include "call/call.h" // rel, 32bit.   no ELAGS.
 
-#include "push/push.h" // reg, 32bit.
+#include "push/push.h" // reg, 32bit.   no ELAGS.
 
 #include "arith/dec.h"
 #include "arith/inc.h"
