@@ -1,6 +1,11 @@
 #include "monitor/monitor.h"
 #include "cpu/helper.h"
+#include "monitor/watchpoint.h"
+#include "monitor/expr.h"
+
 #include <setjmp.h>
+#include <stdlib.h>
+
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -48,7 +53,7 @@ void cpu_exec(volatile uint32_t n) {
 
 	setjmp(jbuf);
 
-	for(; n > 0; n --) {
+	for(; n > 0; n --) { // cpu执行指令的循环
 #ifdef DEBUG
 		swaddr_t eip_temp = cpu.eip;
 		if((n & 0xffff) == 0) {
@@ -59,9 +64,11 @@ void cpu_exec(volatile uint32_t n) {
 
 		/* Execute one instruction, including instruction fetch,
 		 * instruction decode, and the actual execution. */
-		int instr_len = exec(cpu.eip);
+		int instr_len = exec(cpu.eip); // 执行一条指令
 
 		cpu.eip += instr_len;
+
+
 
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
@@ -73,6 +80,30 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
+		// 计算所有表达式的值
+		WP* watch_point = get_head(); // 头指针, 如果是空的说明没有监视点, 直接会跳过下一段。
+		bool exist_change = false;
+		while (watch_point) {
+			watch_point->old_value = watch_point->now_value;
+			bool * is_valid = (bool *) malloc(1);
+			watch_point->now_value = expr(watch_point->expr, is_valid);
+			Assert(*is_valid == true, "表达式无法求值.");
+
+			free(is_valid);
+
+			if (watch_point->old_value != watch_point->now_value)
+				exist_change = true;
+				
+			watch_point = watch_point->next;
+		}
+
+		if (exist_change) {
+			nemu_state = STOP;
+			printf("监视点发生变化, 请输入指令查看.\n");
+		}
+
+		// cpu更新eip后检测是否到达断点, 所以断点处的代码未执行。
+		// 使用 si 指令 或者 c 指令可继续执行。
 
 
 #ifdef HAS_DEVICE

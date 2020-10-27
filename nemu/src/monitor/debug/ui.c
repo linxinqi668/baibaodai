@@ -2,12 +2,41 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
+// #include "reg.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
+
 void cpu_exec(uint32_t);
+
+// 打印无符号整数的二进制表示
+char * print_binary_vector(unsigned int val){
+    char * res = (char *) malloc(33); // 分配32个字节的空间
+	int i;
+    for (i = 31; i >= 0; i--){
+        // 取出当前数字
+        int x = val % 2;
+        // 放入res字符串中
+        *(res + i) = '0' + x;
+        val = val / 2;
+    }
+    // 加上结束符
+    *(res + 32) = '\0';
+
+    return res;
+}
+
+void print_reverse(char * info) {
+	int len = strlen(info);
+	int i;
+	for (i = len - 1; i > 0; i -= 2)
+		printf("%c%c ", info[i-1], info[i]);
+	printf("\n");
+}
+
+
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -36,6 +65,236 @@ static int cmd_q(char *args) {
 	return -1;
 }
 
+static int cmd_si(char *args) {
+	char const * step_num = (char const *) args;
+	int n;
+	if (args == NULL)
+		n = 1;
+	else
+		n = atoi(step_num);
+	cpu_exec(n);
+	return 0;
+}
+
+// 可以重新组织一下代码, 处理args的特殊情况有点混乱。
+static int cmd_info(char *args) { 
+
+	if (args == NULL) {
+		printf("请输入: info w or info r.\n");
+		return 0;
+	}
+
+	char * register_name[3][8] = {
+		{"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"},
+		{"ax", "cx", "dx", "bx", "sp", "bp", "si", "di"},
+		{"al", "cl", "dl", "bl", "ah", "ch", "dh", "bh"}
+	};
+
+	if (strcmp(args, "r") == 0){
+
+		int i, j;
+		for (i = 0; i < 3; i++){
+			for (j = 0; j < 8; j++){
+				// 取出该寄存器的值
+				uint32_t register_value;
+				if (i == 0)
+					register_value = cpu.gpr[j]._32;
+				else if (i == 1)
+					register_value = cpu.gpr[j]._16;
+				else {
+					if (j <= 3)
+						register_value = cpu.gpr[j]._8[0];
+					else
+						register_value = cpu.gpr[j-4]._8[1]; // 找到一个bug
+				}
+				
+				// 打印值
+				printf("%s: %u    ", register_name[i][j], register_value);
+				char * vec = print_binary_vector(register_value);
+				printf("bin_vec: %s\n", vec);
+				// 释放内存
+				free(vec);
+			}
+		}
+	}
+	else { // 显示监视点的信息
+		WP* wp = get_head(); // 获取头指针
+		if (wp == NULL) {
+			printf("无监视点.\n");
+			return 0;
+		}
+		char * type = strtok(args, " ");
+
+		if (strcmp(type, "w") != 0) {
+			printf("请输入info w 或者 info -a.\n");
+			return 0;
+		}
+		char * choice = strtok(NULL, " ");
+		// printf("%s\n", choice);
+		if (choice == NULL) {
+			printf("请输入info w -a 或者 info w -c.\n");
+			return 0;
+		}
+		if (strcmp(choice, "-c") == 0) { // 只打印变化的监视点
+			int cnt = 0;
+			while (wp) {
+				if (wp->old_value != wp->now_value) {
+					printf("监视点编号: %d, 值的变化为: %u -> %u\n", wp->NO, wp->old_value,
+					        wp->now_value);
+					++cnt;
+				}
+				wp = wp->next;
+			}
+			if (cnt == 0) {
+				printf("无变化的监视点.\n");
+			}
+		} else if (strcmp(choice, "-a") == 0) { // 打印所有监视点
+			while (wp) {
+				printf("监视点编号: %d, 其值为: %u -> %u\n", wp->NO, wp->old_value,
+					    wp->now_value);
+				wp = wp->next;
+			}
+		} else
+			printf("info w -c, 或者 info w -a.\n");
+	}
+	return 0;
+}
+
+static int cmd_x(char *args){
+
+	if (args == NULL) {
+		printf("请输入: x number_of_dword addr.\n");
+		return 0;
+	}
+
+	char * first_arg = strtok(args, " ");
+
+	if (first_arg == NULL) {
+		printf("请输入: x number_of_dword addr.\n");
+		return 0;
+	}
+
+	char * second_arg = strtok(NULL, " ");
+
+	if (second_arg == NULL) {
+		printf("请输入: x number_of_dword addr.\n");
+		return 0;
+	}
+	
+	// printf("%s %s\n", first_arg, second_arg);
+
+	// 转换为所需数据
+	size_t num;
+	swaddr_t st_addr;
+	sscanf(first_arg, "%lu", &num);
+	bool * is_valid = (bool *) malloc(1);
+	st_addr = expr(second_arg, is_valid); // 表达式求值
+
+	if (!is_valid) {
+		printf("请输入合理的表达式!\n");
+		free(is_valid);
+		return 0;
+	}
+
+	free(is_valid);
+
+	// printf("%lu %u\n", num, st_addr);
+
+	// 打印内存数据
+	uint32_t res;
+	int i;
+	char * buf = (char *) malloc(100);
+	for (i = 0; i < num; i++) {
+		res = swaddr_read(st_addr, 4);
+		// 输出
+		sprintf(buf, "%08x", res);
+		printf("%08x: 0x ", st_addr);
+		print_reverse(buf);
+		// 更新起始地址
+		st_addr = st_addr + 4;
+	}
+	free(buf);
+	printf("\n");
+	return 0;
+}
+
+static int cmd_p(char *args){
+	
+	if (args == NULL) {
+		printf("请输入正确表达式.\n");
+		return 0;
+	}
+
+	bool * is_valid = (bool *) malloc(1); // 判断是否是合法的表达式
+	// printf("%sx\n", args);
+	int res = expr(args, is_valid);
+	if (*is_valid){
+		free(is_valid);
+		printf("%d\n", res);
+		return 0; // 返回0，不会终端main loop;
+	}
+	else {
+		free(is_valid);
+		printf("表达式输入有误?\n");
+		return 0;
+	}
+}
+
+static int cmd_w(char *args) {
+	if (args == NULL) {
+		printf("请输入: w + expression.\n");
+		return 0;
+	}
+	bool * is_valid = (bool *) malloc(1);
+	// 申请一个监视点
+	WP* new_point = new_wp();
+	new_point->expr = (char *) malloc( strlen(args) );
+	strcpy(new_point->expr, args); // 复制表达式
+	new_point->old_value = expr(args, is_valid); // 求值
+	new_point->now_value = new_point->old_value;
+
+	Assert(*is_valid == true, "表达式无法求值!\n");
+	free(is_valid);
+
+	return 0; // 不退出main loop;
+}
+
+// 几乎没有错哈哈哈哈
+static int cmd_free(char *args) {
+	
+	WP* pool = get_pool();
+
+	if (args == NULL) {
+		printf("请输入如下指令释放:\n");
+		printf("d a 删除所有监视点.\n");
+		printf("d wp_code 删除编号为wp_code的监视点.\n");
+		return 0;
+	}
+
+	if (strcmp(args, "a") == 0) { // 删除所有监视点
+		int i;
+		int num = get_num();
+		for (i = 0; i < num; i++)
+			free_wp(&pool[i]);
+		// printf("here\n");
+		return 0;
+	}
+
+	// 获取节点编号
+	int wp_code = atoi(args);
+
+	// 检查节点是否为忙碌
+	if (pool[wp_code].status == false) {
+		printf("不存在该监视点.\n");
+		return 0;
+	}
+	
+	// 释放节点
+	free_wp(&pool[wp_code]);
+	return 0;
+
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -48,7 +307,18 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */
-
+	// 多步执行指令, 缺省为1步。
+	{ "si", "N Step Further", cmd_si},
+	// 查看信息
+	{ "info", "Check The Register Or Watchpoint Infomation", cmd_info},
+	// 扫描内存
+	{ "x", "Print N * 4 Bytes After The Input Address", cmd_x},
+	// 表达式求值
+	{ "p", "Get The Expression Value", cmd_p},
+	// 设置监视点
+	{ "w", "Set A WatchPoint", cmd_w},
+	// 释放监视点
+	{ "d", "Input A Num Or a To Free A WatchPoint", cmd_free}
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
