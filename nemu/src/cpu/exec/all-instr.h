@@ -26,6 +26,8 @@
 
 #include "sub/sub.h" // 8 bit imm to 16 or 32 bit rm.
                      // 有-v
+                     // rm2r, 16 or 32 bit.
+                     // 有-v.
 #include "add/add.h" // 8 bit imm to 16 or 32 bit rm.
                      // r2rm, 16 bit or 32 bit.
 #include "adc/adc.h" // the same as add.h
