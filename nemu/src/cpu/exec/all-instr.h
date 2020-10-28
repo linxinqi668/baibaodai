@@ -29,6 +29,8 @@
 #include "jmp/jmp.h" // rel, 8 bit.
 #include "jcc/jbe.h" // rel, 8 bit.
 #include "leave/leave.h" // 改变esp 或者 sp.
+#include "setne/setne.h" // rm. 8 bit.
+
 
 #include "arith/dec.h"
 #include "arith/inc.h"
