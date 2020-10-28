@@ -15,6 +15,8 @@
 
 #include "cmp/cmp.h" // 8 bit imm to 16 or 32 bit rm.
                      // 有-v
+                     // r2rm, 16 bit or 32 bit.
+                     // 有-v
 
 #include "pop/pop.h" // reg, 16 or 32 bit.
                      // 有-v
@@ -27,7 +29,6 @@
 #include "jmp/jmp.h" // rel, 8 bit.
 #include "jcc/jbe.h" // rel, 8 bit.
 #include "leave/leave.h" // 改变esp 或者 sp.
-
 
 #include "arith/dec.h"
 #include "arith/inc.h"
