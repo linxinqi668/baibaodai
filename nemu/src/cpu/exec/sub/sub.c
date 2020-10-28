@@ -11,3 +11,4 @@
 make_helper_v(sub_ib2rm);
 make_helper_v(sub_rm2r);
 make_helper_v(sub_r2rm);
+make_helper_v(sub_i2rm);
