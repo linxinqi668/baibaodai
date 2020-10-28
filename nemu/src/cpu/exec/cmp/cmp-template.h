@@ -2,6 +2,7 @@
 
 #define instr cmp
 
+#if DATA_BYTE == 2 || DATA_BYTE == 4
 static void do_execute() {
     // dest - src
     DATA_TYPE_S src;
@@ -52,15 +53,50 @@ static void do_execute() {
     // set AF 草, 居然没用到这个标记位.
     
 }
+make_instr_helper(ib2rm);
+make_instr_helper(r2rm);
 
-#if DATA_BYTE == 2 || DATA_BYTE == 4
-    make_instr_helper(ib2rm);
-    make_instr_helper(r2rm);
 #endif
 
-#if DATA_BYTE == 1
-    make_instr_helper(i2r);
-#endif
+make_helper(concat(cmp_i2A_, SUFFIX)) {
+    // decode. eip -> imm
+    int len = concat(decode_i_, SUFFIX)(eip + 1);
+
+    DATA_TYPE_S src = op_src->val;
+    DATA_TYPE_S dest = REG(R_EAX);
+    DATA_TYPE_S minus_res = dest - src;
+
+    // set ZF
+    cpu.EFLAGS.ZF = (minus_res == 0) ? 1 : 0;
+
+    // set PF
+    uint8_t low_byte = minus_res;
+    uint32_t count;
+    for (count = 0; low_byte; ++count)
+        low_byte &= (low_byte - 1); // 不断清除右边的1
+    cpu.EFLAGS.PF = (count % 2 == 0) ? 1 : 0;
+
+
+    // set SF
+    cpu.EFLAGS.SF = (DATA_TYPE)minus_res >> (DATA_BYTE * 8 - 1);
+
+    // set OF in subtraction.
+    if (
+        ((DATA_TYPE)minus_res >> (DATA_BYTE * 8 - 1)) ^
+        ((DATA_TYPE)src >> (DATA_BYTE * 8 - 1))
+    )
+        cpu.EFLAGS.OF = 0;
+    else
+        cpu.EFLAGS.OF = 1;
+
+    // set CF in subtraction.
+    if ((DATA_TYPE)op_dest->val < (DATA_TYPE)src)
+        cpu.EFLAGS.CF = 1;
+    else
+        cpu.EFLAGS.CF = 0;
+
+    return len;
+}
 
 
 

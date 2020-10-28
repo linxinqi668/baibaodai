@@ -17,6 +17,7 @@
                      // 有-v
                      // r2rm, 16 bit or 32 bit.
                      // 有-v
+                     // i2 reg of a. 8 or 16 or 32 bit.
 
 #include "pop/pop.h" // reg, 16 or 32 bit.
                      // 有-v
