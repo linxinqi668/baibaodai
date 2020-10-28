@@ -53,13 +53,13 @@ static void do_execute() {
         cpu.EFLAGS.CF = 0;
 
     // debug:
-    if (cpu.eip == 0x100091) {
-        printf("CF is: %d\n", cpu.EFLAGS.CF);
-        printf("ZF is: %d\n", cpu.EFLAGS.ZF);
-        printf("OF is: %d\n", cpu.EFLAGS.OF);
-        printf("SF is: %d\n\n\n\n\n", cpu.EFLAGS.SF);
-        // assert(cpu.EFLAGS.SF == 1);
-    }
+    // if (cpu.eip == 0x100091) {
+    //     printf("CF is: %d\n", cpu.EFLAGS.CF);
+    //     printf("ZF is: %d\n", cpu.EFLAGS.ZF);
+    //     printf("OF is: %d\n", cpu.EFLAGS.OF);
+    //     printf("SF is: %d\n\n\n\n\n", cpu.EFLAGS.SF);
+    //     assert(cpu.EFLAGS.SF == 1);
+    // }
 
     // set AF 草, 居然没用到这个标记位.
     
