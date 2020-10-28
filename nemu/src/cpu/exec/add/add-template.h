@@ -13,11 +13,11 @@ static void do_execute() {
         src = op_src->val;
     DATA_TYPE_S add_res = op_dest->val + src;
 
-    // if (cpu.eip == 0x100050) {
-    //     printf("src is : %x\n", src);
-    //     printf("dest is : %x\n", op_dest->val);
-    //     printf("res is : %x\n", add_res);
-    // }
+    if (cpu.eip == 0x100128) {
+        printf("src is : %x\n", src);
+        printf("dest is : %x\n", op_dest->val);
+        printf("res is : %x\n", add_res);
+    }
 
     // write
     OPERAND_W(op_dest, add_res);
