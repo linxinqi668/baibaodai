@@ -95,7 +95,7 @@ make_helper(concat(cmp_i2A_, SUFFIX)) {
     else
         cpu.EFLAGS.CF = 0;
 
-    return len;
+    return 1 + len;
 }
 
 
