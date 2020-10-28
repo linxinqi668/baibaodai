@@ -24,6 +24,7 @@
 #include "sub/sub.h" // 8 bit imm to 16 or 32 bit rm.
                      // 有-v
 
+#include "jmp/jmp.h" // rel, 8 bit.
 
 
 #include "arith/dec.h"

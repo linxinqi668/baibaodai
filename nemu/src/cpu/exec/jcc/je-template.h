@@ -6,7 +6,7 @@ make_helper( concat(je_rel_, SUFFIX) ) {
 
     // judge ZF
     if (cpu.EFLAGS.ZF == 1)
-        cpu.eip = cpu.eip + 1 + DATA_BYTE + rel;
+        cpu.eip = cpu.eip + 1 + DATA_BYTE + (int32_t)rel;
     else
         cpu.eip = cpu.eip + 1 + DATA_BYTE;
 
