@@ -42,7 +42,7 @@ static void do_execute() {
     cpu.EFLAGS.OF = cpu.EFLAGS.CF;
 }
 
-make_instr_helper(ib2rm);
+make_instr_helper(r2rm);
 
 
 #include "cpu/exec/template-end.h"

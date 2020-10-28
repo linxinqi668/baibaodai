@@ -7,4 +7,4 @@
 #include "adc-template.h"
 #undef DATA_BYTE
 
-make_helper_v(adc_ib2rm);
+make_helper_v(adc_r2rm);
