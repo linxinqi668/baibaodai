@@ -16,12 +16,12 @@ static void do_execute() {
     DATA_TYPE_S minus_res = op_dest->val - src;
 
     // debug..
-    if (cpu.eip == 0x100354) {
-        printf("op_size is : %d\n", (int)op_src->size);
-        printf("dest is : %x\n", op_dest->val);
-        printf("dest reg is: %s\n", regsl[op_dest->reg]);
-        printf("src is : %x\n", src);
-    }
+    // if (cpu.eip == 0x100354) {
+    //     printf("op_size is : %d\n", (int)op_src->size);
+    //     printf("dest is : %x\n", op_dest->val);
+    //     printf("dest reg is: %s\n", regsl[op_dest->reg]);
+    //     printf("src is : %x\n", src);
+    // }
     // write
     OPERAND_W(op_dest, minus_res);
 
