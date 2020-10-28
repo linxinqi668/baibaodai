@@ -5,6 +5,7 @@
 static void do_execute() {
     // dest - src
     DATA_TYPE_S src;
+    // 如果是立即数, 需要进行符号扩展.
     if(op_src->type == OP_TYPE_IMM) {
         int8_t src_ = op_src->val; // 转为有符号数
         src = src_; // sign extended.
@@ -13,10 +14,11 @@ static void do_execute() {
         src = op_src->val;
     DATA_TYPE_S minus_res = op_dest->val - src;
 
-    if (cpu.eip == 0x10007c) {
-        printf("dest is: %s, %x\n", regsl[op_dest->reg], op_dest->val);
-        printf("src is: %s, %x\n", regsl[op_src->reg], src);
-    }
+    // debug.
+    // if (cpu.eip == 0x10007c) {
+    //     printf("dest is: %s, %x\n", regsl[op_dest->reg], op_dest->val);
+    //     printf("src is: %s, %x\n", regsl[op_src->reg], src);
+    // }
 
     // set ZF
     cpu.EFLAGS.ZF = (minus_res == 0) ? 1 : 0;
