@@ -28,4 +28,17 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 	return 5;
 }
 
+// myself.
+make_helper( concat(movzbl_, SUFFIX) ) {
+	// decode
+	int len = decode_rm2r_b(eip);
+
+	// write with zero-extend.
+	// 取最后8位, 然后扩展.
+	DATA_TYPE rm_extend = (uint8_t)op_src->val;
+	OPERAND_W(op_dest, rm_extend);
+
+	return len;
+}
+
 #include "cpu/exec/template-end.h"
