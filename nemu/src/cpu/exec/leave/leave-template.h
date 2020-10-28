@@ -7,7 +7,7 @@ make_helper( concat(leave_, SUFFIX) ) {
     reg_l(R_ESP) = reg_l(R_EBP);
 
     // BP or EBP <- pop()
-    REG(R_EBP) = MEM_R(R_ESP);
+    REG(R_EBP) = MEM_R(reg_l(R_ESP));
 
     // change ESP
     REG(R_ESP) = REG(R_ESP) + DATA_BYTE;
