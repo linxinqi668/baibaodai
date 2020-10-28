@@ -505,9 +505,7 @@ uint32_t get_value(int p, int q) {
 
 	} else if (p == q) { // 只剩一个数字单元
 		if (tokens[p].type == Hex_Num)
-			ret_val = swaddr_read(
-				strtol(tokens[p].str, NULL, 16), 4
-			);
+			ret_val = strtol(tokens[p].str, NULL, 16);
 		else if (tokens[p].type == Integer)
 			ret_val = atoi(tokens[p].str);
 		else // 单独处理寄存器
@@ -550,7 +548,7 @@ uint32_t get_value(int p, int q) {
 			case OR: {ret_val = value1 || value2; break;}
 			case Not: {ret_val = !value2; break;}
 			case Neg: {ret_val = -value2; break;}
-			case DeReference: {ret_val = value2; break;}
+			case DeReference: {ret_val = swaddr_read(value2, 4); break;}
 
 			default: {Assert(0, "取出的操作符不太对劲儿");}
 		}
