@@ -13,6 +13,7 @@ static void do_execute() {
         src = op_src->val;
     DATA_TYPE_S add_res = op_dest->val + src;
 
+    // debug....
     // if (cpu.eip == 0x100040) {
     //     printf("src is : %x\n", src);
     //     printf("dest is : %x\n", op_dest->val);
@@ -38,29 +39,10 @@ static void do_execute() {
 
     // set CF in plus.
     uint64_t real_res = (uint64_t)op_dest->val + (uint64_t)op_src->val;
-    if (cpu.eip == 0x100040) {
-        printf("hhhhhhhhhhhhhhhh\n");
-        printf("real_res is : %x\n", (uint32_t)real_res);
-        printf("real_res overflow is : %x\n", (uint32_t)(real_res >> 32));
-        printf("add_res is : %x\n", (uint32_t)add_res);
-    }
-    if ((real_res >> 32) == 1) {
+    if ((real_res >> 32) == 1) // 溢出就会为1.
         cpu.EFLAGS.CF = 1;
-        // if (cpu.eip == 0x100040) {
-        //     printf("hhhhhhhhhhhhhhhhhhh\n");
-        // }
-    }
-    else {
+    else
         cpu.EFLAGS.CF = 0;
-        // if (cpu.eip == 0x100040) {
-        //     printf("hhhhhhhhhhhhhhhhhhh\n");
-        // }
-    }
-
-    // CF has probelm...
-    if (cpu.eip == 0x100040) {
-        printf("new CF is : %x\n\n\n", cpu.EFLAGS.CF);
-    }
     
     // set OF
     // 有符号数运算溢出相当于无符号数的进位.
