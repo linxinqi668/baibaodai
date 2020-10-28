@@ -44,19 +44,19 @@ static void do_execute() {
     }
     if (real_res > (DATA_TYPE)add_res) {
         cpu.EFLAGS.CF = 1;
-        if (cpu.eip == 0x100040) {
-            printf("hhhhhhhhhhhhhhhhhhh\n");
-        }
+        // if (cpu.eip == 0x100040) {
+        //     printf("hhhhhhhhhhhhhhhhhhh\n");
+        // }
     }
     else {
         cpu.EFLAGS.CF = 0;
-        if (cpu.eip == 0x100040) {
-            printf("hhhhhhhhhhhhhhhhhhh\n");
-        }
+        // if (cpu.eip == 0x100040) {
+        //     printf("hhhhhhhhhhhhhhhhhhh\n");
+        // }
     }
 
     if (cpu.eip == 0x100040) {
-        printf("new CF is : %x\n\n\n", src);
+        printf("new CF is : %x\n\n\n", cpu.EFLAGS.CF);
     }
     
     // set OF
