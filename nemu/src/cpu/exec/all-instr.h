@@ -25,12 +25,14 @@
 
 #include "sub/sub.h" // 8 bit imm to 16 or 32 bit rm.
                      // 有-v
+#include "add/add.h" // 8 bit imm to 16 or 32 bit rm.
 
 #include "jmp/jmp.h" // rel, 8 bit.
 #include "jcc/jbe.h" // rel, 8 bit.
 #include "leave/leave.h" // 改变esp 或者 sp.
 #include "setne/setne.h" // rm. 8 bit.
 
+// 运算指令中关于OF与CF的判断还得想想.
 
 #include "arith/dec.h"
 #include "arith/inc.h"
