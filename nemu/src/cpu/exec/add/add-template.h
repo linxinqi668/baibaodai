@@ -48,8 +48,12 @@ static void do_execute() {
             printf("hhhhhhhhhhhhhhhhhhh\n");
         }
     }
-    else
+    else {
         cpu.EFLAGS.CF = 0;
+        if (cpu.eip == 0x100040) {
+            printf("hhhhhhhhhhhhhhhhhhh\n");
+        }
+    }
 
     if (cpu.eip == 0x100040) {
         printf("new CF is : %x\n\n\n", src);
