@@ -7,6 +7,7 @@
 #include "call/call.h" // rel, 32bit.   no ELAGS.
 
 #include "push/push.h" // reg, 32bit.   no ELAGS.
+                       // m, 16 or 32 bit.
 
 #include "test/test.h" // r2rm, 8 or 16 or 32 bit.
                        // 有-v
