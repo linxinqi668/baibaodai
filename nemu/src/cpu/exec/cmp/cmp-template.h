@@ -6,7 +6,7 @@ static void do_execute() {
     // dest - src
     DATA_TYPE_S src;
     // 如果是立即数, 需要进行符号扩展.
-    if(op_src->type == OP_TYPE_IMM) {
+    if(op_src->type == OP_TYPE_IMM && op_src->size == 1) {
         int8_t src_ = op_src->val; // 转为有符号数
         src = src_; // sign extended.
     }
