@@ -32,7 +32,10 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	 *
 	op_src->simm = ???
 	 */
-	panic("please implement me");
+	// panic("please implement me");
+	// so easy.
+	DATA_TYPE_S val = instr_fetch(eip, DATA_BYTE);
+	op_src->simm = val; // sign extend.
 
 	op_src->val = op_src->simm;
 
