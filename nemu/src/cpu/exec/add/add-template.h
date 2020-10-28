@@ -13,7 +13,7 @@ static void do_execute() {
         src = op_src->val;
     DATA_TYPE_S add_res = op_dest->val + src;
 
-    if (cpu.eip == 0x100128) {
+    if (cpu.eip == 0x100040) {
         printf("src is : %x\n", src);
         printf("dest is : %x\n", op_dest->val);
         printf("res is : %x\n", add_res);
@@ -42,6 +42,10 @@ static void do_execute() {
         cpu.EFLAGS.CF = 1;
     else
         cpu.EFLAGS.CF = 0;
+
+    if (cpu.eip == 0x100040) {
+        printf("new CF is : %x\n\n\n", src);
+    }
     
     // set OF
     // 有符号数运算溢出相当于无符号数的进位.
