@@ -36,11 +36,24 @@ static void do_execute() {
     cpu.EFLAGS.SF = (DATA_TYPE)add_res >> (DATA_BYTE * 8 - 1);
 
     // set CF in plus.
-    uint64_t real_res = op_dest->val + op_src->val;
-    if (real_res > (DATA_TYPE)add_res)
+    // set CF in plus.
+    uint64_t real_res = (uint64_t)op_dest->val + (uint64_t)op_src->val;
+    // if (cpu.eip == 0x100040) {
+    //     printf("real_res is : %x\n", (uint32_t)real_res);
+    //     printf("add_res is : %x\n", (uint32_t)add_res);
+    // }
+    if (real_res > (uint64_t)add_res) {
         cpu.EFLAGS.CF = 1;
-    else
+        // if (cpu.eip == 0x100040) {
+        //     printf("hhhhhhhhhhhhhhhhhhh\n");
+        // }
+    }
+    else {
         cpu.EFLAGS.CF = 0;
+        // if (cpu.eip == 0x100040) {
+        //     printf("hhhhhhhhhhhhhhhhhhh\n");
+        // }
+    }
     
     // set OF
     // 有符号数运算溢出相当于无符号数的进位.
