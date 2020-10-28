@@ -39,7 +39,9 @@ static void do_execute() {
     // set CF in plus.
     uint64_t real_res = (uint64_t)op_dest->val + (uint64_t)op_src->val;
     if (cpu.eip == 0x100040) {
+        printf("hhhhhhhhhhhhhhhh\n");
         printf("real_res is : %x\n", (uint32_t)real_res);
+        printf("real_res overflow is : %x\n", (uint32_t)(real_res >> 32));
         printf("add_res is : %x\n", (uint32_t)add_res);
     }
     if (real_res > (uint64_t)add_res) {
