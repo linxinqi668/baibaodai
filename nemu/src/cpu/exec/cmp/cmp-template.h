@@ -55,6 +55,7 @@ static void do_execute() {
         printf("ZF is: %d\n", cpu.EFLAGS.ZF);
         printf("OF is: %d\n", cpu.EFLAGS.OF);
         printf("SF is: %d\n\n\n\n\n", cpu.EFLAGS.SF);
+        assert(cpu.EFLAGS.SF == 1);
     }
 
     // set AF 草, 居然没用到这个标记位.
