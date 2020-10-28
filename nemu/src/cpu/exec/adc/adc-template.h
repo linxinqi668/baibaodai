@@ -12,9 +12,11 @@ static void do_execute() {
     } else if (op_src->type == OP_TYPE_REG) // r to rm.
         src = op_src->val;
 
-    if (cpu.eip == 0x100042) {
-        printf("CF is : %d\n", cpu.EFLAGS.CF);
-    }
+    // debug...
+    // if (cpu.eip == 0x100042) {
+    //     printf("CF is : %d\n", cpu.EFLAGS.CF);
+    // }
+    
     DATA_TYPE_S add_res = op_dest->val + src + cpu.EFLAGS.CF;
     
 
