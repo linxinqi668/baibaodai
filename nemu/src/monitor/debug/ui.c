@@ -109,7 +109,7 @@ static int cmd_info(char *args) {
 				}
 				
 				// 打印值
-				printf("%s: %u    ", register_name[i][j], register_value);
+				printf("%s: %x    ", register_name[i][j], register_value);
 				char * vec = print_binary_vector(register_value);
 				printf("bin_vec: %s\n", vec);
 				// 释放内存
