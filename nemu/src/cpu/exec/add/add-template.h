@@ -42,8 +42,12 @@ static void do_execute() {
         printf("real_res is : %x\n", (uint32_t)real_res);
         printf("add_res is : %x\n", (uint32_t)add_res);
     }
-    if (real_res > (DATA_TYPE)add_res)
+    if (real_res > (DATA_TYPE)add_res) {
         cpu.EFLAGS.CF = 1;
+        if (cpu.eip == 0x100040) {
+            printf("hhhhhhhhhhhhhhhhhhh\n");
+        }
+    }
     else
         cpu.EFLAGS.CF = 0;
 
