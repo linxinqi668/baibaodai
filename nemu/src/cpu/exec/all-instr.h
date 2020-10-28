@@ -26,9 +26,11 @@
 #include "sub/sub.h" // 8 bit imm to 16 or 32 bit rm.
                      // 有-v
 #include "add/add.h" // 8 bit imm to 16 or 32 bit rm.
+                     // r2rm, 16 bit or 32 bit.
 
-#include "jmp/jmp.h" // rel, 8 bit.
-#include "jcc/jbe.h" // rel, 8 bit.
+
+#include "jmp/jmp.h" // rel, 8 bit, 32 bit.
+#include "jcc/jbe.h" // rel, 8 bit, 32 bit.
 #include "leave/leave.h" // 改变esp 或者 sp.
 #include "setne/setne.h" // rm. 8 bit.
 
