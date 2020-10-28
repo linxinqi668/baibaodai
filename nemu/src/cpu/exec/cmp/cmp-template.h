@@ -2,7 +2,6 @@
 
 #define instr cmp
 
-#if DATA_BYTE == 2 || DATA_BYTE == 4
 static void do_execute() {
     // dest - src
     DATA_TYPE_S src;
@@ -55,8 +54,6 @@ static void do_execute() {
 }
 make_instr_helper(ib2rm);
 make_instr_helper(r2rm);
-
-#endif
 
 make_helper(concat(cmp_i2A_, SUFFIX)) {
     // decode. eip -> imm
