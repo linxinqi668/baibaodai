@@ -23,3 +23,4 @@ make_helper_v(mov_moffs2a)
 
 // myself.
 make_helper_v(movzbl); // 8 bit rm to r.
+make_helper_v(movs);

@@ -17,6 +17,7 @@ make_helper(mov_moffs2a_v);
 
 // myself.
 make_helper(movzbl_v);
+make_helper(movs_v);
 
 
 #endif

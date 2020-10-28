@@ -42,4 +42,15 @@ make_helper( concat(movzbl_, SUFFIX) ) {
 	return 1 + len;
 }
 
+make_helper( concat(movs_, SUFFIX) ) {
+	// no need to decode ^_^.
+	
+	// [esi] -> [edi]
+	MEM_W(
+		REG(R_EDI), MEM_R(REG(R_ESI))
+	);
+
+	return 1;
+}
+
 #include "cpu/exec/template-end.h"
