@@ -53,9 +53,14 @@ static void do_execute() {
     
 }
 
-make_instr_helper(ib2rm);
-make_instr_helper(r2rm);
+#if DATA_BYTE == 2 || DATA_BYTE == 4
+    make_instr_helper(ib2rm);
+    make_instr_helper(r2rm);
+#endif
 
+#if DATA_BYTE == 1
+    make_instr_helper(i2r);
+#endif
 
 
 
