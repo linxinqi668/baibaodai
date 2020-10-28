@@ -35,11 +35,11 @@ make_helper( concat(movzbl_, SUFFIX) ) {
 
 	// write with zero-extend.
 	// 取最后8位, 然后扩展.
-	printf("reg is: %s\n", regsl[op_dest->reg]);
+	// printf("reg is: %s\n", regsl[op_dest->reg]);
 	DATA_TYPE rm_extend = (uint8_t)op_src->val;
 	OPERAND_W(op_dest, rm_extend);
 
-	return len;
+	return 1 + len;
 }
 
 #include "cpu/exec/template-end.h"
