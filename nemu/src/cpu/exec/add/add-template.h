@@ -44,7 +44,7 @@ static void do_execute() {
         printf("real_res overflow is : %x\n", (uint32_t)(real_res >> 32));
         printf("add_res is : %x\n", (uint32_t)add_res);
     }
-    if (real_res > (uint64_t)add_res) {
+    if ((real_res >> 32) == 1) {
         cpu.EFLAGS.CF = 1;
         // if (cpu.eip == 0x100040) {
         //     printf("hhhhhhhhhhhhhhhhhhh\n");
