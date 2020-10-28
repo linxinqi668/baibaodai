@@ -5,11 +5,22 @@
 static void do_execute() {
     // dest - src
 
-    // extended_src 
-    int8_t src_ = op_src->val;
-    DATA_TYPE_S src = src_;
+    DATA_TYPE_S src;
+    if (op_src->type == OP_TYPE_IMM) {
+        // extended_src
+        int8_t src_ = op_src->val;
+        src = src_;
+    } else
+        src = op_src->val;
+
     DATA_TYPE_S minus_res = op_dest->val - src;
 
+    // debug..
+    // if (cpu.eip == 0x100354) {
+    //     printf("dest is : %x\n", op_dest->val);
+    //     printf("dest reg is: %d\n", regsl[op_dest->reg]);
+    //     printf("src is : %x\n", src);
+    // }
     // write
     OPERAND_W(op_dest, minus_res);
 
