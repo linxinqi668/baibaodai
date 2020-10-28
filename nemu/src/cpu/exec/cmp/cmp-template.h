@@ -16,8 +16,8 @@ static void do_execute() {
 
     // debug.
     if (cpu.eip == 0x100091) {
-        printf("dest is: %s, %x\n", regsl[op_dest->reg], op_dest->val);
-        printf("src is: %s, %x\n", regsl[op_src->reg], src);
+        printf("dest is: %x\n", op_dest->val);
+        printf("src is: %x\n", src);
     }
 
     // set ZF
