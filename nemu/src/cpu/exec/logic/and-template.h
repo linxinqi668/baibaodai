@@ -13,7 +13,7 @@ static void do_execute () {
 	cpu.EFLAGS.OF = 0;
 
 	// set SF
-    cpu.EFLAGS.SF = (result < 0) ? 1 : 0;
+    cpu.EFLAGS.SF = (DATA_TYPE)result >> (DATA_BYTE * 8 - 1);
     // set ZF
     cpu.EFLAGS.ZF = (result == 0) ? 1 : 0;
 	// set PF. a little complex...
