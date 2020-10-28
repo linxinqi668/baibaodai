@@ -31,7 +31,7 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 // myself.
 make_helper( concat(movzbl_, SUFFIX) ) {
 	// decode
-	int len = decode_rm2r_b(eip);
+	int len = decode_rm2r_b(eip + 1);
 
 	// write with zero-extend.
 	// 取最后8位, 然后扩展.
