@@ -44,6 +44,7 @@ static void do_execute() {
 }
 
 make_instr_helper(ib2rm);
+make_instr_helper(rm2r);
 
 
 
