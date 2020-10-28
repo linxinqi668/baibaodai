@@ -12,7 +12,7 @@ make_helper( concat(leave_, SUFFIX) ) {
     // change ESP
     REG(R_ESP) = REG(R_ESP) + DATA_BYTE;
 
-    return 0;
+    return 1;
 }
 
 
