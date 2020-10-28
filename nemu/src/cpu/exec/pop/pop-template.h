@@ -3,9 +3,9 @@
 #define instr pop
 
 static void do_execute() {
-    // write into dest.
+    // write into src... FUCK.
     DATA_TYPE val = MEM_R( reg_l(R_ESP) );
-    OPERAND_W(op_dest, val);
+    OPERAND_W(op_src, val);
 
     if (cpu.eip == 0x100053) {
         printf("dest is: %s", regsl[op_dest->reg]);
