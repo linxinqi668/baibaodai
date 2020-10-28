@@ -37,7 +37,7 @@ static void do_execute() {
     cpu.EFLAGS.SF = (DATA_TYPE)add_res >> (DATA_BYTE * 8 - 1);
 
     // set CF in plus.
-    uint64_t real_res = op_dest->val + op_src->val;
+    uint64_t real_res = (uint64_t)op_dest->val + (uint64_t)op_src->val;
     if (cpu.eip == 0x100040) {
         printf("real_res is : %x\n", (uint32_t)real_res);
         printf("add_res is : %x\n", (uint32_t)add_res);
