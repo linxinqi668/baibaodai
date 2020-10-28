@@ -35,13 +35,16 @@ static void do_execute() {
     cpu.EFLAGS.SF = (DATA_TYPE)minus_res >> (DATA_BYTE * 8 - 1);
 
     // set OF in subtraction.
+    // 符号不同, 且结果与减数符号相同.
     if (
-        ((DATA_TYPE)minus_res >> (DATA_BYTE * 8 - 1)) ^
-        ((DATA_TYPE)src >> (DATA_BYTE * 8 - 1))
+        !(((DATA_TYPE)minus_res >> (DATA_BYTE * 8 - 1)) ^
+        ((DATA_TYPE)src >> (DATA_BYTE * 8 - 1))) &&
+        (((DATA_TYPE)op_dest->val >> (DATA_BYTE * 8 - 1)) ^
+        ((DATA_TYPE)src >> (DATA_BYTE * 8 - 1)))
     )
-        cpu.EFLAGS.OF = 0;
-    else
         cpu.EFLAGS.OF = 1;
+    else
+        cpu.EFLAGS.OF = 0;
 
     // set CF in subtraction.
     if ((DATA_TYPE)op_dest->val < (DATA_TYPE)src)
