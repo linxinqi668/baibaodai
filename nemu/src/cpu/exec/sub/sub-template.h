@@ -1,12 +1,17 @@
 #include "cpu/exec/template-start.h"
 
-#define instr cmp
+#define instr sub
 
 static void do_execute() {
     // dest - src
-    int8_t src_ = op_src->val; // 转为有符号数
-    DATA_TYPE_S src = src_; // sign extended.
+
+    // extended_src 
+    int8_t src_ = op_src->val;
+    DATA_TYPE_S src = src_;
     DATA_TYPE_S minus_res = op_dest->val - src;
+
+    // write
+    OPERAND_W(op_dest, minus_res);
 
     // set ZF
     cpu.EFLAGS.ZF = (minus_res == 0) ? 1 : 0;
@@ -36,9 +41,6 @@ static void do_execute() {
         cpu.EFLAGS.CF = 1;
     else
         cpu.EFLAGS.CF = 0;
-
-    // set AF 草, 居然没用到这个标记位.
-    
 }
 
 make_instr_helper(ib2rm);

@@ -21,6 +21,9 @@
 
 #include "ret/ret.h" // 32bit.
 
+#include "sub/sub.h" // 8 bit imm to 16 or 32 bit rm.
+                     // 有-v
+
 
 
 #include "arith/dec.h"
