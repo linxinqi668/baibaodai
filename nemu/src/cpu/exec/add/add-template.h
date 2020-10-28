@@ -44,9 +44,9 @@ static void do_execute() {
     }
     if (real_res > (uint64_t)add_res) {
         cpu.EFLAGS.CF = 1;
-        // if (cpu.eip == 0x100040) {
-        //     printf("hhhhhhhhhhhhhhhhhhh\n");
-        // }
+        if (cpu.eip == 0x100040) {
+            printf("hhhhhhhhhhhhhhhhhhh\n");
+        }
     }
     else {
         cpu.EFLAGS.CF = 0;
