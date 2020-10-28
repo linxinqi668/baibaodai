@@ -11,7 +11,12 @@ static void do_execute() {
         src = src_;
     } else if (op_src->type == OP_TYPE_REG) // r to rm.
         src = op_src->val;
+
+    if (cpu.eip == 0x100042) {
+        printf("CF is : %d", cpu.EFLAGS.CF);
+    }
     DATA_TYPE_S add_res = op_dest->val + src + cpu.EFLAGS.CF;
+    
 
     // write
     OPERAND_W(op_dest, add_res);
