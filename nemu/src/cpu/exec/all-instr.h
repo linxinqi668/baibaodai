@@ -25,7 +25,7 @@
                      // 有-v
 
 #include "jmp/jmp.h" // rel, 8 bit.
-
+#include "jcc/jbe.h" // rel, 8 bit.
 
 #include "arith/dec.h"
 #include "arith/inc.h"
