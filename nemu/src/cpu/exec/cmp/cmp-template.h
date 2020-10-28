@@ -4,8 +4,13 @@
 
 static void do_execute() {
     // dest - src
-    int8_t src_ = op_src->val; // 转为有符号数
-    DATA_TYPE_S src = src_; // sign extended.
+    DATA_TYPE_S src;
+    if(op_src->type == OP_TYPE_IMM) {
+        int8_t src_ = op_src->val; // 转为有符号数
+        src = src_; // sign extended.
+    }
+    else
+        src = op_src->val;
     DATA_TYPE_S minus_res = op_dest->val - src;
 
     if (cpu.eip == 0x10007c) {
