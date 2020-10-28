@@ -10,10 +10,6 @@ static void do_execute() {
     DATA_TYPE_S src = src_;
     DATA_TYPE_S add_res = op_dest->val + src;
 
-    printf("dest is: %s, %x\n", regsl[op_dest->reg], op_dest->val);
-    printf("src is: %s, %x\n", regsl[op_src->reg], src);
-    printf("add res is: %x\n\n", add_res);
-
     // write
     OPERAND_W(op_dest, add_res);
 
