@@ -17,5 +17,15 @@ make_helper(concat(rep_movs_, SUFFIX) ) {
     return 2;
 }
 
+make_helper(concat(rep_scas_, SUFFIX) ) {
+    while ( (reg_l(R_ECX) != 0) && 
+            (cpu.EFLAGS.ZF == 0))
+    {
+        // repeat scas of DATA_BYTE
+    }
+
+    return 2;
+}
+
 
 #include "cpu/exec/template-end.h"
