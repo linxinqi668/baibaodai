@@ -16,8 +16,9 @@ make_helper(mov_a2moffs_v);
 make_helper(mov_moffs2a_v);
 
 // myself.
-make_helper(movzbl_v);
-make_helper(movs_v);
+make_helper(movs_v); // 8 bit operand.
+make_helper(movzbl);
+make_helper(movsbl);
 
 
 #endif

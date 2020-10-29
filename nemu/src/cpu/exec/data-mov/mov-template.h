@@ -29,7 +29,9 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 }
 
 // myself.
-make_helper( concat(movzbl_, SUFFIX) ) {
+
+#if DATA_BYTE == 1
+make_helper(movzbl) {
 	// decode
 	int len = decode_rm2r_b(eip + 1);
 
@@ -41,6 +43,20 @@ make_helper( concat(movzbl_, SUFFIX) ) {
 
 	return 1 + len;
 }
+
+make_helper(movsbl) {
+	// decode
+	int len = decode_rm2r_b(eip + 1);
+
+	// write with sign-extend.
+	// 取最后8位, 然后扩展.
+	// printf("reg is: %s\n", regsl[op_dest->reg]);
+	DATA_TYPE_S rm_extend = (int8_t)op_src->val;
+	OPERAND_W(op_dest, rm_extend);
+
+	return 1 + len;
+}
+#endif
 
 make_helper( concat(movs_, SUFFIX) ) {
 	// no need to decode ^_^.
