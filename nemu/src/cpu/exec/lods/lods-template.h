@@ -2,10 +2,12 @@
 
 make_helper(concat(lods_, SUFFIX)) {
     // load DATA_BYTE to EAX
-    swaddr_t addr_src = REG(R_ESI);
+    // 地址是32位.
+    swaddr_t addr_src = reg_l(R_ESI);
 
     DATA_TYPE val = swaddr_read(addr_src, DATA_BYTE);
 
+    // 目标不一定.
     REG(R_EAX) = val;
 
     return 1;

@@ -57,6 +57,7 @@
 
 #include "rep/rep.h"
 #include "lods/lods.h" // 8 16 32.
+#include "stos/stos.h" // 8 bit. 16 32 也是可以的。
 
 
 
