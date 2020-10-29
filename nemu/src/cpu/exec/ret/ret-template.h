@@ -18,7 +18,7 @@ static void do_execute() {
     // pop dword to eip
     cpu.eip = swaddr_read(reg_l(R_ESP), 4);
 
-    // change esp
+    // change esp ？？？？？？？
     reg_l(R_ESP) += (int16_t)op_src->val;
 }
 
