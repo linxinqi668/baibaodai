@@ -31,7 +31,7 @@ make_helper(rep) {
 				 (ops_decoded.opcode == 0xae) || // scab
 				 (ops_decoded.opcode == 0xaf))   // scaw
 			{
-				if (cpu.EFLAGS.ZF == 1 && instr_fetch(eip, 1) == 0xf3)
+				if (cpu.EFLAGS.ZF == 0 && instr_fetch(eip, 1) == 0xf3)
 					break;
 			}
 		}
@@ -64,8 +64,9 @@ make_helper(repnz) {
 			     (ops_decoded.opcode == 0xa7) || // cmpw
 				 (ops_decoded.opcode == 0xae) || // scab
 				 (ops_decoded.opcode == 0xaf))   // scaw
-			{
-				if (cpu.EFLAGS.ZF != 0 && instr_fetch(eip, 1) == 0xf2)
+			{	// not zero -> exec.
+				// zero -> exit
+				if (cpu.EFLAGS.ZF == 1)
 					break;
 			}
 	}
