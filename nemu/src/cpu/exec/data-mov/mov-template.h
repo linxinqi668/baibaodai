@@ -30,7 +30,7 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 
 // myself.
 
-#if DATA_BYTE == 4
+#if DATA_BYTE == 4 // must be 32 bit...
 make_helper(movzbl) {
 	// decode
 	int len = decode_rm2r_b(eip + 1);
