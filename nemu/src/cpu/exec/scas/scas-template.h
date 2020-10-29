@@ -1,6 +1,7 @@
 #include "cpu/exec/template-start.h"
 
 make_helper(concat(scas_, SUFFIX)) {
+    printf("safe start.\n");
     swaddr_t addr_dest = reg_l(R_EDI);
 
     DATA_TYPE_S dest = MEM_R(addr_dest);
@@ -44,7 +45,7 @@ make_helper(concat(scas_, SUFFIX)) {
         cpu.EFLAGS.CF = 1;
     else
         cpu.EFLAGS.CF = 0;
-
+    printf("safe end.\n\n");
     return 1;
 }
 
