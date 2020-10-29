@@ -11,7 +11,19 @@ static void do_execute () {
 	OPERAND_W(op_dest, dest);
 
 	/* TODO: Update EFLAGS. */
-	panic("please implement me");
+	int temp = count;
+	DATA_TYPE rm = dest;
+	uint8_t high_order_bit = 
+			(rm >> (DATA_BYTE * 8 - 1) ) & 0x1;
+	while (temp) {
+		uint8_t low_order_bit = rm & 0x1;
+		cpu.EFLAGS.CF = low_order_bit;
+		rm = rm / 2; // unsigned div.
+		temp--;
+	}
+
+	if (count == 1)
+		cpu.EFLAGS.OF = high_order_bit;
 
 	print_asm_template2();
 }
