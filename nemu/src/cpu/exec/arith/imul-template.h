@@ -15,7 +15,7 @@ static void do_execute() {
 	RET_DATA_TYPE result = (RET_DATA_TYPE)op_src->val * (RET_DATA_TYPE)op_src2->val;
 	OPERAND_W(op_dest, result);
 
-	long long res = result;
+	long long int res = result;
 	// debug.
 	if (cpu.eip == 0x1000b4) {
 		printf("两个数字分别是: %d, %d\n", (int32_t)op_src->val, (int32_t)op_src2->val);
