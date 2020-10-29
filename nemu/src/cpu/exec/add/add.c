@@ -9,3 +9,4 @@
 make_helper_v(add_ib2rm);
 make_helper_v(add_r2rm);
 make_helper_v(add_i2A);
+make_helper_v(add_rm2r);

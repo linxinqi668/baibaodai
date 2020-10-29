@@ -31,6 +31,9 @@
                      // 有-v.
 #include "add/add.h" // 8 bit imm to 16 or 32 bit rm.
                      // r2rm, 16 bit or 32 bit.
+                     // -v
+                     // rm2r, 16 bit or 32 bit.
+                     // -v
 #include "adc/adc.h" // the same as add.h
 
 
