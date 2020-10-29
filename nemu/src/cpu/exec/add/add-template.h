@@ -58,7 +58,7 @@ make_helper(concat(add_i2A_, SUFFIX)) {
 
     DATA_TYPE_S src = op_src->val;
     DATA_TYPE_S dest = REG(R_EAX);
-    DATA_TYPE_S add_res = dest - src;
+    DATA_TYPE_S add_res = dest + src;
 
     REG(R_EAX) = add_res;
 
