@@ -47,9 +47,8 @@
                      // rel, 16 or 32 bit.
                      // -v.
 #include "jcc/jg.h" // rel, 8 bit.
-#include "jcc/jl.h" // rel, 8 bit.  
-
-// 运算指令中关于OF与CF的判断还得想想.
+#include "jcc/jl.h" // rel, 8 bit. 
+#include "jcc/jge.h" // rel, 8 bit. 
 
 #include "arith/dec.h"
 #include "arith/inc.h"
