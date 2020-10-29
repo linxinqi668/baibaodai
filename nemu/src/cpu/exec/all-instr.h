@@ -31,7 +31,7 @@
                      // 有-v.
 #include "sbb/sbb.h" // r2rm, 16 or 32 bit.
                      // -v
-                     
+
 #include "add/add.h" // 8 bit imm to 16 or 32 bit rm.
                      // r2rm, 16 bit or 32 bit.
                      // -v
@@ -52,6 +52,7 @@
 #include "jcc/jg.h" // rel, 8 bit.
 #include "jcc/jl.h" // rel, 8 bit. 
 #include "jcc/jge.h" // rel, 8 bit. 
+#include "jcc/ja.h" // rel, 8 bit. 
 
 #include "arith/dec.h"
 #include "arith/inc.h"
