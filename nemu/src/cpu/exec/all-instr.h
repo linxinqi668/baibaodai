@@ -16,7 +16,7 @@
 
 #include "cmp/cmp.h" // 8 bit imm to 16 or 32 bit rm.
                      // 有-v
-                     // r2rm, 16 bit or 32 bit.
+                     // r2rm, 8 or 16 bit or 32 bit.
                      // 有-v
                      // i2 reg of a. 8 or 16 or 32 bit.
 
