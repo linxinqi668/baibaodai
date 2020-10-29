@@ -11,8 +11,10 @@ static void do_execute () {
 	OPERAND_W(op_dest, dest);
 
 	/* TODO: Update EFLAGS. */
+	cpu.EFLAGS.ZF = (dest == 0) ? 1 : 0;
+
 	int temp = count;
-	DATA_TYPE_S rm = op_dest->val;
+	DATA_TYPE rm = op_dest->val;
 	uint8_t high_order_bit = 
 			(rm >> (DATA_BYTE * 8 - 1) ) & 0x1;
 	while (temp) {
