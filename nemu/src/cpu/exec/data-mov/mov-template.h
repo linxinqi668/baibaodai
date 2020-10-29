@@ -63,7 +63,7 @@ make_helper( concat(movs_, SUFFIX) ) {
 	
 	// [esi] -> [edi]
 	MEM_W(
-		REG(R_EDI), MEM_R(REG(R_ESI))
+		reg_l(R_EDI), MEM_R(reg_l(R_ESI))
 	);
 
 	return 1;
