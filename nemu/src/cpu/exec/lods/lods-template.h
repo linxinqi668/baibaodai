@@ -10,6 +10,11 @@ make_helper(concat(lods_, SUFFIX)) {
     // 目标不一定.
     REG(R_EAX) = val;
 
+    if (cpu.EFLAGS.DF == 0)
+        reg_l(R_ESI) += DATA_BYTE;
+    else
+        reg_l(R_ESI) -= DATA_BYTE;
+
     return 1;
 }
 
