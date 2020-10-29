@@ -12,7 +12,7 @@ make_helper(rep) {
 	}
 	else {
 		while(cpu.ecx) {
-			exec(eip + 1);
+			exec(eip + 1); // 执行helper函数, 不修改eip.
 			count ++;
 			cpu.ecx --;
 			assert(ops_decoded.opcode == 0xa4	// movsb
@@ -26,7 +26,18 @@ make_helper(rep) {
 				);
 
 			/* TODO: Jump out of the while loop if necessary. */
-
+			if ( (ops_decoded.opcode == 0xa6) || // cmpb
+			     (ops_decoded.opcode == 0xa7) || // cmpw
+				 (ops_decoded.opcode == 0xae) || // scab
+				 (ops_decoded.opcode == 0xaf))   // scaw
+			{
+				if ( (instr_fetch(eip, 1) == 0xf3 ) &&
+					 (cpu.EFLAGS.ZF == 1) )
+					 break;
+				else if ( (instr_fetch(eip, 1) == 0xf2) &&
+						  (cpu.EFLAGS.ZF == 0))
+					 break;
+			}
 		}
 		len = 1;
 	}
