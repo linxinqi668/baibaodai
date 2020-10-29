@@ -11,7 +11,8 @@ char *s[] = {
 };
 
 char str1[] = "Hello";
-char str[20] = "!!!#################";
+//char str[20] = "!!!#################"; // memset到第3个就不行了.
+char str[20];
 
 int main() {
 	//nemu_assert(strcmp(s[0], s[2]) == 0); // OK
