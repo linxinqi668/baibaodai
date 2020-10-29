@@ -41,7 +41,7 @@
 
 
 #include "jmp/jmp.h" // rel, 8 bit, 32 bit.
-                     // reg, 32 bit.
+                     // rm, 32 bit.
 #include "jcc/jbe.h" // rel, 8 bit, 32 bit.
 #include "leave/leave.h" // 改变esp 或者 sp.
 #include "setne/setne.h" // rm. 8 bit.

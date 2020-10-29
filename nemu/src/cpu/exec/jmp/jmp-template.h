@@ -10,7 +10,10 @@ make_helper( concat(jmp_rel_, SUFFIX) ) {
     return 0;
 }
 
-make_helper( concat(jmp_reg_, SUFFIX) ) {
+make_helper( concat(jmp_rm_, SUFFIX) ) {
+    // decode
+    concat(decode_rm_, SUFFIX) (eip + 1); // eip + 1 point to ModR/M
+    
     // jmp
     cpu.eip = op_src->val;
 
