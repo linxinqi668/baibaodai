@@ -7,12 +7,12 @@ static void do_execute () {
 	DATA_TYPE dest = op_dest->val;
 
 	uint8_t count = src & 0x1f;
-	dest >>= count;
+	dest >>= count; // dest已经变了.
 	OPERAND_W(op_dest, dest);
 
 	/* TODO: Update EFLAGS. */
 	int temp = count;
-	DATA_TYPE rm = dest;
+	DATA_TYPE rm = op_dest->val;
 	uint8_t high_order_bit = 
 			(rm >> (DATA_BYTE * 8 - 1) ) & 0x1;
 	while (temp) {
