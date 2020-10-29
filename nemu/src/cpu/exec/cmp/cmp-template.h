@@ -53,7 +53,7 @@ static void do_execute() {
         cpu.EFLAGS.CF = 0;
 
     // debug:
-    if (cpu.eip == 0x1000bd) {
+    if (cpu.eip == 0x1000ac) {
         printf("dest is: %d\n", op_dest->val);
         printf("src is: %d\n", src);
         printf("res is: %d\n", minus_res);
