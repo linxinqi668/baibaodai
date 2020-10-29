@@ -56,6 +56,7 @@
 #include "jcc/ja.h" // rel, 8 bit. 
 
 #include "rep/rep.h"
+#include "lods/lods.h" // 8 16 32.
 
 
 
