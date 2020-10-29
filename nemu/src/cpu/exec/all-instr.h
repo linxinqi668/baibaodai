@@ -55,6 +55,10 @@
 #include "jcc/jge.h" // rel, 8 bit. 
 #include "jcc/ja.h" // rel, 8 bit. 
 
+#include "rep/rep.h"
+
+
+
 #include "arith/dec.h"
 #include "arith/inc.h"
 #include "arith/neg.h"
