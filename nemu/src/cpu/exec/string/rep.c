@@ -65,7 +65,7 @@ make_helper(repnz) {
 				 (ops_decoded.opcode == 0xae) || // scab
 				 (ops_decoded.opcode == 0xaf))   // scaw
 			{
-				if (cpu.EFLAGS.ZF == 0 && instr_fetch(eip, 1) == 0xf2)
+				if (cpu.EFLAGS.ZF != 0 && instr_fetch(eip, 1) == 0xf2)
 					break;
 			}
 	}
