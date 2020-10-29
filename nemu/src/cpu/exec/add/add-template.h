@@ -5,7 +5,7 @@
 static void do_execute() {
     // dest + src
     DATA_TYPE_S src = 0;
-    if (op_src->type == OP_TYPE_IMM && op_src->size == 1) { // i to rm.
+    if (op_src->type == OP_TYPE_IMM/* && op_src->size == 1 */) { // i to rm.
         // sign extended_src
         int8_t src_ = op_src->val;
         src = src_;
