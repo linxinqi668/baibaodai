@@ -12,7 +12,7 @@ static void do_execute () {
 
 	/* TODO: Update EFLAGS. */
 	int temp = count;
-	DATA_TYPE_S rm = dest;
+	DATA_TYPE_S rm = op_dest->val;
 	while (temp) {
 		uint8_t high_order_bit = 
 			(rm >> (DATA_BYTE * 8 - 1) ) & 0x1;

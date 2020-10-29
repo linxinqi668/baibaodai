@@ -12,7 +12,7 @@ static void do_execute () {
 
 	/* TODO: Update EFLAGS. */
 	int temp = count;
-	DATA_TYPE_S rm = dest;
+	DATA_TYPE_S rm = op_dest->val;
 	while (temp) {
 		uint8_t low_order_bit = rm & 0x1;
 		cpu.EFLAGS.CF = low_order_bit;
