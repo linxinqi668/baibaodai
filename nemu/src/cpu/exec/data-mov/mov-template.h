@@ -66,6 +66,14 @@ make_helper( concat(movs_, SUFFIX) ) {
 		reg_l(R_EDI), MEM_R(reg_l(R_ESI))
 	);
 
+	if (cpu.EFLAGS.DF == 0) {
+		reg_l(R_EDI) += DATA_BYTE;
+		reg_l(R_ESI) += DATA_BYTE;
+	} else {
+		reg_l(R_EDI) -= DATA_BYTE;
+		reg_l(R_ESI) -= DATA_BYTE;
+	}
+
 	return 1;
 }
 
