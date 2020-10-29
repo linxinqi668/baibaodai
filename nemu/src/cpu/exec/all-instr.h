@@ -41,6 +41,8 @@
 
 #include "jcc/jne.h" // rel, 8 bit.
 #include "jcc/jle.h" // rel, 8 bit.
+                     // rel, 16 or 32 bit.
+                     // -v.
 #include "jcc/jg.h" // rel, 8 bit.
 #include "jcc/jl.h" // rel, 8 bit.  
 
