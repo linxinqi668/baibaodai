@@ -20,6 +20,3 @@ make_helper_v(mov_r2rm)
 make_helper_v(mov_rm2r)
 make_helper_v(mov_a2moffs)
 make_helper_v(mov_moffs2a)
-
-// my self.
-make_helper_v(movs);
