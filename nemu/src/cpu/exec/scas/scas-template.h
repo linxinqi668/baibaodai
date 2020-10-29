@@ -6,7 +6,7 @@ make_helper(concat(scas_, SUFFIX)) {
     DATA_TYPE_S dest = MEM_R(addr_dest);
     DATA_TYPE_S src = REG(R_EAX);
     // 就是src - dest. 没错.
-    DATA_TYPE minus_res = src - dest;
+    DATA_TYPE_S minus_res = src - dest;
 
     if (cpu.EFLAGS.DF == 0)
         reg_l(R_EDI) += DATA_BYTE;
