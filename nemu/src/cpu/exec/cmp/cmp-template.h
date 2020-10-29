@@ -56,7 +56,7 @@ static void do_execute() {
     // debug:
     if (cpu.eip == 0x100077) {
         printf("dest is: %d\n", op_dest->val);
-        printf("src is: %d\n",  op_src->val);
+        printf("src is: %d\n",  src);
         printf("res is: %d\n", minus_res);
         printf("CF is: %d\n", cpu.EFLAGS.CF);
         printf("ZF is: %d\n", cpu.EFLAGS.ZF);
