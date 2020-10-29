@@ -10,6 +10,13 @@ make_helper( concat(jmp_rel_, SUFFIX) ) {
     return 0;
 }
 
+make_helper( concat(jmp_reg_, SUFFIX) ) {
+    // jmp
+    cpu.eip = op_src->val;
+
+    return 0;
+}
+
 
 
 
