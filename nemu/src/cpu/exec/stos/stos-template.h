@@ -6,9 +6,9 @@ make_helper(concat(stos_, SUFFIX)) {
     MEM_W(addr_dest, REG(R_EAX));
 
     if (cpu.EFLAGS.DF == 0)
-        reg_l(R_EDI)++;
+        reg_l(R_EDI) += DATA_BYTE;
     else
-        reg_l(R_EDI)--;
+        reg_l(R_EDI) -= DATA_BYTE;
 
     return 1;
 }
