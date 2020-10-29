@@ -15,11 +15,11 @@ static void do_execute() {
     DATA_TYPE_S minus_res = op_dest->val - src;
 
     // debug.
-    if (cpu.eip == 0x10010a) {
-        printf("dest is: %d\n", op_dest->val);
-        printf("src is: %d\n", src);
-        printf("res is: %d\n\n\n", minus_res);
-    }
+    // if (cpu.eip == 0x10010a) {
+    //     printf("dest is: %d\n", op_dest->val);
+    //     printf("src is: %d\n", src);
+    //     printf("res is: %d\n\n\n", minus_res);
+    // }
 
     // set ZF
     cpu.EFLAGS.ZF = (minus_res == 0) ? 1 : 0;
