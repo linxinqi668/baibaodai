@@ -1,6 +1,7 @@
 #include "cpu/exec/template-start.h"
 
 make_helper(concat(stos_, SUFFIX)) {
+    printf("safe start.\n");
     swaddr_t addr_dest = reg_l(R_EDI);
 
     MEM_W(addr_dest, REG(R_EAX));
@@ -9,7 +10,7 @@ make_helper(concat(stos_, SUFFIX)) {
         reg_l(R_EDI) += DATA_BYTE;
     else
         reg_l(R_EDI) -= DATA_BYTE;
-
+    printf("safe end.\n\n");
     return 1;
 }
 
