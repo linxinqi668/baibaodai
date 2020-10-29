@@ -14,6 +14,7 @@ make_helper(concat(decode_i_, SUFFIX)) {
 	op_src->type = OP_TYPE_IMM;
 	op_src->imm = instr_fetch(eip, DATA_BYTE);
 	op_src->val = op_src->imm;
+	op_src->size = DATA_BYTE;
 
 #ifdef DEBUG
 	snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->imm);
@@ -38,6 +39,7 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	op_src->simm = val; // sign extend.
 
 	op_src->val = op_src->simm;
+	op_src->size = DATA_BYTE;
 
 #ifdef DEBUG
 	snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->val);
@@ -63,6 +65,7 @@ static int concat3(decode_r_, SUFFIX, _internal) (swaddr_t eip, Operand *op) {
 	op->type = OP_TYPE_REG;
 	op->reg = ops_decoded.opcode & 0x7;
 	op->val = REG(op->reg);
+	op->size = DATA_BYTE;
 
 #ifdef DEBUG
 	snprintf(op->str, OP_STR_SIZE, "%%%s", REG_NAME(op->reg));
