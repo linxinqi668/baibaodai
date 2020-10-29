@@ -19,7 +19,7 @@ static void do_execute() {
     cpu.eip = swaddr_read(reg_l(R_ESP), 4);
 
     // change esp
-    reg_w(R_ESP) += (int16_t)op_src->val;
+    reg_l(R_ESP) += (int16_t)op_src->val;
 }
 
 make_instr_helper(i);
