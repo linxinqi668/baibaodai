@@ -9,7 +9,7 @@ static void do_execute() {
         // sign extended_src
         int8_t src_ = op_src->val;
         src = src_;
-    } else if (op_src->type == OP_TYPE_REG) // r to rm.
+    } else // r to rm.
         src = op_src->val;
     DATA_TYPE_S add_res = op_dest->val + src;
 
