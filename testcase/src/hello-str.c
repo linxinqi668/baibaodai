@@ -22,5 +22,7 @@ int main() {
 	sprintf(buf, "%d + %d = %d\n", 2, 10, 12);
 	nemu_assert(strcmp(buf, "2 + 10 = 12\n") == 0);
 
+	// OK.
+
 	return 0;
 }
