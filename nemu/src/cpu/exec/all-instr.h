@@ -11,6 +11,7 @@
 
 #include "test/test.h" // r2rm, 8 or 16 or 32 bit.
                        // 有-v
+                       // i2rm, 8 bit.
 
 #include "jcc/je.h" // rel, 8bit.
 
