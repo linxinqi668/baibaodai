@@ -6,7 +6,7 @@ char buf[128];
 
 int main() {
 
-	sprintf(buf, "%s", "0");
+	sprintf(buf, "%s", "0"); // 一个字符都写不进去.
 	// sprintf(buf, "%s", "Hello world!\n"); // 过不去.
 	
 	// nemu_assert(strcmp(buf, "Hello world!\n") == 0);
