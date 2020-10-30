@@ -4,10 +4,10 @@
 
 static void do_execute() {
     // change the esp
-    if (DATA_BYTE == 4) {
+    if (DATA_BYTE == 2) {
         reg_l(R_ESP) = reg_l(R_ESP) - DATA_BYTE;
     } else {
-        reg_l(R_ESP) = reg_l(R_ESP) - 2;
+        reg_l(R_ESP) = reg_l(R_ESP) - 4;
     }
 
     // write src into (esp)
