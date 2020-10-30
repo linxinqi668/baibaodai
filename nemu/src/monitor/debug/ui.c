@@ -141,6 +141,7 @@ static int cmd_info(char *args) {
 				if (wp->old_value != wp->now_value) {
 					printf("监视点编号: %d, 值的变化为: %x -> %x\n", wp->NO, wp->old_value,
 					        wp->now_value);
+					printf("此时eip为: %x\n", cpu.eip);
 					++cnt;
 				}
 				wp = wp->next;
