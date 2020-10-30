@@ -20,6 +20,7 @@ make_helper(movs_l);
 make_helper(movs_b);
 make_helper(movzbl);
 make_helper(movsbl);
+make_helper(movswl);
 
 
 #endif
