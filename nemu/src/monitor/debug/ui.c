@@ -230,7 +230,7 @@ static int cmd_p(char *args){
 	int res = expr(args, is_valid);
 	if (*is_valid){
 		free(is_valid);
-		printf("%d\n", res);
+		printf("0x%x\n", res);
 		return 0; // 返回0，不会终端main loop;
 	}
 	else {
