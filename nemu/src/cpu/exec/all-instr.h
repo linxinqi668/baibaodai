@@ -47,7 +47,9 @@
 #include "leave/leave.h" // 改变esp 或者 sp.
 #include "setne/setne.h" // rm. 8 bit.
 
-#include "jcc/jne.h" // rel, 8 bit.
+#include "jcc/jne.h" // rel, 8 bit
+                     // rel, 16 or 32 bit.
+                     // -v.
 #include "jcc/jle.h" // rel, 8 bit.
                      // rel, 16 or 32 bit.
                      // -v.
