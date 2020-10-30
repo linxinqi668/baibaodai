@@ -11,7 +11,7 @@ int main() {
 	// sprintf(buf, "%s", "1"); // 过不去.	
 	// nemu_assert(strcmp(buf, "1") == 0);
 
-	nemu_assert(strcmp("xxxxxx", "xxxxxx") == 0);
+	nemu_assert(strlen("xxxx") == 4);
 
 	// sprintf(buf, "%s", "Hello world!\n"); // 过不去.	
 	// nemu_assert(strcmp(buf, "Hello world!\n") == 0);
