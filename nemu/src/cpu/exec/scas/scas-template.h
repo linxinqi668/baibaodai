@@ -46,6 +46,8 @@ make_helper(concat(scas_, SUFFIX)) {
     else
         cpu.EFLAGS.CF = 0;
     // printf("safe end.\n\n");
+
+    print_asm_template1();
     return 1;
 }
 

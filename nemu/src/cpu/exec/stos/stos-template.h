@@ -11,6 +11,7 @@ make_helper(concat(stos_, SUFFIX)) {
     else
         reg_l(R_EDI) -= DATA_BYTE;
     // printf("safe end.\n\n");
+    print_asm_template1();
     return 1;
 }
 

@@ -12,6 +12,7 @@ make_helper( concat(call_rel_, SUFFIX) ) {
     cpu.eip = cpu.eip + 1 + DATA_BYTE + rel;
 
     // ret
+    print_asm_template1();
     return 0;
 }
 

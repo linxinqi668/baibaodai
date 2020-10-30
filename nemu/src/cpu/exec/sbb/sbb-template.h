@@ -48,6 +48,8 @@ static void do_execute() {
         cpu.EFLAGS.CF = 1;
     else
         cpu.EFLAGS.CF = 0;
+
+    print_asm_template2();
 }
 
 make_instr_helper(r2rm);

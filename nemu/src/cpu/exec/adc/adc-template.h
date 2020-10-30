@@ -47,6 +47,8 @@ static void do_execute() {
     // set OF
     // 有符号数运算溢出相当于无符号数的进位.
     cpu.EFLAGS.OF = cpu.EFLAGS.CF;
+
+    print_asm_template2();
 }
 
 make_instr_helper(r2rm);

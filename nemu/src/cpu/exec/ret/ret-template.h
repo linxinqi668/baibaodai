@@ -10,6 +10,8 @@ make_helper(ret) {
     // change esp
     REG(R_ESP) = REG(R_ESP) + DATA_BYTE;
 
+    print_asm_template1();
+
     return 0;
 }
 #endif
@@ -20,6 +22,8 @@ static void do_execute() {
 
     // change esp ？？？？？？？
     reg_l(R_ESP) += (int16_t)op_src->val;
+
+    print_asm_template1();
 }
 
 make_instr_helper(i);

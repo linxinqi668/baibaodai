@@ -8,6 +8,8 @@ static void do_execute() {
 
     // write src into (esp)
     MEM_W(reg_l(R_ESP), op_src->val);
+
+    print_asm_template1();
 }
 
 

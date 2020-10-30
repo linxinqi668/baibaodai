@@ -67,6 +67,7 @@ static void do_execute() {
     // }
 
     // set AF 草, 居然没用到这个标记位.
+    print_asm_template2();
     
 }
 make_instr_helper(ib2rm);

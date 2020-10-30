@@ -23,6 +23,7 @@ static void do_execute() {
     cpu.EFLAGS.PF = (count % 2 == 0) ? 1 : 0;
 
     // OK
+    print_asm_template2();
 
 }
 

@@ -10,7 +10,7 @@ make_helper( concat(jbe_rel_, SUFFIX) ) {
         cpu.eip = cpu.eip + 1 + DATA_BYTE + (int32_t)rel;
     else
         cpu.eip = cpu.eip + 1 + DATA_BYTE;
-
+    print_asm_template1();
     return 0;
 }
 

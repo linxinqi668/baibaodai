@@ -59,6 +59,8 @@ static void do_execute() {
     //     printf("SF is: %d\n\n\n\n\n", cpu.EFLAGS.SF);
     //     // assert(cpu.EFLAGS.SF == 1);
     // }
+
+    print_asm_template2();
 }
 
 make_instr_helper(ib2rm);

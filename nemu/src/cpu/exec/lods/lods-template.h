@@ -15,6 +15,8 @@ make_helper(concat(lods_, SUFFIX)) {
     else
         reg_l(R_ESI) -= DATA_BYTE;
 
+    print_asm_template1();
+
     return 1;
 }
 
