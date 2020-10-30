@@ -139,7 +139,7 @@ static int cmd_info(char *args) {
 			int cnt = 0;
 			while (wp) {
 				if (wp->old_value != wp->now_value) {
-					printf("监视点编号: %d, 值的变化为: %u -> %u\n", wp->NO, wp->old_value,
+					printf("监视点编号: %d, 值的变化为: %x -> %x\n", wp->NO, wp->old_value,
 					        wp->now_value);
 					++cnt;
 				}
