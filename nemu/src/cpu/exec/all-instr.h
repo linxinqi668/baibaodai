@@ -64,6 +64,8 @@
 #include "stos/stos.h" // 8 bit. 16 32 也是可以的。
 #include "scas/scas.h" // 8 bit.
 
+#include "cdq/cdq.h"  // 16 or 32.
+
 
 
 #include "arith/dec.h"
