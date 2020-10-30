@@ -58,6 +58,7 @@
 #include "jcc/jge.h" // rel, 8 bit. 
 #include "jcc/ja.h" // rel, 8 bit. 
 #include "jcc/js.h" // rel, 8 bit.
+#include "jcc/jns.h" // rel, 8 bit.
 
 #include "lods/lods.h" // 8 16 32.
 #include "stos/stos.h" // 8 bit. 16 32 也是可以的。
