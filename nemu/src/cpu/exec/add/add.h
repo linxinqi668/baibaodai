@@ -12,3 +12,5 @@ make_helper(add_i2A_l);
 make_helper(add_i2A_v);
 
 make_helper(add_rm2r_v);
+
+make_helper(add_i2rm_v);
