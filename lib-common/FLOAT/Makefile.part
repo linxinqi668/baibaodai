@@ -1,5 +1,9 @@
 # This file will be included by the Makefile under the project directory.
 
+
+# FLOAT := obj/$(LIB_COMMON_DIR)/FLOAT/FLOAT.a ->
+# FLOAT := obj/$(LIB_COMMON_DIR)/FLOAT/FLOAT.o
+
 FLOAT_O := $(FLOAT:.a=.o) # := 直接赋值 .a=.o 相当于字符串替换.
 FLOAT_VFPRINTF_O := $(dir $(FLOAT))FLOAT_vfprintf.o
 
@@ -11,14 +15,14 @@ $(FLOAT): $(FLOAT_A_OBJ) # FLOAT_A_OBJ 是所有的目标文件.
 # TODO: complete the following rules
 
 # 编译的参数
-PARA_SRC := -c -m32 -o2 -fno-builtin
-FLOAT_H_PATH := ../FLOAT.h
-FLOAT_C_PATH := FLOAT.c
+PARA_SRC :=-c -m32 -o2 -fno-builtin
+FLOAT_H_PATH := /home/nobug/文档/NEMU/NEMU2020/lib-commom/FLOAT.h
+FLOAT_C_PATH := $(LIB_COMMON_DIR)/FLOAT/FLOAT.c
 FIND_H := -l $(FLOAT_H_PATH)
 
 # 生成.o文件， 利用 gcc -c xxx.c -o xxx.o 就行.
 $(FLOAT_O): $(FLOAT_C_PATH)
-	gcc $(PARA) $(FLOAT_C_PATH) $(FIND_H) -o obj/lib-common/FLOAT.o
+	$(CC) $(PARA) $(FLOAT_C_PATH) $(FIND_H) -o FLOAT_O
 
 $(FLOAT_VFPRINTF_O):
 
