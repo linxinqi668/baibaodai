@@ -17,16 +17,17 @@ $(FLOAT): $(FLOAT_A_OBJ) # FLOAT_A_OBJ 是所有的目标文件.
 # 编译的参数
 PAPA_MATERS := -c -m32 -O2 -fno-builtin
 
-C1_SRC := $(LIB_COMMON_DIR)/FLOAT/FLOAT.c
-C2_SRC := $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c
+C1_SRC := $(LIB_COMMON_DIR)/FLOAT/FLOAT.c #路径是相对于总的MakeFile的.
+C2_SRC := $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c 
+H_PATH := $(LIB_COMMON_DIR)/
 
 $(FLOAT_O): $(C1_SRC)
 	$(shell mkdir -p obj/lib-common/FLOAT)
-	$(CC) $(PAPA_MATERS) $< -o $@
+	$(CC) $(PAPA_MATERS) $< -l $(H_PATH) -o $@
 
 $(FLOAT_VFPRINTF_O): $(C2_SRC)
 	$(shell mkdir -p obj/lib-common/FLOAT)
-	$(CC) $(PAPA_MATERS) $< -o $@
+	$(CC) $(PAPA_MATERS) $< -l $(H_PATH) -o $@
 	
 
 $(FLOAT_VFPRINTF_O):
