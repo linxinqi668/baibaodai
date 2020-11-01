@@ -60,7 +60,7 @@ make_helper(concat(imul_rm2a_, SUFFIX)) {
 	// debug.
 	long long int res = result;
 	if (cpu.eip == 0x10016a) {
-		printf("两个数字分别是: %d, %d\n", (int32_t)op_src->val, (int32_t)op_src2->val);
+		printf("两个数字分别是: %x, %x\n", (int32_t)op_src->val, (int32_t)op_src2->val);
 		printf("结果是: %lld\n\n", (long long)res);
 	}
 
