@@ -14,7 +14,7 @@ static void do_execute() {
 	REG(R_EDX) = a % b;
 
 	long long int res = a / b;
-	if (cpu.eip == 0x10016a) {
+	if (cpu.eip == 0x100191) {
 		printf("ddddddddddddddddddddddddd\n");
 		printf("两个数字分别是: %x, %x\n", (int32_t)a, (int32_t)b);
 		printf("结果是: %lld\n\n", (long long)res);
