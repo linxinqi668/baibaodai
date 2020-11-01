@@ -36,12 +36,12 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 		b = -b;
 	}
 	int res = a / b;
-	a = a % b;
+	a = a % b; // a 是剩余部分.
 	int i;
 	for (i = 0; i < 16; i++) 
 	{
 		a <<= 1;
-		res <<= 1;
+		res <<= 1; // 左移1位.
 		if (a >= b) 
 		{
 			a -= b;
