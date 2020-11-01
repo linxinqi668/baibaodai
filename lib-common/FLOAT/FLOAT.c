@@ -84,7 +84,7 @@ FLOAT f2F(float a) {
 	if (sign_bit == 1) // 更新符号.
 		res = -res;
 	
-	return 0;
+	return res;
 }
 
 FLOAT Fabs(FLOAT a) {
