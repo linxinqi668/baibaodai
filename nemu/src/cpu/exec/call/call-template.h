@@ -1,20 +1,21 @@
 #include "cpu/exec/template-start.h"
 
-#define instr call
+make_helper( concat(call_rm_, SUFFIX) ) {
 
-
-static void do_execute() {
-    // call 32bit r/m
-
+    // decode
+    int len = concat(decode_rm_, SUFFIX) (eip + 1); // eip is pointting to opcode.
+    
     // push address of next instruction.
     REG(R_ESP) = REG(R_ESP) - 4;
-    MEM_W( REG(R_ESP), cpu.eip + 0x2);
+    MEM_W( REG(R_ESP), eip + len + 1); // 1 for opcode.
 
-    // change eip.
-    cpu.eip = op_src->val - 2; // "2" for this instr.
+    // set eip.
+    cpu.eip = op_src->val;
+
+    // ret
+    print_asm_template1();
+    return 0;
 }
-
-make_instr_helper(rm);
 
 make_helper( concat(call_rel_, SUFFIX) ) {
     // push address of next instruction.
