@@ -1,7 +1,7 @@
 #include "cpu/exec/template-start.h"
 
 make_helper(concat(cdq_, SUFFIX) ) {
-    if (REG(R_EAX) < 0)
+    if (reg_l(R_EAX) < 0)
         reg_l(R_EDX) = 0xffffffff;
     else
         reg_l(R_EDX) = 0x00000000;
