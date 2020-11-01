@@ -15,7 +15,7 @@ $(FLOAT): $(FLOAT_A_OBJ) # FLOAT_A_OBJ 是所有的目标文件.
 # TODO: complete the following rules
 
 # 编译的参数
-PAPA_MATERS := -c -m32 -O2 -fno-builtin
+PAPA_MATERS := -c -m32 -fno-builtin
 
 C1_SRC := $(LIB_COMMON_DIR)/FLOAT/FLOAT.c #路径是相对于总的MakeFile的.
 C2_SRC := $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c 
