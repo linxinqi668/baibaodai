@@ -1,5 +1,7 @@
 #include "cpu/exec/template-start.h"
 
+#define instr call
+
 make_helper( concat(call_rel_, SUFFIX) ) {
     // push address of next instruction.
     REG(R_ESP) = REG(R_ESP) - DATA_BYTE;
@@ -15,6 +17,16 @@ make_helper( concat(call_rel_, SUFFIX) ) {
     print_asm_template1();
     return 0;
 }
+
+static void do_execute() {
+    // call 32bit r/m
+    cpu.eip = op_src->val - 2; // "2" for this instr.
+}
+
+
+make_instr_helper(rm);
+
+
 
 
 
