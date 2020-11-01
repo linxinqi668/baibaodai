@@ -20,7 +20,7 @@ make_helper( concat(call_rel_, SUFFIX) ) {
 
 static void do_execute() {
     // call 32bit r/m
-    cpu.eip = op_src->val - 2; // "2" for this instr.
+    cpu.eip = op_src->val - 1; // "2" for this instr.
 }
 
 
