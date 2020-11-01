@@ -67,7 +67,8 @@ FLOAT f2F(float a) {
 	// <sign bit> <----- Exponent 8 bit -----> <----- Mantissa 23 bit ----->
 	// real number = (-1)^s * 2^(E - 127) * 1.M
 
-	unsigned int temp = *(unsigned int *)&a; // 转成无符号数, 方便移位
+	// unsigned int temp = *(unsigned int *)&a; // 转成无符号数, 方便移位
+	unsigned int temp = 0;
 	unsigned int sign_bit = temp >> 31; // 符号位
 	unsigned int exp = (temp >> 23) & 0xff; // 指数
 	unsigned int mantissa = (temp << 9 >> 9); // 尾数
