@@ -58,11 +58,11 @@ make_helper(concat(imul_rm2a_, SUFFIX)) {
 	 */
 
 	// debug.
-	long long int res = result;
-	if (cpu.eip == 0x10016a) {
-		printf("两个数字分别是: %x, %x\n", (int32_t)op_src->val, (int32_t)op_src2->val);
-		printf("结果是: %lld\n\n", (long long)res);
-	}
+	// long long int res = result;
+	// if (cpu.eip == 0x10016a) {
+	// 	printf("两个数字分别是: %x, %x\n", (int32_t)op_src->val, (int32_t)op_src2->val);
+	// 	printf("结果是: %lld\n\n", (long long)res);
+	// }
 
 	print_asm_template1();
 	return len + 1;
