@@ -24,31 +24,32 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-	int flag=1; //定义符号位
-	if(a>>31) 
+	int sign = 1;
+	if (a < 0) 
 	{
-		a=~a+1;
-		flag*=-1;
+		sign = -sign;
+		a = -a;
 	}
-	if(b>>31) 
+	if (b < 0) 
 	{
-		b=~b+1;
-		flag*=-1;
-	}      //计算符号位
-	int ans=a/b;  //计算当前a/b的值 （取整）
-	a%=b;			// 取余，然后对后面的16位进行递归计算除法
+		sign = -sign;
+		b = -b;
+	}
+	int res = a / b;
+	a = a % b;
 	int i;
 	for (i = 0; i < 16; i++) 
 	{
 		a <<= 1;
-		ans <<= 1;
+		res <<= 1;
 		if (a >= b) 
 		{
-			ans++;
-			a%=b;
+			a -= b;
+			res++;
 		}
 	}
-	return flag*ans;
+	return res * sign;
+}
 }
 
 FLOAT f2F(float a) {
