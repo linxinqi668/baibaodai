@@ -23,11 +23,11 @@ H_PATH := $(LIB_COMMON_DIR)/
 
 $(FLOAT_O): $(C1_SRC)
 	$(shell mkdir -p obj/lib-common/FLOAT)
-	$(CC) $(PAPA_MATERS) $< -l $(H_PATH) -o $@
+	$(CC) $(PAPA_MATERS) $< -o $@
 
 $(FLOAT_VFPRINTF_O): $(C2_SRC)
 	$(shell mkdir -p obj/lib-common/FLOAT)
-	$(CC) $(PAPA_MATERS) $< -l $(H_PATH) -o $@
+	$(CC) $(PAPA_MATERS) $< -o $@
 	
 
 $(FLOAT_VFPRINTF_O):
