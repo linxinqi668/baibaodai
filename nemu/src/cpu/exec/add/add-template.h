@@ -14,7 +14,7 @@ static void do_execute() {
     DATA_TYPE_S add_res = op_dest->val + src;
 
     // debug....
-    if (cpu.eip == 0x10076a) {
+    if (cpu.eip == 0x100084) {
         printf("src is : %x\n", src);
         printf("dest is : %x\n", op_dest->val);
         printf("res is : %x\n", add_res);
