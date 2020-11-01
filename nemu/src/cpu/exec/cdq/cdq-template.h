@@ -2,9 +2,9 @@
 
 make_helper(concat(cdq_, SUFFIX) ) {
     if (REG(R_EAX) < 0)
-        REG(R_EDX) = -1;
+        reg_l(R_EDX) = 0xffffffff;
     else
-        REG(R_EDX) = 0;
+        reg_l(R_EDX) = 0x00000000;
     
     return 1;
 } 
