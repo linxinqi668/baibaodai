@@ -1,7 +1,7 @@
 #include "trap.h"
 #include "FLOAT.h"
 
-FLOAT f(FLOAT x) { 
+FLOAT f(FLOAT x) {
 	/* f(x) = 1/(1+25x^2) */
 	return F_div_F(int2F(1), int2F(1) + F_mul_int(F_mul_F(x, x), 25));
 }
@@ -22,7 +22,7 @@ int main() {
 	FLOAT a = computeT(10, f2F(-1.0), f2F(1.0), f);
 	FLOAT ans = f2F(0.551222);
 
-	nemu_assert(Fabs(a - ans) < f2F(1000000));
+	nemu_assert(Fabs(a - ans) < f2F(1e-4));
 
 	return 0;
 }
