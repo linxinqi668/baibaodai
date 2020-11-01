@@ -2,9 +2,8 @@
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	// nemu_assert(0);
-	long long res = (long long) a * (long long) b;
-	int ans = res >> 16;
-	return ans;
+	long long c = (long long)a * (long long)b;
+	return (FLOAT)(c >> 16);
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
