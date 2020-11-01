@@ -26,7 +26,7 @@ int main() {
 	FLOAT res = f(f2F(0.1));
 
 	// nemu_assert(Fabs(a - ans) < f2F(1e-2));
-	nemu_assert(Fabs(res - 0) < f2F(2.0));
+	nemu_assert(Fabs(res - 0.8) < f2F(1e-2));
 
 	return 0;
 }
