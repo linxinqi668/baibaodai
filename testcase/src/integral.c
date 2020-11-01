@@ -1,7 +1,7 @@
 #include "trap.h"
 #include "FLOAT.h"
 
-FLOAT f(FLOAT x) {
+FLOAT f(FLOAT x) { // f函数没错.
 	/* f(x) = 1/(1+25x^2) */
 	return F_div_F(int2F(1), int2F(1) + F_mul_int(F_mul_F(x, x), 25));
 }
