@@ -50,7 +50,6 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	}
 	return res * sign;
 }
-}
 
 FLOAT f2F(float a) {
 	/* You should figure out how to convert `a' into FLOAT without
@@ -90,7 +89,12 @@ FLOAT f2F(float a) {
 
 FLOAT Fabs(FLOAT a) {
 	// nemu_assert(0);
-	return a < 0 ? (-a) : a;
+	FLOAT b;
+	if (a < 0)
+		b = - a;
+	else
+		b = a;
+	return b;
 }
 
 /* Functions below are already implemented */
