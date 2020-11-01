@@ -17,7 +17,7 @@ static void do_execute() {
 	if (cpu.eip == 0x100191) {
 		printf("ddddddddddddddddddddddddd\n");
 		printf("两个数字分别是: %x, %x\n", (int32_t)a, (int32_t)b);
-		printf("结果是: %x %x \n\n", REG(R_EAX), REG(R_EDX));
+		printf("结果是: %x %x \n\n", REG(R_EDX), REG(R_EAX));
 	}
 
 	print_asm_template1();
