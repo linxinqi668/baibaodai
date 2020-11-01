@@ -2,7 +2,7 @@
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	// nemu_assert(0);
-	long long res = a * b;
+	long long res = (long long) a * (long long) b;
 	int ans = res >> 16;
 	return ans;
 }
@@ -25,14 +25,31 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-
-	// nemu_assert(0);
-	float res = (float)a / b; // equal to A/B
-	int cnt = 16;
-	while (cnt--)
-		res = res * 2; // 懒得位运算.
-	int F = res;
-	return F;
+	int flag=1; //定义符号位
+	if(a>>31) 
+	{
+		a=~a+1;
+		flag*=-1;
+	}
+	if(b>>31) 
+	{
+		b=~b+1;
+		flag*=-1;
+	}      //计算符号位
+	int ans=a/b;  //计算当前a/b的值 （取整）
+	a%=b;			// 取余，然后对后面的16位进行递归计算除法
+	int i;
+	for (i = 0; i < 16; i++) 
+	{
+		a <<= 1;
+		ans <<= 1;
+		if (a >= b) 
+		{
+			ans++;
+			a%=b;
+		}
+	}
+	return flag*ans;
 }
 
 FLOAT f2F(float a) {
@@ -45,10 +62,29 @@ FLOAT f2F(float a) {
 	 * stack. How do you retrieve it to another variable without
 	 * performing arithmetic operations on it directly?
 	 */
-	int cnt = 32;
-	while (cnt--)
-		a = a * 2;
-	int res = a;
+
+	// float类型的存储方式为:
+	// <sign bit> <----- Exponent 8 bit -----> <----- Mantissa 23 bit ----->
+	// real number = (-1)^s * 2^(E - 127) * 1.M
+
+	unsigned int temp = *(unsigned int *)&a; // 转成无符号数, 方便移位
+	unsigned int sign_bit = temp >> 31; // 符号位
+	unsigned int exp = (temp >> 23) & 0xff; // 指数
+	unsigned int mantissa = (temp << 9 >> 9); // 尾数
+	unsigned int frac = (0x1 << 23) + mantissa; // 小数部分
+	// 现在的frac相当于是原来的浮点数 左移了23位.
+	// 指数部分还需要移动 E - 127 位, 转成FLOAT只需要左移16位.
+	int res = 0x0;
+	if (exp - 127 < 0)
+		res = frac >> (127 - exp) >> 7;
+	else if (exp - 127 > 0)
+		res = frac << (exp - 127) >> 7;
+	else
+		res = frac >> 7;
+	
+	if (sign_bit == 1) // 更新符号.
+		res = -res;
+	
 	return res;
 }
 
