@@ -526,6 +526,7 @@ uint32_t get_variable_addr(char * var_name) {
 		}
 	if (find == false)
 		return -1;
+	printf("here\n");
 	// 根据index查找 symtab.
 	Elf32_Sym * symtab = get_symtab();
 	int len_symtab = get_symtab_len();
