@@ -534,7 +534,7 @@ uint32_t get_variable_addr(char * var_name) {
 			}
 		}
 	}
-	printf("here\n");
+	// printf("here\n");
 	return find ? addr : -1;
 }
 
