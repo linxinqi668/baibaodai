@@ -31,6 +31,7 @@ static struct rule {
 	// token_type is an integer, so use a char to represent it.
 
 	// 1st level
+	{"^[a-zA-Z]+[0-9|a-z|A-Z|_]+", OBJECT},  // string
 	{" +",	NOTYPE},				// spaces
 	{"0[xX][0-9a-fA-F]+", Hex_Num}, // hex-num
 	{"[0-9]+", Integer},            // get an integer
@@ -51,8 +52,6 @@ static struct rule {
 	{"==", EQ},						// equal
 	{"!=", NEQ},                    // not equal
 
-	// 6th level
-	{"^[a-zA-Z]+[0-9|a-z|A-Z|_]+", OBJECT},  // string
 
 	// 5th level
 	{"&&", AND},                    // and
