@@ -8,7 +8,37 @@ static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL; // 符号表.
 static int nr_symtab_entry; // 符号表的表项数.
 
+uint32_t get_variable_addr(char * var_name) {
+	// 查找sys字符串, 判断是否存在.
+	// TODO: 利用kmp算法来解决匹配问题.
+	char * strtab = get_strtab();
+	int len_strlab = strlen(strtab);
+	int len_var = strlen(var_name);
+	int i, index;
+	bool find = false;
 
+	printf("%s! is strtab\n", strtab);
+	printf("%s\n", var_name);
+	printf("%d\n", len_var);
+	for (i = 0; i <= len_strlab - len_var; i += len_var)
+		if (strcmp(strtab + i, var_name) == 0) {
+			find = true;
+			index = i;
+			break;
+		}
+	if (find == false)
+		return -1;
+	printf("here\n");
+	// 根据index查找 symtab.
+	Elf32_Sym * symtab = get_symtab();
+	int len_symtab = get_symtab_len();
+	for (i = 0; i < len_symtab; i++)
+		if (symtab[i].st_name == index) // 匹配index
+			return symtab[i].st_value;
+	
+	printf("不可能到这里来！！！！！！.");
+	return -1;
+}
 char * get_strtab() {
 	return strtab;
 }
