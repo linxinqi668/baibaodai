@@ -336,14 +336,15 @@ static int cmd_bt(char *args) {
 				printf(" %x", __this__.fun_args[i]);
 		printf("\n");
 
-		printf("ret_addr is: %x\n", __this__.ret_addr);
+		printf("ret_addr is: 0x%x\n", __this__.ret_addr);
 
 		printf("prev_ebp store in(esp_now): %x\n", __this__.prev_ebp_addr);
-		printf("------------\n\n");
 
 		char * fun_name = get_fun_name(__this__.ret_addr); // 获取上一函数名.
-		printf("retunr to fun: %s\n", fun_name);
+		printf("return to fun: %s\n", fun_name);
 		free(fun_name); // 释放空间.
+
+		printf("------------\n\n");
 
 		// 更新ebp and fun_now
 		__this__.prev_ebp_addr = swaddr_read(__this__.prev_ebp_addr, 4);
