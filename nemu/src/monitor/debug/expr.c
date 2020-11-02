@@ -7,6 +7,8 @@
 #include <regex.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "common.h"
+#include <elf.h>
 
 #define unused 0;
 
@@ -152,6 +154,14 @@ static bool make_token(char *e) {
 						strncpy(new_space, substr_start, substr_len);
 						new_space[substr_len] = '\0';
 						tokens[ nr_token ].str = new_space;
+						break;
+					}
+					case OBJECT: {
+						// 同上
+						char * new_space = (char *)malloc(substr_len + 1);
+						strncpy(new_space, substr_start, substr_len);
+						new_space[substr_len] = '\0';
+						tokens[ nr_token ].str = new_space; // str中存放着变量名.
 						break;
 					}
 					default: {
@@ -495,6 +505,35 @@ uint32_t get_reg_val(char * reg_name){
 /***************************************************************/
 
 
+/* 根据symtab取出变量的地址 *******************************************/
+uint32_t get_variable_addr(char * var_name) {
+	// 查找sys字符串, 判断是否存在.
+	// TODO: 利用kmp算法来解决匹配问题.
+	char * strtab = get_strtab();
+	int len_strlab = strlen(strtab);
+	int len_var = strlen(var_name);
+	int i, index;
+	bool find = false;
+	for (i = 0; i <= len_strlab - len_var; i += len_var)
+		if (strcmp(strtab + i, var_name) == 0) {
+			find = true;
+			index = i;
+			break;
+		}
+	if (find == false)
+		return -1;
+	// 根据index查找 symtab.
+	Elf32_Sym * symtab = get_symtab();
+	int len_symtab = get_symtab_len();
+	for (i = 0; i < len_symtab; i++)
+		if (symtab[i].st_name == index) // 匹配index
+			return symtab[i].st_value;
+	
+	printf("不可能到这里来！！！！！！.");
+	return -1;
+}
+
+
 
 
 /* 求解表达式的值主程序 ******************************************/
@@ -512,8 +551,10 @@ uint32_t get_value(int p, int q) {
 			ret_val = strtol(tokens[p].str, NULL, 16);
 		else if (tokens[p].type == Integer)
 			ret_val = atoi(tokens[p].str);
-		else // 单独处理寄存器
+		else if (tokens[p].type == Reg_Name)
 			ret_val = get_reg_val(tokens[p].str);
+		else
+			ret_val = get_variable_addr(tokens[p].str);
 	
 	} else if (check_parentheses(p, q) == true) {
 		ret_val = get_value(p+1, q-1); // 每个括号单元都是用一个字符表示

@@ -15,6 +15,7 @@
 #include <stdint.h>
 #include <assert.h>
 #include <string.h>
+#include <elf.h>
 
 typedef uint8_t bool;
 typedef uint32_t hwaddr_t;
@@ -31,6 +32,10 @@ typedef union {
 	uint8_t _1;
 } unalign;
 #pragma pack ()
+
+char * get_strtab();
+Elf32_Sym * get_symtab();
+int get_symtab_len();
 
 #define false 0
 #define true 1

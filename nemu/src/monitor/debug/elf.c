@@ -8,6 +8,22 @@ static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL; // 符号表.
 static int nr_symtab_entry; // 符号表的表项数.
 
+
+char * get_strtab() {
+	return strtab;
+}
+
+Elf32_Sym * get_symtab() {
+	return symtab;
+}
+
+int get_symtab_len() {
+	return nr_symtab_entry;
+}
+
+
+
+
 void load_elf_tables(int argc, char *argv[]) {
 	int ret;
 	Assert(argc == 2, "run NEMU with format 'nemu [program]'");
