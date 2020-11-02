@@ -521,6 +521,7 @@ uint32_t get_variable_addr(char * var_name) {
 	for (i = 0; i < len_symtab; i++)
 		if (symtab[i].st_info == 1) { // 如果是OBJECT.
 			// 比对str.
+			printf("here\n");
 			char __name__[30];
 			strncpy(__name__, strtab + symtab[i].st_name, len_var);
 			__name__[len_var] = '\0';
