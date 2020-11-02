@@ -334,11 +334,11 @@ static int cmd_bt(char *args) {
 				printf("%x", __this__.fun_args[i]);
 			else
 				printf(" %x", __this__.fun_args[i]);
+		printf("\n");
 
 		printf("ret_addr is: %x\n", __this__.ret_addr);
 
 		printf("prev_ebp store in(esp_now): %x\n", __this__.prev_ebp_addr);
-		printf("\n");
 		printf("------------\n\n");
 
 		char * fun_name = get_fun_name(__this__.ret_addr); // 获取上一函数名.
