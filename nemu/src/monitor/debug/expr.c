@@ -519,8 +519,8 @@ uint32_t get_variable_addr(char * var_name) {
 	Elf32_Sym * symtab = get_symtab();
 	int len_symtab = get_symtab_len();
 	for (i = 0; i < len_symtab; i++) {
-		printf("%d\n", symtab[i].st_other);
-		if (symtab[i].st_info == 1) { // 如果是OBJECT.
+		printf("%d\n", symtab[i].st_info);
+		if (symtab[i].st_info == STT_OBJECT) { // 如果是OBJECT.
 			// 比对str.
 			printf("here\n");
 			char __name__[30];
