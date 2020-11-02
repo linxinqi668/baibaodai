@@ -324,7 +324,7 @@ static int cmd_bt(char *args) {
 		printf("------------\n");
 		printf("ret_addr is: %x\n", __this__.ret_addr);
 		char * fun_name = get_fun_name(__this__.ret_addr); // 获取上一函数名.
-		printf("retunr to fun: %s", fun_name);
+		printf("retunr to fun: %s\n", fun_name);
 		free(fun_name); // 释放空间.
 		printf("4 parameters: ");
 		printf("prev_ebp store in(esp_now): %x\n", __this__.prev_ebp_addr);
