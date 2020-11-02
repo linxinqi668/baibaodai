@@ -11,7 +11,7 @@
 #include <elf.h>
 
 #define unused 0;
-uint32_t get_variable_addr(char *);
+
 enum {
 	NOTYPE = 'n', EQ = '=', Integer = 'i', Left = '(', Right = ')',
 	Multiply = '*', Div = '/', Plus = '+', Sub = '-',
@@ -506,7 +506,32 @@ uint32_t get_reg_val(char * reg_name){
 
 
 /* 根据symtab取出变量的地址 *******************************************/
+uint32_t get_variable_addr(char * var_name) {
+	// 查找sys字符串, 判断是否存在.
+	// TODO: 利用kmp算法来解决匹配问题.
+	char * strtab = get_strtab();
+	int len_var = strlen(var_name);
+	int i;
+	uint32_t addr;
+	bool find = false;
 
+	// 查找symtab.
+	Elf32_Sym * symtab = get_symtab();
+	int len_symtab = get_symtab_len();
+	for (i = 0; i < len_symtab; i++)
+		if (symtab[i].st_info == 1) { // 如果是OBJECT.
+			// 比对str.
+			char __name__[30];
+			strncpy(__name__, strtab + symtab[i].st_name, len_var);
+			__name__[len_var] = '\0';
+			if (strcmp(__name__, var_name) == 0) {
+				find = true;
+				addr = symtab[i].st_value;
+				break;
+			}
+		}
+	return find ? addr : -1;
+}
 
 
 /* 求解表达式的值主程序 ******************************************/
