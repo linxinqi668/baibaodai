@@ -36,6 +36,7 @@ typedef union {
 char * get_strtab();
 Elf32_Sym * get_symtab();
 int get_symtab_len();
+char * get_fun_name(swaddr_t addr);
 
 #define false 0
 #define true 1

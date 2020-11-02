@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <common.h>
 
 
 void cpu_exec(uint32_t);

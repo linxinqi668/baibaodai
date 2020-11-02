@@ -21,6 +21,11 @@ int get_symtab_len() {
 	return nr_symtab_entry;
 }
 
+char * get_fun_name(swaddr_t addr) {
+	// 查找函数.
+	return NULL;
+}
+
 
 
 
