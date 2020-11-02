@@ -30,9 +30,9 @@ char * get_fun_name(swaddr_t addr) {
 		if (symtab[i].st_info == 18) // type is function.
 			if (symtab[i].st_value <= addr &&
 				addr <= symtab[i].st_value + symtab[i].st_size) {
-					// 计算函数名的长度.
+					// 计算函数名的长度. 符号表中是\0结尾.
 					uint32_t fun_len = strlen(strtab + symtab[i].st_name);
-					printf("len is %d\n", fun_len);
+					// printf("len is %d\n", fun_len);
 					// 取出函数名.
 					strncpy(fun_name, strtab + symtab[i].st_name, fun_len);
 					fun_name[fun_len] = '\0';
