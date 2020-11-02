@@ -38,7 +38,7 @@ char * get_fun_name(swaddr_t addr) {
 					printf("bias 1 is : %d\n", symtab[i].st_name);
 					printf("bias 2 is : %d\n", symtab[i-1].st_name);
 					// 取出函数名.
-					strncpy(fun_name, strtab + symtab[i].st_name, fun_len);
+					strncpy(fun_name, strtab + symtab[i].st_name, 4);
 					fun_name[fun_len] = '\0';
 					// ok.
 				}
