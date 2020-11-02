@@ -51,12 +51,14 @@ static struct rule {
 	{"==", EQ},						// equal
 	{"!=", NEQ},                    // not equal
 
+	// 6th level
+	{"^[a-zA-Z]+[0-9|a-z|A-Z|_]+", OBJECT},  // string
+
 	// 5th level
 	{"&&", AND},                    // and
 	{"||", OR},                     // or
 
-	// 6th level
-	{"^[a-zA-Z]+[0-9|a-z|A-Z|_]+", OBJECT}  // string
+	
 	
 
 };
