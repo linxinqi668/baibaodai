@@ -30,7 +30,7 @@ char * get_fun_name(swaddr_t addr) {
 			if (symtab[i].st_value <= addr &&
 				addr <= symtab[i].st_value + symtab[i].st_size) {
 					// 计算函数名的长度.
-					uint32_t fun_len = symtab[i+1].st_name - symtab[i].st_name;
+					uint32_t fun_len = symtab[i].st_size;
 					// 取出函数名.
 					strncpy(fun_name, strtab + symtab[i].st_name, fun_len);
 					fun_name[fun_len] = '\0';
