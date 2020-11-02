@@ -41,6 +41,7 @@ typedef struct {
 	swaddr_t prev_ebp_addr; // 前面的ebp所存储的地址
 	swaddr_t ret_addr; // 返回地址
 	uint32_t fun_args[4]; // 函数参数
+	swaddr_t fun_now; // 当前的函数.
 } StackFrame;
 
 
@@ -307,6 +308,7 @@ static int cmd_bt(char *args) {
 	// 调用函数前, 先push参数, 然后是返回地址, 最后是ebp.
 	StackFrame __this__;
 	__this__.prev_ebp_addr = cpu.ebp;
+	__this__.fun_now = cpu.eip;
 	int i;
 
 	while (__this__.prev_ebp_addr != 0) {
@@ -322,22 +324,30 @@ static int cmd_bt(char *args) {
 
 		// 打印栈帧
 		printf("------------\n");
-		printf("ret_addr is: %x\n", __this__.ret_addr);
-		char * fun_name = get_fun_name(__this__.ret_addr); // 获取上一函数名.
-		printf("retunr to fun: %s\n", fun_name);
-		free(fun_name); // 释放空间.
-		printf("prev_ebp store in(esp_now): %x\n", __this__.prev_ebp_addr);
+		char * fun_now = get_fun_name(__this__.fun_now);
+		printf("this function is: %s\n", fun_now);
+		free(fun_now);
+
 		printf("4 parameters: ");
 		for (i = 0; i < 4; i++)
 			if (i == 0)
 				printf("%x", __this__.fun_args[i]);
 			else
 				printf(" %x", __this__.fun_args[i]);
-		printf("\n");
-		printf("------------\n");
 
-		// 更新ebp.
+		printf("ret_addr is: %x\n", __this__.ret_addr);
+
+		printf("prev_ebp store in(esp_now): %x\n", __this__.prev_ebp_addr);
+		printf("\n");
+		printf("------------\n\n");
+
+		char * fun_name = get_fun_name(__this__.ret_addr); // 获取上一函数名.
+		printf("retunr to fun: %s\n", fun_name);
+		free(fun_name); // 释放空间.
+
+		// 更新ebp and fun_now
 		__this__.prev_ebp_addr = swaddr_read(__this__.prev_ebp_addr, 4);
+		__this__.fun_now = __this__.ret_addr;
 	}
 
 	return 0;
