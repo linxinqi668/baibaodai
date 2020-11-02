@@ -514,6 +514,8 @@ uint32_t get_variable_addr(char * var_name) {
 	int len_var = strlen(var_name);
 	int i, index;
 	bool find = false;
+
+	printf("%s\n", var_name);
 	for (i = 0; i <= len_strlab - len_var; i += len_var)
 		if (strcmp(strtab + i, var_name) == 0) {
 			find = true;
