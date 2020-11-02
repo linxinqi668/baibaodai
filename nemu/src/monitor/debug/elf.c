@@ -24,7 +24,7 @@ int get_symtab_len() {
 char * get_fun_name(swaddr_t addr) {
 	// 查找函数.
 	int i;
-	char * fun_name = (char *)malloc(30);
+	char * fun_name = (char *)malloc(300);
 	for (i = 0; i < nr_symtab_entry; i++)
 		if (symtab[i].st_info == 18) // type is function.
 			if (symtab[i].st_value <= addr &&
