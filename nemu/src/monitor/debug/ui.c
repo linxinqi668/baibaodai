@@ -313,8 +313,10 @@ static int cmd_bt(char *args) {
 		// 返回地址.
 		__this__.ret_addr = swaddr_read(__this__.prev_ebp_addr + 4, 4);
 		// 参数.
-		for (i = 0; i < 4; i++)
-		__this__.args[i] = swaddr_read(__this__.prev_ebp_addr + 8 + 4 * i, 4);
+		for (i = 0; i < 4; i++) {
+			printf("%x\n", __this__.prev_ebp_addr + 8 + 4 * i);
+			__this__.args[i] = swaddr_read(__this__.prev_ebp_addr + 8 + 4 * i, 4);
+		}
 
 		// 打印栈帧 暂时不打印函数名.
 		printf("---------\n");
