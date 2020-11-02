@@ -325,6 +325,7 @@ static int cmd_bt(char *args) {
 		// 打印栈帧
 		printf("------------\n");
 		char * fun_now = get_fun_name(__this__.fun_now);
+		printf("reached this line\n");
 		printf("this function is: %s\n", fun_now);
 		free(fun_now);
 
