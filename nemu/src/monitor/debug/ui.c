@@ -304,6 +304,8 @@ static int cmd_free(char *args) {
 }
 
 static int cmd_bt(char *args) {
+	// 不适用于不push ebp的函数.
+	
 	// 创建当前栈帧.
 	// 调用函数前, 先push参数, 然后是返回地址, 最后是ebp.
 	StackFrame __this__;
@@ -315,7 +317,6 @@ static int cmd_bt(char *args) {
 		// 读取当前栈帧的信息.
 		// 返回地址.
 		__this__.ret_addr = swaddr_read(__this__.prev_ebp_addr + 4, 4);
-		printf("ret addr is: %x\n", __this__.ret_addr);
 		// 参数.
 		for (i = 0; i < 4; i++) {
 			// DEBUG.
