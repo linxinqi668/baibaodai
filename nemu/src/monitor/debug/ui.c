@@ -320,11 +320,14 @@ static int cmd_bt(char *args) {
 			__this__.fun_args[i] = swaddr_read(__this__.prev_ebp_addr + 8 + 4 * i, 4);
 		}
 
-		// 打印栈帧 暂时不打印函数名.
+		// 打印栈帧
 		printf("------------\n");
-		printf("prev_ebp is: %x\n", __this__.prev_ebp_addr);
 		printf("ret_addr is: %x\n", __this__.ret_addr);
+		char * fun_name = get_fun_name(__this__.ret_addr); // 获取上一函数名.
+		printf("retunr to fun: %s", fun_name);
+		free(fun_name); // 释放空间.
 		printf("4 parameters: ");
+		printf("prev_ebp store in(esp_now): %x\n", __this__.prev_ebp_addr);
 		for (i = 0; i < 4; i++)
 			if (i == 0)
 				printf("%x", __this__.fun_args[i]);
