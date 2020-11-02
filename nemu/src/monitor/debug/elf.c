@@ -25,18 +25,14 @@ char * get_fun_name(swaddr_t addr) {
 	// 查找函数.
 	int i;
 	char * fun_name = (char *)malloc(300);
-	printf("reached this line1\n");
+	// printf("reached this line1\n");
 	for (i = 0; i < nr_symtab_entry; i++)
 		if (symtab[i].st_info == 18) // type is function.
 			if (symtab[i].st_value <= addr &&
 				addr <= symtab[i].st_value + symtab[i].st_size) {
-					// TODO:计算函数名的长度.
-					printf("reached this line2\n");
-					uint32_t fun_len = symtab[i-1].st_name - symtab[i].st_name;
-					printf("reached this line3\n");
-					printf("fun len is : %d\n", fun_len);
-					printf("bias 1 is : %d\n", symtab[i].st_name);
-					printf("bias 2 is : %d\n", symtab[i-1].st_name);
+					// 计算函数名的长度.
+					uint32_t fun_len = strlen(strtab + symtab[i].st_name);
+					printf("len is %d\n", fun_len);
 					// 取出函数名.
 					strncpy(fun_name, strtab + symtab[i].st_name, fun_len);
 					fun_name[fun_len] = '\0';
