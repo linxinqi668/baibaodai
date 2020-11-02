@@ -39,6 +39,8 @@ uint32_t get_variable_addr(char * var_name) {
 	printf("不可能到这里来！！！！！！.");
 	return -1;
 }
+
+
 char * get_strtab() {
 	return strtab;
 }
@@ -123,7 +125,7 @@ void load_elf_tables(int argc, char *argv[]) {
 	free(shstrtab);
 
 	assert(strtab != NULL && symtab != NULL);
-	printf("%s!", strtab);
+	printf("%s!!!!!!!!!", strtab);
 
 	fclose(fp);
 }
