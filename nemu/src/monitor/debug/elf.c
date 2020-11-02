@@ -32,7 +32,7 @@ char * get_fun_name(swaddr_t addr) {
 				addr <= symtab[i].st_value + symtab[i].st_size) {
 					// 计算函数名的长度.
 					printf("reached this line2\n");
-					uint32_t fun_len = symtab[i+1].st_name - symtab[i].st_name;
+					uint32_t fun_len = symtab[i-1].st_name - symtab[i].st_name;
 					printf("reached this line3\n");
 					printf("fun len is : %d\n", fun_len);
 					printf("bias 1 is : %d\n", symtab[i].st_name);
