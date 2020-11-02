@@ -305,7 +305,7 @@ static int cmd_bt(char *args) {
 	// 创建当前栈帧.
 	// 调用函数前, 先push参数, 然后是返回地址, 最后是ebp.
 	StackFrame __this__;
-	__this__.prev_ebp_addr = cpu.esp;
+	__this__.prev_ebp_addr = cpu.ebp;
 	int i;
 
 	while (__this__.prev_ebp_addr != 0) {
