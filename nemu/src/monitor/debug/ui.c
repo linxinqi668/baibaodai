@@ -39,7 +39,7 @@ void print_reverse(char * info) {
 typedef struct {
 	swaddr_t prev_ebp_addr; // 前面的ebp所存储的地址
 	swaddr_t ret_addr; // 返回地址
-	uint32_t args[4]; // 函数参数
+	uint32_t fun_args[4]; // 函数参数
 } StackFrame;
 
 
@@ -315,7 +315,7 @@ static int cmd_bt(char *args) {
 		// 参数.
 		for (i = 0; i < 4; i++) {
 			printf("%x\n", __this__.prev_ebp_addr + 8 + 4 * i);
-			__this__.args[i] = swaddr_read(__this__.prev_ebp_addr + 8 + 4 * i, 4);
+			__this__.fun_args[i] = swaddr_read(__this__.prev_ebp_addr + 8 + 4 * i, 4);
 		}
 
 		// 打印栈帧 暂时不打印函数名.
@@ -325,9 +325,9 @@ static int cmd_bt(char *args) {
 		printf("4 parameters: ");
 		for (i = 0; i < 4; i++)
 			if (i == 0)
-				printf("%x", args[i]);
+				printf("%x", __this__.fun_args[i]);
 			else
-				printf(" %x", args[i]);
+				printf(" %x", __this__.fun_args[i]);
 		printf("\n");
 		printf("---------\n");
 
