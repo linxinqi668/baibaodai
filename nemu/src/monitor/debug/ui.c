@@ -315,6 +315,7 @@ static int cmd_bt(char *args) {
 		// 读取当前栈帧的信息.
 		// 返回地址.
 		__this__.ret_addr = swaddr_read(__this__.prev_ebp_addr + 4, 4);
+		printf("ret addr is: %x\n", __this__.ret_addr);
 		// 参数.
 		for (i = 0; i < 4; i++) {
 			// DEBUG.
