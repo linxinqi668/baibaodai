@@ -36,6 +36,12 @@ void print_reverse(char * info) {
 	printf("\n");
 }
 
+typedef struct {
+	swaddr_t prev_ebp_addr; // 前面的ebp所存储的地址
+	swaddr_t ret_addr; // 返回地址
+	uint32_t args[4]; // 函数参数
+} StackFrame;
+
 
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
@@ -260,7 +266,6 @@ static int cmd_w(char *args) {
 	return 0; // 不退出main loop;
 }
 
-// 几乎没有错哈哈哈哈
 static int cmd_free(char *args) {
 	
 	WP* pool = get_pool();
@@ -296,6 +301,41 @@ static int cmd_free(char *args) {
 
 }
 
+static int cmd_bt(char *args) {
+	// 创建当前栈帧.
+	// 调用函数前, 先push参数, 然后是返回地址, 最后是ebp.
+	StackFrame __this__;
+	__this__.prev_ebp_addr = swaddr_read(cpu.ebp, 4);
+	int i;
+
+	while (__this__.prev_ebp_addr != 0) {
+		// 读取当前栈帧的信息.
+		// 返回地址.
+		__this__.ret_addr = swaddr_read(__this__.prev_ebp_addr + 4, 4);
+		// 参数.
+		for (i = 0; i < 4; i++)
+		__this__.args[i] = swaddr_read(__this__.prev_ebp_addr + 8 + 4 * i, 4);
+
+		// 打印栈帧 暂时不打印函数名.
+		printf("---------\n");
+		printf("prev_ebp is: %x\n", __this__.prev_ebp_addr);
+		printf("ret_addr is: %x\n", __this__.ret_addr);
+		printf("4 parameters: ");
+		for (i = 0; i < 4; i++)
+			if (i == 0)
+				printf("%x", args[i]);
+			else
+				printf(" %x", args[i]);
+		printf("\n");
+		printf("---------\n");
+
+		// 更新ebp.
+		__this__.prev_ebp_addr = swaddr_read(__this__.prev_ebp_addr, 4);
+	}
+
+	return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -309,17 +349,19 @@ static struct {
 
 	/* TODO: Add more commands */
 	// 多步执行指令, 缺省为1步。
-	{ "si", "N Step Further", cmd_si},
+	{ "si", "Exec n instructions.", cmd_si},
 	// 查看信息
-	{ "info", "Check The Register Or Watchpoint Infomation", cmd_info},
+	{ "info", "Check the or watch_point infomation.", cmd_info},
 	// 扫描内存
-	{ "x", "Print N * 4 Bytes After The Input Address", cmd_x},
+	{ "x", "Print n * 4 bytes after the input address.", cmd_x},
 	// 表达式求值
-	{ "p", "Get The Expression Value", cmd_p},
+	{ "p", "Get the expression's value.", cmd_p},
 	// 设置监视点
-	{ "w", "Set A WatchPoint", cmd_w},
+	{ "w", "Set a watch_point.", cmd_w},
 	// 释放监视点
-	{ "d", "Input A Num Or a To Free A WatchPoint", cmd_free}
+	{ "d", "Input a integer or 'a' to free a watch_point.", cmd_free},
+	// 打印栈帧链
+	{ "bt", "Print the stack chain.", cmd_bt}
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
