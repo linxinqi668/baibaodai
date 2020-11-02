@@ -14,7 +14,7 @@ enum {
 	NOTYPE = 'n', EQ = '=', Integer = 'i', Left = '(', Right = ')',
 	Multiply = '*', Div = '/', Plus = '+', Sub = '-',
 	Hex_Num = 'h', Reg_Name = 'r', NEQ = 'n', AND = 'A', OR = 'O',
-	Not = '!', DeReference = '?', Neg = 'm'
+	Not = '!', DeReference = '?', Neg = 'm', OBJECT = '@'
 
 	/* TODO: Add more token types */
 };
@@ -54,6 +54,9 @@ static struct rule {
 	// 5th level
 	{"&&", AND},                    // and
 	{"||", OR},                     // or
+
+	// 6th level
+	{"^[a-zA-Z]+[0-9|a-z|A-Z|_]+", OBJECT}  // string
 	
 
 };
@@ -104,7 +107,7 @@ static bool make_token(char *e) {
 				char *substr_start = e + position; // 子串的起始位置
 				int substr_len = pmatch.rm_eo; // 子串的长度
 
-				// Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
 				// printf("%s\n", e + position);

@@ -5,8 +5,8 @@
 char *exec_file = NULL;
 
 static char *strtab = NULL;
-static Elf32_Sym *symtab = NULL;
-static int nr_symtab_entry;
+static Elf32_Sym *symtab = NULL; // 符号表.
+static int nr_symtab_entry; // 符号表的表项数.
 
 void load_elf_tables(int argc, char *argv[]) {
 	int ret;
