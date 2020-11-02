@@ -33,9 +33,9 @@ char * get_fun_name(swaddr_t addr) {
 					// 计算函数名的长度.
 					printf("reached this line2\n");
 					uint32_t fun_len = symtab[i+1].st_name - symtab[i].st_name;
+					printf("reached this line3\n");
 					// 取出函数名.
 					strncpy(fun_name, strtab + symtab[i].st_name, fun_len);
-					printf("reached this line3\n");
 					fun_name[fun_len] = '\0';
 					// ok.
 				}
