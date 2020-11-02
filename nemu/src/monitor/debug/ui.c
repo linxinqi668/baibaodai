@@ -314,12 +314,13 @@ static int cmd_bt(char *args) {
 		__this__.ret_addr = swaddr_read(__this__.prev_ebp_addr + 4, 4);
 		// 参数.
 		for (i = 0; i < 4; i++) {
-			printf("%x\n", __this__.prev_ebp_addr + 8 + 4 * i);
+			// DEBUG.
+			// printf("%x\n", __this__.prev_ebp_addr + 8 + 4 * i);
 			__this__.fun_args[i] = swaddr_read(__this__.prev_ebp_addr + 8 + 4 * i, 4);
 		}
 
 		// 打印栈帧 暂时不打印函数名.
-		printf("---------\n");
+		printf("------------\n");
 		printf("prev_ebp is: %x\n", __this__.prev_ebp_addr);
 		printf("ret_addr is: %x\n", __this__.ret_addr);
 		printf("4 parameters: ");
@@ -329,7 +330,7 @@ static int cmd_bt(char *args) {
 			else
 				printf(" %x", __this__.fun_args[i]);
 		printf("\n");
-		printf("---------\n");
+		printf("------------\n");
 
 		// 更新ebp.
 		__this__.prev_ebp_addr = swaddr_read(__this__.prev_ebp_addr, 4);
