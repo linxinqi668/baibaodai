@@ -81,7 +81,7 @@ make_helper(concat(cmp_i2A_, SUFFIX)) {
 
     DATA_TYPE_S src = op_src->val;
     DATA_TYPE_S dest = REG(R_EAX);
-    printf("eax is: %x\n", reg_l(R_EAX));
+    printf("eax is: %x\n", REG(R_EAX));
     DATA_TYPE_S minus_res = dest - src;
 
     // debug:
