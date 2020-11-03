@@ -55,6 +55,8 @@ uint32_t loader() {
 	ph = (Elf32_Phdr *)(buf + ph_offset);
 	// (3) 取出程序头的个数.
 	uint32_t ph_num = elf->e_phnum;
+
+	// debug.
 	nemu_assert(ph_num == 3);
 
 
@@ -64,7 +66,6 @@ uint32_t loader() {
 	for(; cnt < ph_num; cnt++) {
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
-			// nemu_assert(cnt <= 1);
 			// panic("hello~\n"); // reached this line.
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
@@ -82,6 +83,12 @@ uint32_t loader() {
 			uint32_t mem_size = ph->p_memsz;
 			uint32_t file_size = ph->p_filesz;
 			uint32_t offset = ph->p_offset;
+
+			if (cnt == 0) {
+				nemu_assert(offset == 0);
+				nemu_assert(file_size == 0x1c9);
+				nemu_assert((uint32_t)st_addr == 0x800000);
+			}
 
 			// 写入内存.
 			memcpy(st_addr, buf + offset, file_size);
