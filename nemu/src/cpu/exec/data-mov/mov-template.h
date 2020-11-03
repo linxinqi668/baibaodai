@@ -88,10 +88,10 @@ make_helper( concat(movs_, SUFFIX) ) {
 	// no need to decode ^_^.
 
 	// debug.
-	// if (cpu.eip == 0x1013d7) {
-	// 	printf("src addr is: %x\n", reg_l(R_ESI));
-	// 	printf("dest addr is: %x\n", reg_l(R_EDI));
-	// }
+	if (cpu.eip == 0x1013d7) {
+		printf("src addr is: %x\n", reg_l(R_ESI));
+		printf("dest addr is: %x\n", reg_l(R_EDI));
+	}
 	
 	// [esi] -> [edi]
 	MEM_W(
