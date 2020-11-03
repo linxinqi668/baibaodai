@@ -35,5 +35,8 @@ int main() {
 	// memset(str, 0, 50);
 	// nemu_assert(strcmp(memset(str, '#', 5), s[5]) == 0);
 
+	memcpy(str, str1, 5);
+	nemu_assert(strcmp(str1, str) == 0);
+
 	return 0;
 }
