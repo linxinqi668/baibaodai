@@ -75,7 +75,7 @@ make_helper(movswl) {
 	int len = decode_rm2r_w(eip + 1);
 
 	// write with sign-extend.
-	// 取最后8位, 然后扩展.
+	// 取最后16位, 然后扩展.
 	// printf("reg is: %s\n", regsl[op_dest->reg]);
 	DATA_TYPE_S rm_extend = (int16_t)op_src->val;
 	OPERAND_W(op_dest, rm_extend);
