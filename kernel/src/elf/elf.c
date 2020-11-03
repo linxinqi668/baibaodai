@@ -57,7 +57,7 @@ uint32_t loader() {
 	uint32_t ph_num = elf->e_phnum;
 
 	// debug.
-	nemu_assert(ph_num == 3);
+	// nemu_assert(ph_num == 3);
 
 
 	/* Load each program segment */
