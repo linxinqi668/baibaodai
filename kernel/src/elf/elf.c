@@ -43,11 +43,11 @@ uint32_t loader() {
 	/* TODO: fix the magic number with the correct one */
 	
 	// 前4个字节就是魔数.
-	const uint32_t * p = (const uint32_t *)buf; // 指向前4个字节.
-	const uint32_t elf_magic = *p; // 然后读取.
+	// const uint32_t * p = (const uint32_t *)buf; // 指向前4个字节.
+	// const uint32_t elf_magic = *p; // 然后读取.
 
-	uint32_t *p_magic = (void *)buf; // 测试.
-	nemu_assert(*p_magic == elf_magic);
+	// uint32_t *p_magic = (void *)buf; // 测试.
+	// nemu_assert(*p_magic == elf_magic);
 
 	// (1) 取出程序头表的偏移(地址).
 	uint32_t ph_offset = elf->e_phoff;
