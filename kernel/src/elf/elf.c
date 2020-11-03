@@ -85,16 +85,16 @@ uint32_t loader() {
 			uint32_t offset = ph->p_offset;
 
 			// debug.
-			if (cnt == 0) {
-				nemu_assert(offset == 0);
-				nemu_assert(file_size == 0x1c9);
-				nemu_assert((uint32_t)st_addr == 0x800000);
-			}
-			if (cnt == 1) {
-				nemu_assert(offset == 0x1000);
-				nemu_assert(file_size == 0x7c);
-				nemu_assert((uint32_t)st_addr == 0x801000);
-			}
+			// if (cnt == 0) {
+			// 	nemu_assert(offset == 0);
+			// 	nemu_assert(file_size == 0x1c9);
+			// 	nemu_assert((uint32_t)st_addr == 0x800000);
+			// }
+			// if (cnt == 1) {
+			// 	nemu_assert(offset == 0x1000);
+			// 	nemu_assert(file_size == 0x7c);
+			// 	nemu_assert((uint32_t)st_addr == 0x801000);
+			// }
 
 			// 写入内存.
 			memcpy(st_addr, buf + offset, file_size);
