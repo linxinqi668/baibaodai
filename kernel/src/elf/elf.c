@@ -79,6 +79,9 @@ uint32_t loader() {
 			uint32_t file_size = ph->p_filesz;
 			uint32_t offset = ph->p_offset;
 
+			int x = 0;
+			nemu_assert(x == 1);
+
 			// 写入内存.
 			memcpy(st_addr, buf + offset, file_size);
 			
