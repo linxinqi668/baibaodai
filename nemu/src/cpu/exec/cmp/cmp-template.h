@@ -85,6 +85,7 @@ make_helper(concat(cmp_i2A_, SUFFIX)) {
 
     // debug:
     if (cpu.eip == 0x1009e3) {
+        printf("eax is: %x\n", reg_l(R_EAX));
         printf("dest is: %x\n", op_dest->val);
         printf("src is: %x\n",  src);
         printf("op size is: %d\n", (int)op_src->size);
