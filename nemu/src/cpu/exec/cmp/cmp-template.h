@@ -107,7 +107,7 @@ make_helper(concat(cmp_i2A_, SUFFIX)) {
         cpu.EFLAGS.OF = 1;
 
     // set CF in subtraction.
-    if ((DATA_TYPE)op_dest->val < (DATA_TYPE)src)
+    if ((DATA_TYPE)dest < (DATA_TYPE)src)
         cpu.EFLAGS.CF = 1;
     else
         cpu.EFLAGS.CF = 0;
