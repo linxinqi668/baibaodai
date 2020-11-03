@@ -32,7 +32,8 @@ void init() {
 #endif
 
 	/* Jump to init_cond() to continue initialization. */
-	printf("here!\n\n\n"); // 到不了这里.
+	int x = 0;
+	nemu_assert(x == 1);
 	asm volatile("jmp *%0" : : "r"(init_cond));
 
 	panic("should not reach here");
