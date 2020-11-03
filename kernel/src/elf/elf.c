@@ -38,7 +38,7 @@ uint32_t loader() {
 	const int * p = (const int *)buf;
 	// transfer it to elf_magic.
 	const uint32_t elf_magic = *p;
-	printf("magic number is: %x\n", elf_magic);
+	printf("!!!!!!!!!!!!!!magic number is: %x\n", elf_magic);
 	uint32_t *p_magic = (void *)buf;
 	nemu_assert(*p_magic == elf_magic);
 
