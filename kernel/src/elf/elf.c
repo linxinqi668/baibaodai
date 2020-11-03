@@ -27,7 +27,7 @@ uint32_t loader() {
 	// int test = 0;
 	// nemu_assert(test == 1); // reached this line.
 
-	uint8_t buf[8192];
+	uint8_t buf[8192 * 50];
 
 	// int test = 0;
 	// nemu_assert(test == 1);
@@ -35,7 +35,7 @@ uint32_t loader() {
 #ifdef HAS_DEVICE
 	ide_read(buf, ELF_OFFSET_IN_DISK, 4096);
 #else
-	ramdisk_read(buf, ELF_OFFSET_IN_DISK, 8192); // 已经读取了4096个字节了.
+	ramdisk_read(buf, ELF_OFFSET_IN_DISK, 8192 * 50); // 已经读取了4096个字节了.
 #endif
 
 	elf = (void*)buf;
