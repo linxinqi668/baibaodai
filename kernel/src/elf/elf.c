@@ -80,10 +80,10 @@ uint32_t loader() {
 			nemu_assert(0x800000 <= (uint32_t)st_addr && (uint32_t)st_addr <= 0x900000);
 			uint32_t mem_size = ph->p_memsz;
 			uint32_t file_size = ph->p_filesz;
-			// uint32_t offset = ph->p_offset;
+			uint32_t offset = ph->p_offset;
 
 			// 写入内存.
-			// memcpy(st_addr, buf + offset, file_size);
+			memcpy(st_addr, buf + offset, file_size);
 			
 			
 			/* TODO: zero the memory region 
