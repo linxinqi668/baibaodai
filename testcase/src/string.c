@@ -13,7 +13,9 @@ char *s[] = {
 // 内存读取不太对劲.
 char str2[] = "1234567890";
 
-char str1[] = "Hello";
+char str1[] = "11111111111111111111111111111111111111111111111\
+			   AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\
+			   BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
 //char str[20] = "!!!#################"; // memset到第3个就不行了.
 char str[400];
 
@@ -35,7 +37,7 @@ int main() {
 	// memset(str, 0, 50);
 	// nemu_assert(strcmp(memset(str, '#', 5), s[5]) == 0);
 
-	memcpy(str, str1, 5);
+	memcpy(str, str1, 155);
 	nemu_assert(strcmp(str1, str) == 0);
 
 	return 0;
