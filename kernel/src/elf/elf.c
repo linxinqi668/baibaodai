@@ -61,6 +61,7 @@ uint32_t loader() {
 	// panic("please implement me");
 	uint32_t cnt = 0;
 	for(; cnt < ph_num; cnt++) {
+		nemu_assert(cnt <= 2);
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
 			// panic("hello~\n"); // reached this line.
@@ -74,13 +75,12 @@ uint32_t loader() {
 			// 3. 每个文件的开头都是0x0. 读取前4个字节就是魔数.
 			// 仿照另一个elf.c文件就可以写出来了.
 			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
+			
+			// 控制内存范围.
 			nemu_assert(0x800000 <= (uint32_t)st_addr && (uint32_t)st_addr <= 0x900000);
 			uint32_t mem_size = ph->p_memsz;
 			uint32_t file_size = ph->p_filesz;
 			uint32_t offset = ph->p_offset;
-
-			int x = 0;
-			nemu_assert(x == 1);
 
 			// 写入内存.
 			memcpy(st_addr, buf + offset, file_size);
