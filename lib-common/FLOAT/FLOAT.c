@@ -73,7 +73,7 @@ FLOAT f2F(float a) {
 	unsigned int frac = (0x1 << 23) + mantissa; // 小数部分
 	// 现在的frac相当于是原来的浮点数 左移了23位.
 	// 指数部分还需要移动 E - 127 位, 转成FLOAT只需要左移16位.
-	unsigned int res = 0x0;
+	int res = 0x0;
 	if (exp - 127 < 0) // exp 不可以是unsigned int.
 		res = frac >> (127 - exp) >> 7;
 	else if (exp - 127 > 0)
