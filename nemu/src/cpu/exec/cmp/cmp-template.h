@@ -115,7 +115,7 @@ make_helper(concat(cmp_i2A_, SUFFIX)) {
     // debug:
     if (cpu.eip == 0x1009e3) {
         printf("dest is: %x\n", op_dest->val);
-        printf("src is: %d\n",  src);
+        printf("src is: %x\n",  src);
         printf("op size is: %d\n", (int)op_src->size);
         printf("res is: %d\n", minus_res);
         printf("CF is: %d\n", cpu.EFLAGS.CF);
