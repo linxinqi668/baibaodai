@@ -80,7 +80,7 @@ make_helper(concat(cmp_i2A_, SUFFIX)) {
     int len = concat(decode_i_, SUFFIX)(eip + 1);
 
     DATA_TYPE_S src = op_src->val;
-    DATA_TYPE_S dest = REG(R_EAX);
+    DATA_TYPE dest = REG(R_EAX);
     printf("eax is: %x\n", REG(R_EAX));
     DATA_TYPE_S minus_res = dest - src;
 
