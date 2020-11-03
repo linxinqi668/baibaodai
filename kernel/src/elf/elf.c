@@ -63,7 +63,7 @@ uint32_t loader() {
 	for(; cnt < ph_num; cnt++) {
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
-			panic("hello~\n");
+			// panic("hello~\n");
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
