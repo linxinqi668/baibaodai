@@ -43,7 +43,7 @@ void init() {
 /* Initialization phase 2 */
 void init_cond() {
 	int check = 0;
-	nemu_assert(check == 1);
+	nemu_assert(check == 1); // not reach here ??????
 #ifdef IA32_INTR
 	/* Reset the GDT, since the old GDT in start.S cannot be used in the future. */
 	init_segment();

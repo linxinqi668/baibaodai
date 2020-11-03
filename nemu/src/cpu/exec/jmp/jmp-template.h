@@ -18,6 +18,7 @@ make_helper( concat(jmp_rm_, SUFFIX) ) {
     
     // jmp
     cpu.eip = op_src->val;
+    printf("jmp to: %x\n", op_src->val);
 
     return 0;
 }
