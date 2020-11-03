@@ -24,6 +24,9 @@ uint32_t loader() {
 	Elf32_Ehdr *elf;
 	Elf32_Phdr *ph = NULL; // 程序头数组
 
+	int test = 0;
+	nemu_assert(test == 1);
+
 	uint8_t buf[4096];
 
 #ifdef HAS_DEVICE
@@ -33,9 +36,6 @@ uint32_t loader() {
 #endif
 
 	elf = (void*)buf;
-
-	int test = 0;
-	nemu_assert(test == 1);
 
 	/* TODO: fix the magic number with the correct one */
 	
