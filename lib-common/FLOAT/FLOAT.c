@@ -86,33 +86,15 @@ FLOAT f2F(float a) {
 	
 	// return res;
 
-	// int b = *(int *)&a;
-	// int sign = b >> 31;
-	// int exp = (b >> 23) & 0xff;
-	// FLOAT k = b & 0x7fffff;
-	// if (exp != 0) k += 1 << 23;
-	// exp -= 150;
-	// if (exp < -16) k >>= -16 - exp;
-	// if (exp > -16) k <<= exp + 16;
-	// return sign == 0 ? k : -k;
-
-	unsigned int temp = *(unsigned int *)&a; // 转成无符号数, 方便移位
-	unsigned int exp = (temp >> 23) & 0xff; // 指数
-	unsigned int mantissa = (temp << 9 >> 9); // 尾数
-	unsigned int frac = (0x1 << 23) + mantissa; // 小数部分
-	// 现在的frac相当于是原来的浮点数 左移了23位.
-	// 指数部分还需要移动 E - 127 位, 转成FLOAT只需要左移16位.
-	int res = 0x1;
-	if (temp>>31) // 更新符号.
-		res = -1*res;
-	if (exp - 127 < 0)
-		res *= frac >> (127 - exp) >> 7;
-	else if (exp - 127 > 0)
-		res *= frac << (exp - 127) >> 7;
-	else
-		res *= frac >> 7;
-	
-	return res;
+	int b = *(int *)&a;
+	int sign = b >> 31;
+	int exp = (b >> 23) & 0xff;
+	FLOAT k = b & 0x7fffff;
+	if (exp != 0) k += 1 << 23;
+	exp -= 150;
+	if (exp < -16) k >>= -16 - exp;
+	if (exp > -16) k <<= exp + 16;
+	return sign == 0 ? k : -k;
 }
 
 FLOAT Fabs(FLOAT a) {
