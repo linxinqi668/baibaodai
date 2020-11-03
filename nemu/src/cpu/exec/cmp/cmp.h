@@ -15,3 +15,4 @@ make_helper(cmp_rm2r_v);
 make_helper(cmp_i2rm_v);
 
 make_helper(cmp_i2A_b);
+make_helper(cmp_i2A_v);
