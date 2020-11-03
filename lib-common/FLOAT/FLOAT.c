@@ -35,7 +35,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 		sign = -sign;
 		b = -b;
 	}
-	// nemu_assert(b != 0);
+	nemu_assert(b != 0);
 	int res = a / b;
 	nemu_assert(b != 0);
 	a = a % b; // a 是剩余部分.
