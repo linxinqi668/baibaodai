@@ -18,12 +18,10 @@ void create_video_mapping();
 uint32_t get_ucr3();
 
 uint32_t loader() {
-	printf("here!!!!!!!!!!\n");
 	Elf32_Ehdr *elf;
 	Elf32_Phdr *ph = NULL; // 程序头数组
 
 	uint8_t buf[4096];
-	printf("%s\n", (char *)buf);
 
 #ifdef HAS_DEVICE
 	ide_read(buf, ELF_OFFSET_IN_DISK, 4096);
@@ -49,6 +47,8 @@ uint32_t loader() {
 	// (3) 取出程序头的个数.
 	uint32_t ph_num = elf->e_phnum;
 	
+	int test = 0;
+	nemu_assert(test == 1);
 
 
 	/* Load each program segment */
@@ -58,7 +58,6 @@ uint32_t loader() {
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
 
-			printf("here!!!!!!!!!!\n");
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
@@ -68,7 +67,6 @@ uint32_t loader() {
 			// 3. 每个文件的开头都是0x0. 读取前4个字节就是魔数.
 			// 仿照另一个elf.c文件就可以写出来了.
 			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
-			printf("%x\n", (unsigned int)st_addr);
 			uint32_t mem_size = ph->p_memsz;
 			uint32_t file_size = ph->p_filesz;
 
