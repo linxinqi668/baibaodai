@@ -17,9 +17,9 @@ char str1[] = "Hello";
 char str[400];
 
 int main() {
-	nemu_assert(strcmp(s[0], "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa") == 0); // OK
+	// nemu_assert(strcmp(s[0], "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa") == 0); // OK
 	//nemu_assert(strcmp(s[0], s[1]) == -1); // OK
-	// nemu_assert(strcmp(s[0] + 1, s[1] + 1) == -1); // OK
+	nemu_assert(strcmp(s[0] + 1, s[1] + 1) == -1); // OK
 	// nemu_assert(strcmp(s[0] + 2, s[1] + 2) == -1); // OK
 	// nemu_assert(strcmp(s[0] + 3, s[1] + 3) == -1); // OK
 
