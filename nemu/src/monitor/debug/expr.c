@@ -510,7 +510,7 @@ uint32_t get_variable_addr(char * var_name) {
 	// 查找sys字符串, 判断是否存在.
 	// TODO: 利用kmp算法来解决匹配问题.
 	char * strtab = get_strtab();
-	int len_var = strlen(var_name);
+	// int len_var = strlen(var_name);
 	int i;
 	uint32_t addr;
 	bool find = false;
@@ -525,10 +525,7 @@ uint32_t get_variable_addr(char * var_name) {
 		if ((symtab[i].st_info & 0x0f) ==  STT_OBJECT) { // 如果是OBJECT.
 			// 比对str.
 			// printf("here\n");
-			char __name__[30];
-			strncpy(__name__, strtab + symtab[i].st_name, len_var);
-			__name__[len_var] = '\0';
-			if (strcmp(__name__, var_name) == 0) {
+			if (strcmp(strtab + symtab[i].st_name, var_name) == 0) {
 				find = true;
 				addr = symtab[i].st_value;
 				break;
