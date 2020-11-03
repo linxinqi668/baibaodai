@@ -18,6 +18,9 @@ void create_video_mapping();
 uint32_t get_ucr3();
 
 uint32_t loader() {
+	int test = 0;
+	nemu_assert(test == 1);
+	
 	Elf32_Ehdr *elf;
 	Elf32_Phdr *ph = NULL; // 程序头数组
 
@@ -46,9 +49,6 @@ uint32_t loader() {
 	ph = (Elf32_Phdr *)(buf + ph_offset);
 	// (3) 取出程序头的个数.
 	uint32_t ph_num = elf->e_phnum;
-	
-	int test = 0;
-	nemu_assert(test == 1);
 
 
 	/* Load each program segment */
