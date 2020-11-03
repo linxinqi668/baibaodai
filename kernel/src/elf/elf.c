@@ -64,7 +64,7 @@ uint32_t loader() {
 			// 2. 每个segment都有自己的物理地址, 以及file size, memsize.
 			// 3. 每个文件的开头都是0x0. 读取前4个字节就是魔数.
 			// 仿照另一个elf.c文件就可以写出来了.
-			uint8_t * st_addr = ph->p_vaddr;
+			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
 			uint32_t mem_size = ph->p_memsz;
 			uint32_t file_size = ph->p_filesz;
 
