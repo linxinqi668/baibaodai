@@ -35,15 +35,13 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 		sign = -sign;
 		b = -b;
 	}
-	nemu_assert(b != 0);
 	int res = a / b;
-	nemu_assert(b != 0);
-	a = a % b; // a 是剩余部分.
+	a = a % b;
 	int i;
 	for (i = 0; i < 16; i++) 
 	{
 		a <<= 1;
-		res <<= 1; // 左移1位.
+		res <<= 1;
 		if (a >= b) 
 		{
 			a -= b;
