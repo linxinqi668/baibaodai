@@ -35,14 +35,15 @@ void init() {
 	int x = 0;
 	nemu_assert(x == 0); // reached this line.
 	asm volatile("jmp *%0" : : "r"(init_cond));
-	nemu_assert(x == 1); 
+	nemu_assert(x == 1); // not reach here.
 
 	panic("should not reach here");
 }
 
 /* Initialization phase 2 */
 void init_cond() {
-	printf("here!\n\n\n"); // 到不了这里.
+	int check = 0;
+	nemu_assert(check == 1);
 #ifdef IA32_INTR
 	/* Reset the GDT, since the old GDT in start.S cannot be used in the future. */
 	init_segment();
