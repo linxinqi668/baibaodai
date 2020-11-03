@@ -36,7 +36,7 @@ void init() {
 	nemu_assert(x == 0); // reached this line.
 	init_cond();
 	asm volatile("jmp *%0" : : "r"(init_cond));
-	nemu_assert(x == 1); // not reach here.
+	// nemu_assert(x == 1); // not reach here.
 
 	panic("should not reach here");
 }
