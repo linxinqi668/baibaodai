@@ -53,7 +53,7 @@ void load_elf_tables(int argc, char *argv[]) {
 	Assert(fp, "Can not open '%s'", exec_file);
 
 	uint8_t buf[sizeof(Elf32_Ehdr)];
-	ret = fread(buf, sizeof(Elf32_Ehdr), 1, fp);
+	ret = fread(buf, sizeof(Elf32_Ehdr), 1, fp); // 读取文件头. 直接读取一个结构体。学到了学到了.
 	assert(ret == 1);
 
 	/* The first several bytes contain the ELF header. */
@@ -76,9 +76,13 @@ void load_elf_tables(int argc, char *argv[]) {
 	/* Load symbol table and string table for future use */
 
 	/* Load section header table */
+	// 计算出节头的大小.
 	uint32_t sh_size = elf->e_shentsize * elf->e_shnum;
+	// 分配空间.
 	Elf32_Shdr *sh = malloc(sh_size);
+	// 查找节头表的offset. 这很重要. 我猜更改了fp指针的位置.
 	fseek(fp, elf->e_shoff, SEEK_SET);
+	// 然后从新的fp指针这里读取.
 	ret = fread(sh, sh_size, 1, fp);
 	assert(ret == 1);
 
