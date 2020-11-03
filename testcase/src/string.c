@@ -12,7 +12,7 @@ char *s[] = {
 
 char str1[] = "Hello";
 //char str[20] = "!!!#################"; // memset到第3个就不行了.
-char str[20];
+char str[400];
 
 int main() {
 	// nemu_assert(strcmp(s[0], s[2]) == 0); // OK
@@ -32,7 +32,15 @@ int main() {
 	// memset(str, 0, 50);
 	// nemu_assert(strcmp(memset(str, '#', 5), s[5]) == 0);
 
-	strncpy(str, "123acdgsdefdf", 14);
-	nemu_assert(strcmp(str, "123acdgsdefdf") == 0);
+	strncpy(str, "111111111111111111111111111111111111111111111111111111111\
+	              222222222222222222222222222222222222222222222222222222222\
+				  ssssssssssdsadfduihdfiufahsdfuisdhfgiuadhgiusfhduifghifdgj\
+				  fsgjsdfjgosidfgjisofgjsiofgjsiogjsodfgjsigfojgiosfjgosfji\
+				  sdfgjcviobxaefj8d***ddjashduasdhjnsadjasd", 304);
+	nemu_assert(strcmp(str, "111111111111111111111111111111111111111111111111111111111\
+	              222222222222222222222222222222222222222222222222222222222\
+				  ssssssssssdsadfduihdfiufahsdfuisdhfgiuadhgiusfhduifghifdgj\
+				  fsgjsdfjgosidfgjisofgjsiofgjsiogjsodfgjsigfojgiosfjgosfji\
+				  sdfgjcviobxaefj8d***ddjashduasdhjnsadjasd") == 0);
 	return 0;
 }
