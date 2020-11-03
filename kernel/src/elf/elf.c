@@ -2,6 +2,7 @@
 #include "memory.h"
 #include <string.h>
 #include <elf.h>
+#include <stdio.h>
 
 #define ELF_OFFSET_IN_DISK 0
 
@@ -31,12 +32,18 @@ uint32_t loader() {
 	elf = (void*)buf;
 
 	/* TODO: fix the magic number with the correct one */
-	const uint32_t elf_magic = 0xBadC0de;
+	
+	// 前4个字节就是魔数.
+	ramdisk_read(buf, 0, 4); // read 4 bytes to buf.
+	const int * p = (const int *)buf;
+	// transfer it to elf_magic.
+	const uint32_t elf_magic = *p;
+	printf("magic number is: %x\n", elf_magic);
 	uint32_t *p_magic = (void *)buf;
 	nemu_assert(*p_magic == elf_magic);
 
 	/* Load each program segment */
-	panic("please implement me");
+	// panic("please implement me");
 	for(; true; ) {
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
@@ -44,11 +51,16 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
+			// 1. 只加载type为LOAD的segment.
+			// 2. 每个segment都有自己的物理地址, 以及file size, memsize.
+			// 3. 每个文件的开头都是0x0. 读取前4个字节就是魔数.
+
 			 
 			 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
+			// 清零内存空间.
 
 
 #ifdef IA32_PAGE
