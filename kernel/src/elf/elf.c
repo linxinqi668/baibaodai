@@ -38,10 +38,10 @@ uint32_t loader() {
 	ramdisk_read(buf, ELF_OFFSET_IN_DISK, 4096); // 已经读取了4096个字节了.
 #endif
 
-	elf = (void*)buf;
-
 	int test = 0;
 	nemu_assert(test == 1);
+
+	elf = (void*)buf;
 
 	/* TODO: fix the magic number with the correct one */
 	
