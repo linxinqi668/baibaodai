@@ -15,9 +15,9 @@ static void do_execute() {
 
     // debug....
     if (cpu.eip == 0x10102e) {
-        printf("src is : %x\n", src);
-        printf("dest is : %x\n", op_dest->val);
-        printf("res is : %x\n", add_res);
+        printf("src is : %d\n", src);
+        printf("dest is : %d\n", op_dest->val);
+        printf("res is : %d\n", add_res);
     }
 
     // write
