@@ -7,7 +7,7 @@ make_helper( concat(jmp_rel_, SUFFIX) ) {
     // jmp
     cpu.eip = cpu.eip + 1 + DATA_BYTE + (int32_t)rel;
 
-    printf("jmp to: %x\n", cpu.eip);
+    printf("BBB jmp to: %x\n", cpu.eip);
 
     print_asm_template1();
 
