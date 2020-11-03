@@ -44,6 +44,19 @@ make_helper(movzbl) {
 	return 1 + len;
 }
 
+make_helper(movzwl) {
+	// decode
+	int len = decode_rm2r_w(eip + 1);
+
+	// write with zero-extend.
+	// 取最后16位, 然后扩展.
+	// printf("reg is: %s\n", regsl[op_dest->reg]);
+	DATA_TYPE rm_extend = (uint16_t)op_src->val;
+	OPERAND_W(op_dest, rm_extend);
+
+	return 1 + len;
+}
+
 make_helper(movsbl) {
 	// decode
 	int len = decode_rm2r_b(eip + 1);
