@@ -18,9 +18,9 @@ void create_video_mapping();
 uint32_t get_ucr3();
 
 uint32_t loader() {
-	int test = 0;
-	nemu_assert(test == 1);
-	
+	// int test = 0;
+	// nemu_assert(test == 1); // reached this line.
+
 	Elf32_Ehdr *elf;
 	Elf32_Phdr *ph = NULL; // 程序头数组
 
@@ -33,6 +33,9 @@ uint32_t loader() {
 #endif
 
 	elf = (void*)buf;
+
+	int test = 0;
+	nemu_assert(test == 1);
 
 	/* TODO: fix the magic number with the correct one */
 	
