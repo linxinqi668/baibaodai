@@ -81,7 +81,7 @@ void init_cond() {
 
 	/* Load the program. */
 	uint32_t eip = loader();
-	printf("here!\n\n\n");
+	printf("here!\n\n\n"); // 到不了这里.
 	
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Read data in the video memory to check whether 
