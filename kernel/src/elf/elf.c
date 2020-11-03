@@ -23,6 +23,7 @@ uint32_t loader() {
 	Elf32_Phdr *ph = NULL; // 程序头数组
 
 	uint8_t buf[4096];
+	printf("%s\n", (char *)buf);
 
 #ifdef HAS_DEVICE
 	ide_read(buf, ELF_OFFSET_IN_DISK, 4096);
