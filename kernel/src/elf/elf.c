@@ -63,21 +63,23 @@ uint32_t loader() {
 	for(; cnt < ph_num; cnt++) {
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
-			// panic("hello~\n");
+			// panic("hello~\n"); reached this line.
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 
 			// 1. 只加载type为LOAD的segment.
 			// 2. 每个segment都有自己的物理地址, 以及file size, memsize.
+			// 3. 根据offset找到节的内容.
 			// 3. 每个文件的开头都是0x0. 读取前4个字节就是魔数.
 			// 仿照另一个elf.c文件就可以写出来了.
 			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
 			uint32_t mem_size = ph->p_memsz;
 			uint32_t file_size = ph->p_filesz;
+			uint32_t offset = ph->p_offset;
 
 			// 写入内存.
-			memcpy(st_addr, (uint8_t *)ph, file_size);
+			memcpy(st_addr, buf + offset, file_size);
 			
 			
 			/* TODO: zero the memory region 
