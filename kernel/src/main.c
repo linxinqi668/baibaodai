@@ -32,8 +32,8 @@ void init() {
 #endif
 
 	/* Jump to init_cond() to continue initialization. */
-	int x = 0;
-	nemu_assert(x == 0); // reached this line.
+	// int x = 0;
+	// nemu_assert(x == 0); // reached this line.
 	// init_cond();
 	asm volatile("jmp *%0" : : "r"(init_cond)); // 直接跳到0x800e70了?
 	// nemu_assert(x == 1); // not reach here.
