@@ -112,6 +112,19 @@ make_helper(concat(cmp_i2A_, SUFFIX)) {
     else
         cpu.EFLAGS.CF = 0;
 
+    // debug:
+    if (cpu.eip == 0x1009e3) {
+        printf("dest is: %d\n", op_dest->val);
+        printf("src is: %d\n",  src);
+        printf("op size is: %d\n", (int)op_src->size);
+        printf("res is: %d\n", minus_res);
+        printf("CF is: %d\n", cpu.EFLAGS.CF);
+        printf("ZF is: %d\n", cpu.EFLAGS.ZF);
+        printf("OF is: %d\n", cpu.EFLAGS.OF);
+        printf("SF is: %d\n\n\n\n\n", cpu.EFLAGS.SF);
+        // assert(cpu.EFLAGS.SF == 1);
+    }
+
     return 1 + len;
 }
 
