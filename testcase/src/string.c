@@ -10,6 +10,8 @@ char *s[] = {
 	"#####"
 };
 
+char str2[] = "1234567890";
+
 char str1[] = "Hello";
 //char str[20] = "!!!#################"; // memset到第3个就不行了.
 char str[400];
