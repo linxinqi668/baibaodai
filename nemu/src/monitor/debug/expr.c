@@ -522,7 +522,7 @@ uint32_t get_variable_addr(char * var_name) {
 		// printf("%d\n", symtab[i].st_info);
 		// printf("%x\n", symtab[i].st_value);
 		// printf("\n");
-		if (symtab[i].st_info == 17) { // 如果是OBJECT.
+		if ((symtab[i].st_info & 0x0f) ==  STT_OBJECT) { // 如果是OBJECT.
 			// 比对str.
 			// printf("here\n");
 			char __name__[30];

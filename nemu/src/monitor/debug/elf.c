@@ -24,10 +24,10 @@ int get_symtab_len() {
 char * get_fun_name(swaddr_t addr) {
 	// 查找函数.
 	int i;
-	char * fun_name = (char *)malloc(300);
+	char * fun_name = (char *)malloc(30);
 	// printf("reached this line1\n");
 	for (i = 0; i < nr_symtab_entry; i++)
-		if (symtab[i].st_info == 18) // type is function.
+		if ((symtab[i].st_info & 0x0f) == STT_FUNC) // type is function.
 			if (symtab[i].st_value <= addr &&
 				addr <= symtab[i].st_value + symtab[i].st_size) {
 					// 计算函数名的长度. 符号表中是\0结尾.
