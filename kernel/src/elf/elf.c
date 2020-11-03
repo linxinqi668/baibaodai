@@ -73,7 +73,8 @@ uint32_t loader() {
 			// 3. 根据offset找到节的内容.
 			// 3. 每个文件的开头都是0x0. 读取前4个字节就是魔数.
 			// 仿照另一个elf.c文件就可以写出来了.
-			uint8_t * st_addr = (uint8_t *)ph->p_paddr;
+			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
+			printf("%x\n", st_addr);
 			uint32_t mem_size = ph->p_memsz;
 			uint32_t file_size = ph->p_filesz;
 			uint32_t offset = ph->p_offset;
