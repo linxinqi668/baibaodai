@@ -33,6 +33,6 @@ int main() {
 	// nemu_assert(strcmp(memset(str, '#', 5), s[5]) == 0);
 
 	strncpy(str, "123acdgsdefdf", 14);
-	nemu_assert(strcmp(str, "123acdgsdefdf"));
+	nemu_assert(strcmp(str, "123acdgsdefdf") == 0);
 	return 0;
 }
