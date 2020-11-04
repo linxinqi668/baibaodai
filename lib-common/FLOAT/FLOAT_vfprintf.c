@@ -66,7 +66,7 @@ static void modify_vfprintf() {
 	 uint_fast32_t dispacement_call = 0x306;
 	 uint_fast32_t addr_call = addr_vfprintf_internal + dispacement_call;
 
-	 printf("call_rel is: %x\n", addr_call);
+	 printf("addr of call is: %x\n", addr_call);
 	 printf("addr of vfprintf_internal is: %x\n", _vfprintf_internal);
 
 	 // 消除保护模式.
@@ -80,8 +80,7 @@ static void modify_vfprintf() {
 	 uint_fast32_t * addr_rel = (uint_fast32_t *)(addr_call + 1);
 	 printf("addr of _fpmaxtostr is: %x\n", _fpmaxtostr);
 	 printf("addr of rel is: %x\n", addr_rel);
-	 printf("old rel is: %x\n", old_rel);
-	 printf("addr of format is: %x\n", format_FLOAT);
+	 printf("addr of format is: %x\n", format_FLOAT); // format的地址没问题.
 	 uint_fast32_t old_rel = *addr_rel;
 	 uint_fast32_t new_rel = old_rel -
 	 						 (uint_fast32_t)_fpmaxtostr +
