@@ -4,7 +4,7 @@
 
 #include <sys/mman.h>
 
-// extern表示函数在别的文件里定义.
+// extern表示变量在别的文件里定义.
 // 这边不能是 char....
 extern uint_fast32_t _vfprintf_internal;
 extern uint_fast32_t _fpmaxtostr;
@@ -79,6 +79,7 @@ static void modify_vfprintf() {
 	 // 修改rel.  1 for opcode.
 	 uint_fast32_t * addr_rel = (uint_fast32_t *)(addr_call + 1);
 	 printf("addr of _fpmaxtostr is: %x\n", _fpmaxtostr);
+	 printf("addr of rel is: %x\n", addr_rel);
 	 uint_fast32_t old_rel = *addr_rel;
 	 printf("old rel is: %x\n", old_rel);
 	 uint_fast32_t new_rel = old_rel -
