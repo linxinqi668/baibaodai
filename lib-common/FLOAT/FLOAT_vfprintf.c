@@ -5,8 +5,9 @@
 #include <sys/mman.h>
 
 // extern表示函数在别的文件里定义.
-extern char _vfprintf_internal;
-extern char _fpmaxtostr;
+// 这边不能是 char....
+extern uint_fast32_t _vfprintf_internal;
+extern uint_fast32_t _fpmaxtostr;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
@@ -60,12 +61,12 @@ static void modify_vfprintf() {
 
 	 // 计算call指令的地址. 函数名就是函数的地址.
 
-
-	 uint_fast32_t addr_vfprintf_internal = _vfprintf_internal;
+	 
+	 uint_fast32_t addr_vfprintf_internal = (uint_fast32_t)_vfprintf_internal;
 	 uint_fast32_t dispacement_call = 0x306;
 	 uint_fast32_t addr_call = addr_vfprintf_internal + dispacement_call;
 
-	 printf("addr of call is: %x\n", addr_call);
+	 printf("call_rel is: %x\n", addr_call);
 	 printf("addr of vfprintf_internal is: %x\n", _vfprintf_internal);
 
 	 // 消除保护模式.
@@ -81,6 +82,8 @@ static void modify_vfprintf() {
 	 uint_fast32_t new_rel = old_rel -
 	 						 (uint_fast32_t)_fpmaxtostr +
 							 (uint_fast32_t)format_FLOAT;
+
+	printf("addr of _fpmaxtostr is: %x\n", _fpmaxtostr);
 	// 修改内容.
 	*addr_rel = new_rel;
 	// 应该能完成跳转了.
