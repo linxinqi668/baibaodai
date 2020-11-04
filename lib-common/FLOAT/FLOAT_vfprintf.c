@@ -15,8 +15,14 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 *         0x00013333    "1.199996"
 	 */
 
+	// TODO: 人话: 这边要实现一个函数F2f; 然后写到stream里面去.
+	// stream这个参数应该不需要动.
+
 	char buf[80];
-	int len = sprintf(buf, "0x%08x", f);
+	int len = sprintf(buf, "0x%08x", f); // 把f的16进制表示写入buf. 0x******
+	// 因为f是32位的, 所以最多写8个.
+
+	// TODO: 修改buf.
 	return __stdio_fwrite(buf, len, stream);
 }
 
@@ -26,6 +32,28 @@ static void modify_vfprintf() {
 	 * is the code section in _vfprintf_internal() relative to the
 	 * hijack.
 	 */
+
+	/* 这种注释好漂亮诶.
+	 * 从汇编代码中获取的信息.
+	 * 1. call指令相对于xxxxinternal的偏移量为:
+	 *    0x8048865 - 0x804855f = 0x306 = inplacement_call
+	 * 	  所以call指令的地址就是:
+	 * 	  addr of (_vfprintf_internal) + inplacament_call
+	 * 
+	 * 2. print-FLOAT-linux这段代码会调用init_FLOAT_vfprintf这个函数
+	 * 	  从而调用modify_vfprintf来修改内存.
+	 *    所以可以用函数指针来计算出运行时的函数地址, 从而计算偏移量.
+	 * 
+	 * 3. new_rel = old_rel - addr of (_fpmaxtostr) + addr of (format_FLOAT)
+	 *    new_eip = eip + new_rel = eip + old_rel - addr1 + addr2
+	 * 			  = addr1 - addr1 + addr2
+	 * 			  = addt2.
+	 * 	  这就完成跳转了.
+	 * 
+	 * 4. 设置函数参数.. 比较难的样子. 用fact.c来看一下参数的安排方式.
+	 * */
+
+	
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
@@ -167,7 +195,8 @@ static void modify_ppfs_setargs() {
 
 }
 
+// 这个函数会被调用.
 void init_FLOAT_vfprintf() {
-	modify_vfprintf();
+	modify_vfprintf(); //  直接修改内存, 从而修改机器指令达到跳转的目的.
 	modify_ppfs_setargs();
 }
