@@ -80,9 +80,9 @@ static void modify_vfprintf() {
 	 uint_fast32_t * addr_rel = (uint_fast32_t *)(addr_call + 1);
 	 printf("addr of _fpmaxtostr is: %x\n", _fpmaxtostr);
 	 printf("addr of rel is: %x\n", addr_rel);
-	 uint_fast32_t old_rel = *addr_rel;
 	 printf("old rel is: %x\n", old_rel);
 	 printf("addr of format is: %x\n", format_FLOAT);
+	 uint_fast32_t old_rel = *addr_rel;
 	 uint_fast32_t new_rel = old_rel -
 	 						 (uint_fast32_t)_fpmaxtostr +
 							 (uint_fast32_t)format_FLOAT;
