@@ -78,12 +78,12 @@ static void modify_vfprintf() {
 
 	 // 修改rel.  1 for opcode.
 	 uint_fast32_t * addr_rel = (uint_fast32_t *)(addr_call + 1);
+	 printf("addr of _fpmaxtostr is: %x\n", _fpmaxtostr);
 	 uint_fast32_t old_rel = *addr_rel;
+	 printf("old rel is: %x\n", old_rel);
 	 uint_fast32_t new_rel = old_rel -
 	 						 (uint_fast32_t)_fpmaxtostr +
 							 (uint_fast32_t)format_FLOAT;
-
-	printf("addr of _fpmaxtostr is: %x\n", _fpmaxtostr);
 	// 修改内容.
 	*addr_rel = new_rel;
 	// 应该能完成跳转了.
