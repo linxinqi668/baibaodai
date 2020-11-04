@@ -67,7 +67,7 @@ static void modify_vfprintf() {
 	 uint_fast32_t addr_call = addr_vfprintf_internal + dispacement_call;
 
 	 printf("addr of call is: %x\n", addr_call);
-	 printf("addr of vfprintf_internal is: %x\n", _vfprintf_internal);
+	 printf("addr of vfprintf_internal is: %x\n", (uint_fast32_t)_vfprintf_internal);
 
 	 // 消除保护模式.
 	 mprotect(
