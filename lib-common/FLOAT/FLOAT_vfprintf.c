@@ -36,9 +36,9 @@ static void modify_vfprintf() {
 	/* 这种注释好漂亮诶.
 	 * 从汇编代码中获取的信息.
 	 * 1. call指令相对于xxxxinternal的偏移量为:
-	 *    0x8048865 - 0x804855f = 0x306 = inplacement_call
+	 *    0x8048865 - 0x804855f = 0x306 = displacement_call
 	 * 	  所以call指令的地址就是:
-	 * 	  addr of (_vfprintf_internal) + inplacament_call
+	 * 	  addr of (_vfprintf_internal) + displacament_call
 	 * 
 	 * 2. print-FLOAT-linux这段代码会调用init_FLOAT_vfprintf这个函数
 	 * 	  从而调用modify_vfprintf来修改内存.
@@ -47,12 +47,29 @@ static void modify_vfprintf() {
 	 * 3. new_rel = old_rel - addr of (_fpmaxtostr) + addr of (format_FLOAT)
 	 *    new_eip = eip + new_rel = eip + old_rel - addr1 + addr2
 	 * 			  = addr1 - addr1 + addr2
-	 * 			  = addt2.
+	 * 			  = addr2.
 	 * 	  这就完成跳转了.
 	 * 
 	 * 4. 设置函数参数.. 比较难的样子. 用fact.c来看一下参数的安排方式.
+	 *    可以发现参数是从右往压栈的. 需要修改压栈的指令来传参.
+	 * 	  先实现跳转吧.
 	 * */
 
+
+	 // 计算call指令的地址. 函数名就是函数的地址.
+	 uint_fast32_t addr_vfprintf_internal = (uint_fast32_t)_vfprintf_internal;
+	 uint_fast32_t dispacement_call = 0x306;
+	 uint_fast32_t call_addr = addr_vfprintf_internal + dispacement_call;
+
+	 // 修改rel.  1 for opcode.
+	 uint_fast32_t * addr_rel = (uint_fast32_t *)(call_addr + 1);
+	 uint_fast32_t old_rel = *addr_rel;
+	 uint_fast32_t new_rel = old_rel -
+	 						 (uint_fast32_t)_fpmaxtostr +
+							 (uint_fast32_t)format_FLOAT;
+	// 修改内容.
+	*addr_rel = new_rel;
+	// 应该能完成跳转了.
 	
 
 #if 0
