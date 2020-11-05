@@ -20,7 +20,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 *         0x00013333    "1.199996"
 	 */
 
-	// TODO: 人话: 这边要实现一个函数F2f; 然后写到stream里面去.
+	// TODO: 这边要实现一个函数F2f; 然后写到stream里面去.
 	// stream这个参数应该不需要动.
 
 	char buf[80];
