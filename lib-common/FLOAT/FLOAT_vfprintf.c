@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdint.h>
-#include "../FLOAT.h"
+#include "FLOAT.h"
 
 #include <sys/mman.h>
 
 // extern表示变量在别的文件里定义.
-// 这边不能是 char....
+// 这边原本是extern char _vfprintf_internal 我改了.
+// 我觉得这个变量不应该是char类型的.
 extern uint_fast32_t _vfprintf_internal;
 extern uint_fast32_t _fpmaxtostr;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
@@ -87,7 +88,6 @@ static void modify_vfprintf() {
 							 (uint_fast32_t)format_FLOAT;
 	// 修改内容.
 	*addr_rel = new_rel;
-	// 应该能完成跳转了.
 	
 
 #if 0
