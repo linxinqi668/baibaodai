@@ -6,8 +6,8 @@
 
 // extern表示变量在别的文件里定义.
 // 这边不能是 char....
-extern char _vfprintf_internal;
-extern char _fpmaxtostr;
+extern uint_fast32_t _vfprintf_internal;
+extern uint_fast32_t _fpmaxtostr;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
