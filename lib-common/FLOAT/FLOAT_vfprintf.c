@@ -79,7 +79,7 @@ static void modify_vfprintf() {
 	 // 修改rel.  1 for opcode.
 	 uint_fast32_t * addr_rel = (uint_fast32_t *)(addr_call + 1);
 	 printf("addr of _fpmaxtostr is: %x\n", _fpmaxtostr);
-	 printf("addr of rel is: %x\n", addr_rel);
+	 printf("addr of rel is: %x\n", (uint_fast32_t )addr_rel);
 	 printf("addr of format is: %x\n", format_FLOAT); // format的地址没问题.
 	 uint_fast32_t old_rel = *addr_rel;
 	 uint_fast32_t new_rel = old_rel -
