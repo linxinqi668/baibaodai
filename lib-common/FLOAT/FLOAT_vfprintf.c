@@ -4,11 +4,9 @@
 
 #include <sys/mman.h>
 
-// extern表示变量在别的文件里定义.
-// 这边原本是extern char _vfprintf_internal 我改了.
-// 我觉得这个变量不应该是char类型的.
-extern uint_fast32_t _vfprintf_internal;
-extern uint_fast32_t _fpmaxtostr;
+
+extern char _vfprintf_internal;
+extern char _fpmaxtostr;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
