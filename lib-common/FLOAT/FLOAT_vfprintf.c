@@ -38,7 +38,7 @@ static void modify_vfprintf() {
 	 * hijack.
 	 */
 
-	/* 这种注释好漂亮诶.
+	/* 
 	 * 从汇编代码中获取的信息.
 	 * 1. call指令相对于xxxxinternal的偏移量为:
 	 *    0x8048865 - 0x804855f = 0x306 = displacement_call
@@ -55,9 +55,6 @@ static void modify_vfprintf() {
 	 * 			  = addr2.
 	 * 	  这就完成跳转了.
 	 * 
-	 * 4. 设置函数参数.. 比较难的样子. 用fact.c来看一下参数的安排方式.
-	 *    可以发现参数是从右往压栈的. 需要修改压栈的指令来传参.
-	 * 	  先实现跳转吧.
 	 * */
 
 	 // 计算call指令的地址. 函数名就是函数的地址.
