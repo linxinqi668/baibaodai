@@ -31,6 +31,8 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	int len = sprintf(buf, "0x%08x", f); // 把f的16进制表示写入buf. 0x******
 	// 因为f是32位的, 所以最多写8个.
 
+	printf("get here.\n");
+
 	// TODO: 修改buf.
 	return __stdio_fwrite(buf, len, stream);
 }
