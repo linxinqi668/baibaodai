@@ -28,16 +28,38 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	// stream这个参数应该不需要动.
 
 	char buf[80];
-	int len = sprintf(buf, "0x%08x", f); // 把f的16进制表示写入buf. 0x******
+	// int len = sprintf(buf, "0x%08x", f); // 把f的16进制表示写入buf. 0x******
 	// 因为f是32位的, 所以最多写8个.
 
-	printf("get here.\n");
-	printf("buf is: %s\n", buf);
-	printf("f is : %x\n", f);
-	printf("len is: %d\n", len);
+	// debug.
+	// printf("get here.\n");
+	// printf("buf is: %s\n", buf);
+	// printf("f is : %x\n", f);
+	// printf("len is: %d\n", len);
 	// buf没问题. f也没问题 -> 传参没问题.
 
-	// TODO: 修改buf.
+	// TODO: format the buf.
+	int sign_bit = (f >> 31) & 0x1;
+	int len = 0;
+	if (sign_bit == 1) {
+		len += sprintf(buf, "%c", '-'); // 写入负号.
+		f = -f; // 转化为绝对值.
+	}
+
+	int integer_part = f >> 16;
+	len += sprintf(buf, "%d.", integer_part);
+	f = f - integer_part * (1 << 16); // 取出余数.
+
+	int cnt = 6;
+	while (cnt--) {
+		// 取出一位小数然后写入buf.
+		f = f * 10;
+		int x = f >> 16;
+		f = f % (1 << 16);
+		int l = sprintf(buf + len, "%d", x);
+		len += l;
+	}
+
 	return __stdio_fwrite(buf, len, stream);
 }
 
