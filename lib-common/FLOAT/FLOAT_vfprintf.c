@@ -88,6 +88,8 @@ static void modify_vfprintf() {
 
 
 	uint_fast32_t old_rel = *addr_rel;
+
+	printf("%x\n", old_rel);
 	uint_fast32_t new_rel = old_rel -
 							(uint_fast32_t)&_fpmaxtostr +
 							(uint_fast32_t)&format_FLOAT;
