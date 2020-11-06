@@ -6,6 +6,10 @@
 
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
+extern uint32_t __GI_strlen;
+extern uint32_t __data_start;
+
+
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
@@ -55,13 +59,16 @@ static void modify_vfprintf() {
 	 * */
 
 	 // 计算call指令的地址. 函数名就是函数的地址.
+
+	 // 出现的问题: 使用debug查看该程序, 汇编代码是正常的, 但是运行结果不对.
 	 uint_fast32_t addr_vfprintf_internal = (uint_fast32_t)_vfprintf_internal;
 	 uint_fast32_t dispacement_call = 0x306;
 	 uint_fast32_t addr_call = addr_vfprintf_internal + dispacement_call;
 
 	 printf("addr of call is: %x\n", addr_call);
 	 printf("addr of vfprintf_internal is: %x\n", (uint_fast32_t)_vfprintf_internal);
-
+	 printf("addr of strlen is: %x\n", __GI_strlen);
+	 printf("addr of data_start is: %x\n", __data_start);
 	 // 消除保护模式.
 	 mprotect(
 		 (void *)((addr_call - 100) & 0xfffff000),
