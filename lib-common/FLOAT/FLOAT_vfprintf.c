@@ -95,7 +95,44 @@ static void modify_vfprintf() {
 							(uint_fast32_t)&format_FLOAT;
 	// 修改内容.
 	*addr_rel = new_rel;
-	
+
+	// gdb可以看到成功进入了format_FLOAT.
+
+	// 修改参数
+	/*
+	 if函数块.
+ 	8048e10:	f6 84 24 a5 00 00 00 	testb  $0x8,0xa5(%esp) // 跟8进行比较.
+	8048e17:	08 
+	// 这里就可以看出argptr所在的寄存器是edx.
+	8048e18:	74 04                	je     8048e1e <_vfprintf_internal+0x2e8>
+	// fldt的作用是加载内存中的浮点数.
+	8048e1a:	db 2a                	fldt   (%edx)
+	8048e1c:	eb 02                	jmp    8048e20 <_vfprintf_internal+0x2ea>
+	8048e1e:	dd 02                	fldl   (%edx)
+	8048e20:	53                   	push   %ebx
+	8048e21:	53                   	push   %ebx
+	8048e22:	68 cf 8a 04 08       	push   $0x8048acf
+	8048e27:	8d 84 24 a4 00 00 00 	lea    0xa4(%esp),%eax
+	8048e2e:	50                   	push   %eax
+	// 这条指令需要修改栈指针改变的大小.
+	// FLAOT类型只需要4个字节, 所以sub 0x4, esp就行 0c -> 04
+	8048e2f:	83 ec 0c             	sub    $0xc,%esp -> sub $0x4, %esp.(1)
+	// 这一条指令需要改成 push val.
+	// 这条指令的功能类似于pop, 也就是说数据已经被pop到了*esp.
+	// val是由argptr指向的.
+	8048e32:	db 3c 24             	fstpt  (%esp)      // 浮点指令 第二个参数.
+	-> push (edx) (2)
+	*/
+
+	// (1) 修改sub指令.
+	uint8_t * addr_sub_val = (uint8_t *)(addr_call - 11);
+	*addr_sub_val = 0x4;
+
+	// (2 修改为push)
+	uint8_t * addr_push_instr = (uint8_t *)(addr_call - 10); // fldt的地址.
+	*(addr_push_instr) = 0xff; // 修改为push.
+	*(addr_push_instr + 1) = 0x32; // (edx);
+	*(addr_push_instr + 2) = 0x90; // nop;
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
