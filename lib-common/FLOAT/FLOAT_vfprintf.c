@@ -132,7 +132,7 @@ static void modify_vfprintf() {
 
 	// (1) 修改sub指令.
 	uint8_t * addr_sub_val = (uint8_t *)(addr_call - 11);
-	*addr_sub_val = 0x4;
+	*addr_sub_val = 0x8;
 
 	printf("reached this line1.\n");
 	printf("修改后的sub指令为: %x\n", *((uint_fast32_t *)(addr_sub_val-2)));
