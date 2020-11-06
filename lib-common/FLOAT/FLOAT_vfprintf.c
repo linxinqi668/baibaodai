@@ -241,8 +241,6 @@ static void modify_ppfs_setargs() {
 	uint8_t * addr_double_first = (uint8_t *)(
 		(uint_fast32_t)(&_ppfs_setargs) + 0x71
 	);
-
-	printf("第一句语句的地址是: %x\n", (uint_fast32_t)addr_double_first);
 	// 3.
 	int rel = (int)target - (int)addr_double_first - 5;
 	// 4. 写入指令.
