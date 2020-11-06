@@ -49,7 +49,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	}
 
 	int integer_part = f >> 16;
-	len += sprintf(buf, "%d.", integer_part);
+	len += sprintf(buf + len, "%d.", integer_part);
 	f = f - integer_part * (1 << 16); // 取出余数.
 
 	int cnt = 6;
@@ -58,8 +58,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 		f = f * 10;
 		int x = f >> 16;
 		f = f % (1 << 16);
-		int l = sprintf(buf + len, "%d", x);
-		len += l;
+		len += sprintf(buf + len, "%d", x);
 	}
 
 	return __stdio_fwrite(buf, len, stream);
@@ -259,6 +258,8 @@ static void modify_ppfs_setargs() {
 							  0x800e2d - 0x800b45);
 	*addr_1 = 0x9090;
 	*addr_2 = 0x9090;
+
+
 #if 0
 	enum {                          /* C type: */
 		PA_INT,                       /* int */
