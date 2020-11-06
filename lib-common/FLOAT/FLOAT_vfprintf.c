@@ -6,6 +6,9 @@
 
 // 所有的extern变量在反汇编代码中的地址都正常, 但是运行结果都不一样.
 
+// 学到的东西:
+// extern只是声明变量而已, 类型无所谓.
+// 这边char删了也是可以的.
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
 
@@ -61,12 +64,13 @@ static void modify_vfprintf() {
 	 // 计算call指令的地址. 函数名就是函数的地址.
 
 	 // 出现的问题: 使用debug查看该程序, 汇编代码是正常的, 但是运行结果不对.
+     // 解决办法: extern后面的是变量, 想要获得它的地址必须加上取址运算符.
 	 uint_fast32_t addr_vfprintf_internal = (uint_fast32_t)&_vfprintf_internal;
 	 uint_fast32_t dispacement_call = 0x306;
 	 uint_fast32_t addr_call = addr_vfprintf_internal + dispacement_call;
 
-	 printf("addr of call is: %x\n", addr_call);
-	 printf("addr of vfprintf_internal is: %x\n", (uint_fast32_t)&_vfprintf_internal);
+	//  printf("addr of call is: %x\n", addr_call);
+	//  printf("addr of vfprintf_internal is: %x\n", (uint_fast32_t)&_vfprintf_internal);
 	 // 消除保护模式.
 	 mprotect(
 		 (void *)((addr_call - 100) & 0xfffff000),
@@ -76,13 +80,17 @@ static void modify_vfprintf() {
 
 	 // 修改rel.  1 for opcode.
 	 uint_fast32_t * addr_rel = (uint_fast32_t *)(addr_call + 1);
-	 printf("addr of _fpmaxtostr is: %x\n", _fpmaxtostr);
-	 printf("addr of rel is: %x\n", (uint_fast32_t )addr_rel);
-	 printf("addr of format is: %x\n", format_FLOAT); // format的地址没问题.
-	 uint_fast32_t old_rel = *addr_rel;
-	 uint_fast32_t new_rel = old_rel -
-	 						 (uint_fast32_t)&_fpmaxtostr +
-							 (uint_fast32_t)format_FLOAT;
+
+	//  debug.
+	//  printf("addr of _fpmaxtostr is: %x\n", _fpmaxtostr);
+	//  printf("addr of rel is: %x\n", (uint_fast32_t )addr_rel);
+	printf("addr of format is: %x\n", &format_FLOAT); // format的地址没问题.
+
+
+	uint_fast32_t old_rel = *addr_rel;
+	uint_fast32_t new_rel = old_rel -
+							(uint_fast32_t)&_fpmaxtostr +
+							(uint_fast32_t)format_FLOAT;
 	// 修改内容.
 	*addr_rel = new_rel;
 	
