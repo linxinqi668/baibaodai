@@ -253,9 +253,9 @@ static void modify_ppfs_setargs() {
 	*( (uint_fast32_t *)((uint_fast32_t)addr_double_first + 1) ) = rel;
 
 	// 5. 清除浮点指令
-	uint_least16_t * addr_1 = (uint_fast32_t)(&_vfprintf_internal) + 
+	uint_least16_t * addr_1 = (uint_least16_t *)(uint_fast32_t)(&_vfprintf_internal) + 
 							  0x800e29 - 0x800b45;
-	uint_least16_t * addr_2 = (uint_fast32_t)(&_vfprintf_internal) + 
+	uint_least16_t * addr_2 = (uint_least16_t *)(uint_fast32_t)(&_vfprintf_internal) + 
 							  0x800e2d - 0x800b45;
 	*addr_1 = 0x9090;
 	*addr_2 = 0x9090;
