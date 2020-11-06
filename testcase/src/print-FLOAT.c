@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-10-27 01:41:03
- * @LastEditTime: 2020-11-06 17:14:03
- * @LastEditors: your name
+ * @LastEditTime: 2020-11-06 17:14:58
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /NEMU2020/testcase/src/print-FLOAT.c
  */
@@ -28,8 +28,8 @@ int main() {
 	sprintf(buf, "%f", FLOAT_ARG(0x00013333));
 	nemu_assert(strcmp(buf, "1.199996") == 0);
 
-	// sprintf(buf, "%f %d", FLOAT_ARG(0xfffecccd), 123456);
-	// nemu_assert(strcmp(buf, "-1.199996 123456") == 0);
+	sprintf(buf, "%f %d", FLOAT_ARG(0xfffecccd), 123456);
+	nemu_assert(strcmp(buf, "-1.199996123456") == 0);
 #endif
 
 	return 0;
