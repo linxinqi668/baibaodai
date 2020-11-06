@@ -231,7 +231,12 @@ static void modify_ppfs_setargs() {
 	 * 	  rel = new_eip - old_eip - 5
 	 * 		  = target - addr_double_first - 5;
 	 * 
-	 * 4. 修改第一句语句.
+	 * 4. 修改第一句语句. 到long long分支.
+	 * 
+	 * 5. 清除最后的浮点指令
+	 *    _vfprintf_internal
+	 *    800e29(1)
+	 * 	  800e2d(2)
 	 * */
 
 
@@ -247,6 +252,13 @@ static void modify_ppfs_setargs() {
 	*addr_double_first = 0xe9;
 	*( (uint_fast32_t *)((uint_fast32_t)addr_double_first + 1) ) = rel;
 
+	// 5. 清除浮点指令
+	uint_least16_t * addr_1 = (uint_fast32_t)(&_vfprintf_internal) + 
+							  0x800e29 - 0x800b45;
+	uint_least16_t * addr_2 = (uint_fast32_t)(&_vfprintf_internal) + 
+							  0x800e2d - 0x800b45;
+	*addr_1 = 0x9090;
+	*addr_2 = 0x9090;
 #if 0
 	enum {                          /* C type: */
 		PA_INT,                       /* int */
