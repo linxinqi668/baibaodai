@@ -33,6 +33,9 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 
 	printf("get here.\n");
 	printf("buf is: %s\n", buf);
+	printf("f is : %x\n", f);
+
+	// buf没问题.
 
 	// TODO: 修改buf.
 	return __stdio_fwrite(buf, len, stream);
