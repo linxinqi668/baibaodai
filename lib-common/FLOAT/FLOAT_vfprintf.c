@@ -32,6 +32,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	// 因为f是32位的, 所以最多写8个.
 
 	printf("get here.\n");
+	printf("buf is: %s\n", buf);
 
 	// TODO: 修改buf.
 	return __stdio_fwrite(buf, len, stream);
@@ -115,7 +116,7 @@ static void modify_vfprintf() {
 	8048e21:	53                   	push   %ebx
 	8048e22:	68 cf 8a 04 08       	push   $0x8048acf
 	8048e27:	8d 84 24 a4 00 00 00 	lea    0xa4(%esp),%eax
-	8048e2e:	50                   	push   %eax
+	8048e2e:	50                   	push   %eax // 第三个参数
 	// 这条指令需要修改栈指针改变的大小.
 	// FLAOT类型只需要4个字节, 所以sub 0x4, esp就行 0c -> 04
 	8048e2f:	83 ec 0c             	sub    $0xc,%esp -> sub $0x4, %esp.(1)
