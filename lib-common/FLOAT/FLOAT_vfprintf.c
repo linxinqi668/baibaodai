@@ -140,6 +140,8 @@ static void modify_vfprintf() {
 	*(addr_push_instr + 2) = 0x90; // nop;
 	printf("reached this line4.\n");
 
+	printf("修改后的push指令为: %x\n", *((uint_fast32_t *)(addr_push_instr)));
+
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
 		ssize_t nf;
