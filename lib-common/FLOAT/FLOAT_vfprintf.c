@@ -4,7 +4,6 @@
 
 #include <sys/mman.h>
 
-
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
@@ -56,8 +55,6 @@ static void modify_vfprintf() {
 	 * */
 
 	 // 计算call指令的地址. 函数名就是函数的地址.
-
-	 
 	 uint_fast32_t addr_vfprintf_internal = (uint_fast32_t)_vfprintf_internal;
 	 uint_fast32_t dispacement_call = 0x306;
 	 uint_fast32_t addr_call = addr_vfprintf_internal + dispacement_call;
