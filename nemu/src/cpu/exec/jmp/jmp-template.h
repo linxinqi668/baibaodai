@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-10-28 13:28:31
+ * @LastEditTime: 2020-11-06 16:38:04
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /NEMU2020/nemu/src/cpu/exec/jmp/jmp-template.h
+ */
 #include "cpu/exec/template-start.h"
 
 make_helper( concat(jmp_rel_, SUFFIX) ) {
@@ -8,6 +16,8 @@ make_helper( concat(jmp_rel_, SUFFIX) ) {
     cpu.eip = cpu.eip + 1 + DATA_BYTE + (int32_t)rel;
 
     // printf("rel is: %d\n", rel);
+
+    printf("jmp to: %x\n", cpu.eip);
 
     print_asm_template1();
 
