@@ -12,6 +12,8 @@
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
 
+extern char _ppfs_setargs;
+
 
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
@@ -215,6 +217,35 @@ static void modify_ppfs_setargs() {
 	 * Below is the code section in _vfprintf_internal() relative to
 	 * the modification.
 	 */
+
+	/*
+	 * 1. 找到目标地址.
+	 * 	  target = addr(_ppfs_setargs) +  0x80113d - 0x80109a
+	 * 			 = addr(_ppfs_setargs) +  0xa3
+	 * 
+	 * 2. 找到double分支的第一句语句
+	 * 	 addr_double_first = addr(_ppfs_setargs) + 0x80110b - 0x80109a
+	 * 			 = addr(_ppfs_setargs) + 0x71
+	 * 
+	 * 3. 计算rel
+	 * 	  rel = new_eip - old_eip - 5
+	 * 		  = target - addr_double_first - 5;
+	 * 
+	 * 4. 修改第一句语句.
+	 * */
+
+
+	// 1.
+	uint_fast32_t target = (uint_fast32_t)(&_ppfs_setargs) + 0xa3;
+	// 2.
+	uint8_t * addr_double_first = (uint8_t *)(
+		(uint_fast32_t)(&_ppfs_setargs) + 0x71
+	);
+	// 3.
+	int rel = (int)target - (int)addr_double_first - 5;
+	// 4. 写入指令.
+	*addr_double_first = 0xe9;
+	*( (uint_fast32_t *)((uint_fast32_t)addr_double_first + 1) ) = rel;
 
 #if 0
 	enum {                          /* C type: */
