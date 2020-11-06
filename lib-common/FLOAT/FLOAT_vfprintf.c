@@ -156,19 +156,19 @@ static void modify_vfprintf() {
 	uint8_t * addr_sub_val = (uint8_t *)(addr_call - 11);
 	*addr_sub_val = 0x8;
 
-	printf("reached this line1.\n");
-	printf("修改后的sub指令为: %x\n", *((uint_fast32_t *)(addr_sub_val-2)));
+	// printf("reached this line1.\n");
+	// printf("修改后的sub指令为: %x\n", *((uint_fast32_t *)(addr_sub_val-2)));
 
 	// (2 修改为push)
 	uint8_t * addr_push_instr = (uint8_t *)(addr_call - 10); // fldt的地址.
 	*(addr_push_instr) = 0xff; // 修改为push.
-	printf("reached this line2.\n");
+	// printf("reached this line2.\n");
 	*(addr_push_instr + 1) = 0x32; // (edx);
-	printf("reached this line3.\n");
+	// printf("reached this line3.\n");
 	*(addr_push_instr + 2) = 0x90; // nop;
-	printf("reached this line4.\n");
+	// printf("reached this line4.\n");
 
-	printf("修改后的push指令为: %x\n", *((uint_fast32_t *)(addr_push_instr)));
+	// printf("修改后的push指令为: %x\n", *((uint_fast32_t *)(addr_push_instr)));
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
