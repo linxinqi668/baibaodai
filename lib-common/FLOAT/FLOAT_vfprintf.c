@@ -128,6 +128,8 @@ static void modify_vfprintf() {
 	uint8_t * addr_sub_val = (uint8_t *)(addr_call - 11);
 	*addr_sub_val = 0x4;
 
+	printf("reached this line1.\n");
+
 	// (2 修改为push)
 	uint8_t * addr_push_instr = (uint8_t *)(addr_call - 10); // fldt的地址.
 	*(addr_push_instr) = 0xff; // 修改为push.
