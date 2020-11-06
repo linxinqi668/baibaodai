@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-10-28 13:28:31
- * @LastEditTime: 2020-11-06 16:38:04
- * @LastEditors: your name
+ * @LastEditTime: 2020-11-06 17:27:34
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /NEMU2020/nemu/src/cpu/exec/jmp/jmp-template.h
  */
@@ -17,7 +17,7 @@ make_helper( concat(jmp_rel_, SUFFIX) ) {
 
     // printf("rel is: %d\n", rel);
 
-    printf("jmp to: %x\n", cpu.eip);
+    // printf("jmp to: %x\n", cpu.eip);
 
     print_asm_template1();
 
