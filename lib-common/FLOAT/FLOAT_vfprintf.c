@@ -100,11 +100,11 @@ static void modify_vfprintf() {
 	//  printf("addr of call is: %x\n", addr_call);
 	//  printf("addr of vfprintf_internal is: %x\n", (uint_fast32_t)&_vfprintf_internal);
 	 // 消除保护模式.
-	 mprotect(
-		 (void *)((addr_call - 100) & 0xfffff000),
-		 4096 * 2,
-		 PROT_READ | PROT_WRITE | PROT_EXEC
-	 );
+	//  mprotect(
+	// 	 (void *)((addr_call - 100) & 0xfffff000),
+	// 	 4096 * 2,
+	// 	 PROT_READ | PROT_WRITE | PROT_EXEC
+	//  );
 
 	 // 修改rel.  1 for opcode.
 	 uint_fast32_t * addr_rel = (uint_fast32_t *)(addr_call + 1);
