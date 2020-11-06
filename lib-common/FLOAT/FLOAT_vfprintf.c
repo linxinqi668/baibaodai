@@ -133,8 +133,11 @@ static void modify_vfprintf() {
 	// (2 修改为push)
 	uint8_t * addr_push_instr = (uint8_t *)(addr_call - 10); // fldt的地址.
 	*(addr_push_instr) = 0xff; // 修改为push.
+	printf("reached this line2.\n");
 	*(addr_push_instr + 1) = 0x32; // (edx);
+	printf("reached this line3.\n");
 	*(addr_push_instr + 2) = 0x90; // nop;
+	printf("reached this line4.\n");
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
