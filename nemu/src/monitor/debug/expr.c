@@ -508,9 +508,7 @@ uint32_t get_reg_val(char * reg_name){
 /* 根据symtab取出变量的地址 *******************************************/
 uint32_t get_variable_addr(char * var_name) {
 	// 查找sys字符串, 判断是否存在.
-	// TODO: 利用kmp算法来解决匹配问题.
 	char * strtab = get_strtab();
-	// int len_var = strlen(var_name);
 	int i;
 	uint32_t addr;
 	bool find = false;
@@ -519,9 +517,6 @@ uint32_t get_variable_addr(char * var_name) {
 	Elf32_Sym * symtab = get_symtab();
 	int len_symtab = get_symtab_len();
 	for (i = 0; i < len_symtab; i++) {
-		// printf("%d\n", symtab[i].st_info);
-		// printf("%x\n", symtab[i].st_value);
-		// printf("\n");
 		if ((symtab[i].st_info & 0x0f) ==  STT_OBJECT) { // 如果是OBJECT.
 			// 比对str.
 			// printf("here\n");

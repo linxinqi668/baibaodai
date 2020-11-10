@@ -304,7 +304,7 @@ static int cmd_free(char *args) {
 }
 
 static int cmd_bt(char *args) {
-	// 不适用于不push ebp的函数. 比如说memset等.
+	// 不适用于库函数
 
 	// 创建当前栈帧.
 	// 调用函数前, 先push参数, 然后是返回地址, 最后是ebp.
