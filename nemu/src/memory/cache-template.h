@@ -79,7 +79,7 @@ char cache_read(Cache* cache, uint32_t addr) {
         // read a block
         for (i = 0; i < BLOCK_SIZE; i++, byte_addr++) {
             // read a byte ??? 为啥不能调用
-            char data = swaddr_read(byte_addr, 1);
+            char data = dram_read(byte_addr, 1);
             // wirte it into the cache block.
             cache->m_set[set_ind][line_ind].m_block[i] = data;
         }
