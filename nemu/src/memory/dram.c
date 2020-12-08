@@ -15,19 +15,19 @@
 
 typedef union {
 	struct {
-		uint32_t col	: COL_WIDTH;
-		uint32_t row	: ROW_WIDTH;
-		uint32_t bank	: BANK_WIDTH;
-		uint32_t rank	: RANK_WIDTH;
+		uint32_t col	: COL_WIDTH; // col占10个bit
+		uint32_t row	: ROW_WIDTH; // row占10个bit
+		uint32_t bank	: BANK_WIDTH; // bank 占3个bit -> index
+		uint32_t rank	: RANK_WIDTH; // rank 占4个bit
 	};
 	uint32_t addr;
 } dram_addr;
 
 
-#define NR_COL (1 << COL_WIDTH)
-#define NR_ROW (1 << ROW_WIDTH)
-#define NR_BANK (1 << BANK_WIDTH)
-#define NR_RANK (1 << RANK_WIDTH)
+#define NR_COL (1 << COL_WIDTH) // 2^10 1024
+#define NR_ROW (1 << ROW_WIDTH) // 2^10 1024
+#define NR_BANK (1 << BANK_WIDTH) // 8
+#define NR_RANK (1 << RANK_WIDTH) // 16
 
 #define HW_MEM_SIZE (1 << (COL_WIDTH + ROW_WIDTH + BANK_WIDTH + RANK_WIDTH))
 
@@ -38,9 +38,9 @@ typedef struct {
 	uint8_t buf[NR_COL];
 	int32_t row_idx;
 	bool valid;
-} RB;
+} RB; // 行缓存
 
-RB rowbufs[NR_RANK][NR_BANK];
+RB rowbufs[NR_RANK][NR_BANK]; // 每个bank有一个行缓存
 
 void init_ddr3() {
 	int i, j;
