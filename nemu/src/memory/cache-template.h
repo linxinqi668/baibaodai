@@ -36,7 +36,7 @@ typedef struct cache{
 } Cache;
 
 // define my cache
-extern Cache CACHE;
+Cache CACHE;
 
 // implement the member funtions.
 void init_cache(Cache* cache) {
