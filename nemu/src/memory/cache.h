@@ -1,4 +1,6 @@
 
+#ifndef __CACHE_H__
+#define __CACHE_H__
 
 /* 要求: 
  * 1. 随机替换
@@ -24,3 +26,5 @@
 #undef CACHE_SIZE
 #undef SET_INDEX_BIT
 #undef TAG_BIT
+
+#endif
