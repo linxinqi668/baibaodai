@@ -7,6 +7,8 @@
 #include <regex.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "common.h"
+#include <elf.h>
 
 #define unused 0;
 
@@ -14,7 +16,7 @@ enum {
 	NOTYPE = 'n', EQ = '=', Integer = 'i', Left = '(', Right = ')',
 	Multiply = '*', Div = '/', Plus = '+', Sub = '-',
 	Hex_Num = 'h', Reg_Name = 'r', NEQ = 'n', AND = 'A', OR = 'O',
-	Not = '!', DeReference = '?', Neg = 'm'
+	Not = '!', DeReference = '?', Neg = 'm', OBJECT = '@'
 
 	/* TODO: Add more token types */
 };
@@ -31,6 +33,7 @@ static struct rule {
 	// token_type is an integer, so use a char to represent it.
 
 	// 1st level
+	{"^[a-zA-Z]+[0-9|a-z|A-Z|_]*", OBJECT},  // string
 	{" +",	NOTYPE},				// spaces
 	{"0[xX][0-9a-fA-F]+", Hex_Num}, // hex-num
 	{"[0-9]+", Integer},            // get an integer
@@ -51,9 +54,12 @@ static struct rule {
 	{"==", EQ},						// equal
 	{"!=", NEQ},                    // not equal
 
+
 	// 5th level
 	{"&&", AND},                    // and
 	{"||", OR},                     // or
+
+	
 	
 
 };
@@ -104,7 +110,7 @@ static bool make_token(char *e) {
 				char *substr_start = e + position; // 子串的起始位置
 				int substr_len = pmatch.rm_eo; // 子串的长度
 
-				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				// Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
 				// printf("%s\n", e + position);
@@ -148,6 +154,14 @@ static bool make_token(char *e) {
 						strncpy(new_space, substr_start, substr_len);
 						new_space[substr_len] = '\0';
 						tokens[ nr_token ].str = new_space;
+						break;
+					}
+					case OBJECT: {
+						// 同上
+						char * new_space = (char *)malloc(substr_len + 1);
+						strncpy(new_space, substr_start, substr_len);
+						new_space[substr_len] = '\0';
+						tokens[ nr_token ].str = new_space; // str中存放着变量名.
 						break;
 					}
 					default: {
@@ -491,6 +505,31 @@ uint32_t get_reg_val(char * reg_name){
 /***************************************************************/
 
 
+/* 根据symtab取出变量的地址 *******************************************/
+uint32_t get_variable_addr(char * var_name) {
+	// 查找sys字符串, 判断是否存在.
+	char * strtab = get_strtab();
+	int i;
+	uint32_t addr;
+	bool find = false;
+
+	// 查找symtab.
+	Elf32_Sym * symtab = get_symtab();
+	int len_symtab = get_symtab_len();
+	for (i = 0; i < len_symtab; i++) {
+		if ((symtab[i].st_info & 0x0f) ==  STT_OBJECT) { // 如果是OBJECT.
+			// 比对str.
+			// printf("here\n");
+			if (strcmp(strtab + symtab[i].st_name, var_name) == 0) {
+				find = true;
+				addr = symtab[i].st_value;
+				break;
+			}
+		}
+	}
+	// printf("here\n");
+	return find ? addr : 0x3f3f3f3f;
+}
 
 
 /* 求解表达式的值主程序 ******************************************/
@@ -508,8 +547,10 @@ uint32_t get_value(int p, int q) {
 			ret_val = strtol(tokens[p].str, NULL, 16);
 		else if (tokens[p].type == Integer)
 			ret_val = atoi(tokens[p].str);
-		else // 单独处理寄存器
+		else if (tokens[p].type == Reg_Name)
 			ret_val = get_reg_val(tokens[p].str);
+		else
+			ret_val = get_variable_addr(tokens[p].str);
 	
 	} else if (check_parentheses(p, q) == true) {
 		ret_val = get_value(p+1, q-1); // 每个括号单元都是用一个字符表示
@@ -548,7 +589,7 @@ uint32_t get_value(int p, int q) {
 			case OR: {ret_val = value1 || value2; break;}
 			case Not: {ret_val = !value2; break;}
 			case Neg: {ret_val = -value2; break;}
-			case DeReference: {Assert(0, "可识别指针解引用，但还未添加指针解引用功能\n"); break;}
+			case DeReference: {ret_val = swaddr_read(value2, 4); break;}
 
 			default: {Assert(0, "取出的操作符不太对劲儿");}
 		}

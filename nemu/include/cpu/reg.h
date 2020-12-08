@@ -35,14 +35,35 @@ typedef struct {
 		};
 	};
 
-	// #define eax gpr[0]._32
-	// #define ecx gpr[1]._32
-	// #define edx gpr[2]._32
-	// #define ebx gpr[3]._32
-	// #define esp gpr[4]._32
-	// #define ebp gpr[5]._32
-	// #define esi gpr[6]._32
-	// #define edi gpr[7]._32
+	// Eflags used in nemu.
+	union {
+		// bit filed
+		struct {
+			uint8_t CF:1; // 1 bit
+			uint8_t One_1:1;
+			uint8_t PF:1;
+			uint8_t Zero_1:1;
+			uint8_t AF_unused:1;
+			uint8_t Zero_2:1;
+			uint8_t ZF:1;
+			uint8_t SF:1;
+			uint8_t TF_unused:1;
+			uint8_t IF:1;
+			uint8_t DF:1;
+			uint8_t OF:1;
+			uint8_t OL_unused:1;
+			uint8_t IP_unused:1;
+			uint8_t NT_unused:1;
+			uint8_t Zero_3:1;
+			uint8_t RF_unused:1;
+			uint8_t VM_unused:1;
+			uint16_t unused:14; // 没用的高位.
+		};
+
+		// init value of Eflags.
+		uint32_t init_val;
+	} EFLAGS;
+	
 
 
 	/* Do NOT change the order of the GPRs' definitions. */

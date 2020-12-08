@@ -28,4 +28,87 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 	return 5;
 }
 
+// myself.
+
+#if DATA_BYTE == 4 // must be 32 bit...
+make_helper(movzbl) {
+	// decode
+	int len = decode_rm2r_b(eip + 1);
+
+	// write with zero-extend.
+	// 取最后8位, 然后扩展.
+	// printf("reg is: %s\n", regsl[op_dest->reg]);
+	DATA_TYPE rm_extend = (uint8_t)op_src->val;
+	OPERAND_W(op_dest, rm_extend);
+
+	return 1 + len;
+}
+
+make_helper(movzwl) {
+	// decode
+	int len = decode_rm2r_w(eip + 1);
+
+	// write with zero-extend.
+	// 取最后16位, 然后扩展.
+	// printf("reg is: %s\n", regsl[op_dest->reg]);
+	DATA_TYPE rm_extend = (uint16_t)op_src->val;
+	OPERAND_W(op_dest, rm_extend);
+
+	return 1 + len;
+}
+
+make_helper(movsbl) {
+	// decode
+	int len = decode_rm2r_b(eip + 1);
+
+	// write with sign-extend.
+	// 取最后8位, 然后扩展.
+	// printf("reg is: %s\n", regsl[op_dest->reg]);
+	DATA_TYPE_S rm_extend = (int8_t)op_src->val;
+	OPERAND_W(op_dest, rm_extend);
+
+	return 1 + len;
+}
+
+make_helper(movswl) {
+	// decode
+	int len = decode_rm2r_w(eip + 1);
+
+	// write with sign-extend.
+	// 取最后16位, 然后扩展.
+	// printf("reg is: %s\n", regsl[op_dest->reg]);
+	DATA_TYPE_S rm_extend = (int16_t)op_src->val;
+	OPERAND_W(op_dest, rm_extend);
+
+	return 1 + len;
+}
+#endif
+
+make_helper( concat(movs_, SUFFIX) ) {
+	// no need to decode ^_^.
+
+	// debug.
+	// if (cpu.eip == 0x1013d7) {
+	// 	printf("\n");
+	// 	printf("src addr is: %x\n", reg_l(R_ESI));
+	// 	printf("dest addr is: %x\n", reg_l(R_EDI));
+	// 	printf("\n");
+	// }
+	
+	// [esi] -> [edi]
+	MEM_W(
+		reg_l(R_EDI), MEM_R(reg_l(R_ESI))
+	);
+
+	if (cpu.EFLAGS.DF == 0) {
+		reg_l(R_EDI) += DATA_BYTE;
+		reg_l(R_ESI) += DATA_BYTE;
+	} else {
+		reg_l(R_EDI) -= DATA_BYTE;
+		reg_l(R_ESI) -= DATA_BYTE;
+	}
+
+	return 1;
+}
+
 #include "cpu/exec/template-end.h"

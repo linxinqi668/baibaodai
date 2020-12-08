@@ -1,8 +1,9 @@
 #include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	long long c = (long long)a * (long long)b;
+	return (FLOAT)(c >> 16);
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
@@ -23,29 +24,63 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * It is OK not to use the template above, but you should figure
 	 * out another way to perform the division.
 	 */
-
-	nemu_assert(0);
-	return 0;
+	int sign = 1;
+	if (a < 0) 
+	{
+		sign = -sign;
+		a = -a;
+	}
+	if (b < 0) 
+	{
+		sign = -sign;
+		b = -b;
+	}
+	int res = a / b;
+	a = a % b;
+	int i;
+	for (i = 0; i < 16; i++) 
+	{
+		a <<= 1;
+		res <<= 1;
+		if (a >= b) 
+		{
+			a -= b;
+			res++;
+		}
+	}
+	return res * sign;
 }
 
 FLOAT f2F(float a) {
-	/* You should figure out how to convert `a' into FLOAT without
-	 * introducing x87 floating point instructions. Else you can
-	 * not run this code in NEMU before implementing x87 floating
-	 * point instructions, which is contrary to our expectation.
-	 *
-	 * Hint: The bit representation of `a' is already on the
-	 * stack. How do you retrieve it to another variable without
-	 * performing arithmetic operations on it directly?
-	 */
 
-	nemu_assert(0);
-	return 0;
+	// float类型的存储方式为:
+	// <sign bit> <----- Exponent 8 bit -----> <----- Mantissa 23 bit ----->
+	// real number = (-1)^s * 2^(E - 127) * 1.M
+
+	unsigned int temp = *(unsigned int *)&a; // 转成无符号数, 方便移位
+	int sign_bit = temp >> 31; // 符号位
+	int exp = (temp >> 23) & 0xff; // 指数
+	unsigned int mantissa = (temp << 9 >> 9); // 尾数
+	unsigned int frac = (0x1 << 23) + mantissa; // 小数部分
+	// 现在的frac相当于是原来的浮点数 左移了23位.
+	// 指数部分还需要移动 E - 127 位, 转成FLOAT只需要左移16位.
+	unsigned int res = 0x0;
+	if (exp - 127 < 0) // exp 不可以是unsigned int.
+		res = frac >> (127 - exp) >> 7;
+	else if (exp - 127 > 0)
+		res = frac << (exp - 127) >> 7;
+	else
+		res = frac >> 7;
+	
+	if (sign_bit == 1) // 更新符号.
+		res = ~res + 1;
+	
+	return res;
 }
 
 FLOAT Fabs(FLOAT a) {
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	return a < 0 ? (-a) : a;
 }
 
 /* Functions below are already implemented */

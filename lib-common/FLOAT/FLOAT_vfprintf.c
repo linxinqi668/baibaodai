@@ -2,8 +2,19 @@
 #include <stdint.h>
 #include "FLOAT.h"
 
+#include <sys/mman.h>
+
+// 所有的extern变量在反汇编代码中的地址都正常, 但是运行结果都不一样.
+
+// 学到的东西:
+// extern只是声明变量而已, 类型无所谓.
+// 这边char删了也是可以的.
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
+
+extern char _ppfs_setargs;
+
+
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
@@ -15,8 +26,41 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 *         0x00013333    "1.199996"
 	 */
 
+	// TODO: 这边要实现一个函数F2f; 然后写到stream里面去.
+	// stream这个参数应该不需要动.
+
 	char buf[80];
-	int len = sprintf(buf, "0x%08x", f);
+	// int len = sprintf(buf, "0x%08x", f); // 把f的16进制表示写入buf. 0x******
+	// 因为f是32位的, 所以最多写8个.
+
+	// debug.
+	// printf("get here.\n");
+	// printf("buf is: %s\n", buf);
+	// printf("f is : %x\n", f);
+	// printf("len is: %d\n", len);
+	// buf没问题. f也没问题 -> 传参没问题.
+
+	// TODO: format the buf.
+	int sign_bit = (f >> 31) & 0x1;
+	int len = 0;
+	if (sign_bit == 1) {
+		len += sprintf(buf, "%c", '-'); // 写入负号.
+		f = -f; // 转化为绝对值.
+	}
+
+	int integer_part = f >> 16;
+	len += sprintf(buf + len, "%d.", integer_part);
+	f = f - integer_part * (1 << 16); // 取出余数.
+
+	int cnt = 6;
+	while (cnt--) {
+		// 取出一位小数然后写入buf.
+		f = f * 10;
+		int x = f >> 16;
+		f = f % (1 << 16);
+		len += sprintf(buf + len, "%d", x);
+	}
+
 	return __stdio_fwrite(buf, len, stream);
 }
 
@@ -26,6 +70,97 @@ static void modify_vfprintf() {
 	 * is the code section in _vfprintf_internal() relative to the
 	 * hijack.
 	 */
+
+	/* 
+	 * 从汇编代码中获取的信息.
+	 * 1. call指令相对于xxxxinternal的偏移量为:
+	 *    0x8048865 - 0x804855f = 0x306 = displacement_call
+	 * 	  所以call指令的地址就是:
+	 * 	  addr of (_vfprintf_internal) + displacament_call
+	 * 
+	 * 2. print-FLOAT-linux这段代码会调用init_FLOAT_vfprintf这个函数
+	 * 	  从而调用modify_vfprintf来修改内存.
+	 *    所以可以用函数指针来计算出运行时的函数地址, 从而计算偏移量.
+	 * 
+	 * 3. new_rel = old_rel - addr of (_fpmaxtostr) + addr of (format_FLOAT)
+	 *    new_eip = eip + new_rel = eip + old_rel - addr1 + addr2
+	 * 			  = addr1 - addr1 + addr2
+	 * 			  = addr2.
+	 * 	  这就完成跳转了.
+	 * 
+	 * */
+
+	 // 计算call指令的地址. 函数名就是函数的地址.
+
+	 // 出现的问题: 使用debug查看该程序, 汇编代码是正常的, 但是运行结果不对.
+     // 解决办法: extern后面的是变量, 想要获得它的地址必须加上取址运算符.
+	 uint_fast32_t addr_vfprintf_internal = (uint_fast32_t)&_vfprintf_internal;
+	 uint_fast32_t dispacement_call = 0x306;
+	 uint_fast32_t addr_call = addr_vfprintf_internal + dispacement_call;
+
+	//  printf("addr of call is: %x\n", addr_call);
+	//  printf("addr of vfprintf_internal is: %x\n", (uint_fast32_t)&_vfprintf_internal);
+	 // 消除保护模式.
+	//  mprotect(
+	// 	 (void *)((addr_call - 100) & 0xfffff000),
+	// 	 4096 * 2,
+	// 	 PROT_READ | PROT_WRITE | PROT_EXEC
+	//  );
+
+	 // 修改rel.  1 for opcode.
+	 uint_fast32_t * addr_rel = (uint_fast32_t *)(addr_call + 1);
+
+	//  debug.
+	//  printf("addr of _fpmaxtostr is: %x\n", _fpmaxtostr);
+	//  printf("addr of rel is: %x\n", (uint_fast32_t )addr_rel);
+	//  printf("addr of format is: %x\n", &format_FLOAT); // format的地址没问题.
+
+
+	uint_fast32_t old_rel = *addr_rel;
+	uint_fast32_t new_rel = old_rel -
+							(uint_fast32_t)&_fpmaxtostr +
+							(uint_fast32_t)&format_FLOAT;
+	// 修改内容.
+	*addr_rel = new_rel;
+
+	// gdb可以看到成功进入了format_FLOAT.
+
+	// 修改参数
+	/*
+	 if函数块.
+ 	8048e10:	f6 84 24 a5 00 00 00 	testb  $0x8,0xa5(%esp) // 跟8进行比较.
+	8048e17:	08 
+	// 这里就可以看出argptr所在的寄存器是edx.
+	8048e18:	74 04                	je     8048e1e <_vfprintf_internal+0x2e8>
+	// fldt的作用是加载内存中的浮点数.
+	8048e1a:	db 2a                	fldt   (%edx)
+	8048e1c:	eb 02                	jmp    8048e20 <_vfprintf_internal+0x2ea>
+	8048e1e:	dd 02                	fldl   (%edx)
+	8048e20:	53                   	push   %ebx
+	8048e21:	53                   	push   %ebx
+	8048e22:	68 cf 8a 04 08       	push   $0x8048acf
+	8048e27:	8d 84 24 a4 00 00 00 	lea    0xa4(%esp),%eax
+	8048e2e:	50                   	push   %eax // 第三个参数
+	// 这条指令需要修改栈指针改变的大小.
+	// FLAOT类型只需要4个字节, 所以sub 0x4, esp就行 0c -> 04
+	8048e2f:	83 ec 0c             	sub    $0xc,%esp -> sub $0x4, %esp.(1)
+	// 这一条指令需要改成 push val.
+	// 这条指令的功能类似于pop, 也就是说数据已经被pop到了*esp.
+	// val是由argptr指向的.
+	8048e32:	db 3c 24             	fstpt  (%esp)      // 浮点指令 第二个参数.
+	-> push (edx) (2)
+	*/
+
+	// (1) 修改sub指令.
+	uint8_t * addr_sub_val = (uint8_t *)(addr_call - 11);
+	*addr_sub_val = 0x8;
+	// (2 修改为push)
+	uint8_t * addr_push_instr = (uint8_t *)(addr_call - 10); // fldt的地址.
+	*(addr_push_instr) = 0xff; // 修改为push.
+	*(addr_push_instr + 1) = 0x32; // (edx);
+	*(addr_push_instr + 2) = 0x90; // nop;
+
+	// printf("修改后的push指令为: %x\n", *((uint_fast32_t *)(addr_push_instr)));
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
@@ -72,6 +207,49 @@ static void modify_ppfs_setargs() {
 	 * Below is the code section in _vfprintf_internal() relative to
 	 * the modification.
 	 */
+
+	/*
+	 * 1. 找到目标地址.
+	 * 	  target = addr(_ppfs_setargs) +  0x80113d - 0x80109a
+	 * 			 = addr(_ppfs_setargs) +  0xa3
+	 * 
+	 * 2. 找到double分支的第一句语句
+	 * 	 addr_double_first = addr(_ppfs_setargs) + 0x80110b - 0x80109a
+	 * 			 = addr(_ppfs_setargs) + 0x71
+	 * 
+	 * 3. 计算rel
+	 * 	  rel = new_eip - old_eip - 5
+	 * 		  = target - addr_double_first - 5;
+	 * 
+	 * 4. 修改第一句语句. 到long long分支.
+	 * 
+	 * 5. 清除最后的浮点指令
+	 *    _vfprintf_internal
+	 *    800e29(1)
+	 * 	  800e2d(2)
+	 * */
+
+
+	// 1.
+	uint_fast32_t target = (uint_fast32_t)(&_ppfs_setargs) + 0xa3;
+	// 2.
+	uint8_t * addr_double_first = (uint8_t *)(
+		(uint_fast32_t)(&_ppfs_setargs) + 0x71
+	);
+	// 3.
+	int rel = (int)target - (int)addr_double_first - 5;
+	// 4. 写入指令.
+	*addr_double_first = 0xe9;
+	*( (uint_fast32_t *)((uint_fast32_t)addr_double_first + 1) ) = rel;
+
+	// 5. 清除浮点指令
+	uint_least16_t * addr_1 = (uint_least16_t *)((uint_fast32_t)(&_vfprintf_internal) + 
+							  0x800e29 - 0x800b45);
+	uint_least16_t * addr_2 = (uint_least16_t *)((uint_fast32_t)(&_vfprintf_internal) + 
+							  0x800e2d - 0x800b45);
+	*addr_1 = 0x9090;
+	*addr_2 = 0x9090;
+
 
 #if 0
 	enum {                          /* C type: */
@@ -167,7 +345,8 @@ static void modify_ppfs_setargs() {
 
 }
 
+// 这个函数会被调用.
 void init_FLOAT_vfprintf() {
-	modify_vfprintf();
+	modify_vfprintf(); //  直接修改内存, 从而修改机器指令达到跳转的目的.
 	modify_ppfs_setargs();
 }

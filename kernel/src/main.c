@@ -1,5 +1,6 @@
 #include "common.h"
 #include "memory.h"
+#include <stdio.h>
 
 void init_page();
 void init_serial();
@@ -31,13 +32,21 @@ void init() {
 #endif
 
 	/* Jump to init_cond() to continue initialization. */
-	asm volatile("jmp *%0" : : "r"(init_cond));
+	// int x = 0;
+	// nemu_assert(x == 0); // reached this line.
+	
+	asm volatile("jmp *%0" : : "r"(init_cond)); // 直接跳到0x800e70了?
+	// 查看反汇编可以知道0x800e70没错, 但是kernel不应该待在这里, 说明kernel存放位置不对.
+	// 它应该待在0x100000左右.
+	// nemu_assert(x == 1); // not reach here.
 
 	panic("should not reach here");
 }
 
 /* Initialization phase 2 */
-void init_cond() {
+void init_cond() { // 跳不到这个函数.
+	// int check = 0;
+	// nemu_assert(check == 1); //
 #ifdef IA32_INTR
 	/* Reset the GDT, since the old GDT in start.S cannot be used in the future. */
 	init_segment();
