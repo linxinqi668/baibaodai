@@ -1,12 +1,12 @@
 
 
 #define BLOCK_BIT 6 // 6 bit
-#define LOG_CACHE_SIZE 16
-#define LOG_LINE_PER_SET 3
-#define LINE_PER_SET 1 << LOG_LINE_PER_SET // 8路组相联映射
-#define CACHE_SIZE 1 << LOG_CACHE_SIZE // 64 kb
+#define LOG_CACHE_SIZE 16 // cache size = 2 << 16 -> 64kb
+#define LOG_LINE_PER_SET 3 // line number = 2 << 3 -> 8
+#define LINE_PER_SET 1 << LOG_LINE_PER_SET
+#define CACHE_SIZE 1 << LOG_CACHE_SIZE
 #define SET_INDEX_BIT (LOG_CACHE_SIZE - LOG_LINE_PER_SET - BLOCK_BIT)
-#define TAG_BIT (32 - SET_INDEX_BIT - BLOCK_BIT)
+#define TAG_BIT (32 - SET_INDEX_BIT - BLOCK_BIT) // 标记位的长度
 
 #include "cache-template.h"
 
