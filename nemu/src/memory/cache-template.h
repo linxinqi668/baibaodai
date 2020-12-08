@@ -7,4 +7,9 @@ typedef struct {
     bool is_valid;
     uint32_t tag : TAG_BIT; // used as tag.
     char block[ BLOCK_SIZE ]; // used as block.
-} Line;
+} line;
+
+// set struct
+typedef struct {
+    line _[ LINE_PER_SET ];
+} set;
