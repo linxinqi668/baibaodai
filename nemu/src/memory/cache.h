@@ -1,5 +1,12 @@
 
 
+/* 要求: 
+ * 1. 随机替换
+ * 2. 写直通
+ * 3. 不采取写分配
+*/
+
+
 #define BLOCK_BIT 6 // 6 bit
 #define LOG_CACHE_SIZE 16 // cache size = 2 << 16 -> 64kb
 #define LOG_LINE_PER_SET 3 // line number = 2 << 3 -> 8

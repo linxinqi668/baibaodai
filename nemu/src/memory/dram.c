@@ -1,7 +1,6 @@
 #include "common.h"
 #include "burst.h"
 #include "misc.h"
-#include "cache.h"
 
 /* Simulate the (main) behavor of DRAM.
  * Although this will lower the performace of NEMU, it makes

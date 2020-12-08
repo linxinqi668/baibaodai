@@ -35,3 +35,5 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data) {
 	lnaddr_write(addr, len, data);
 }
 
+#include "cache.h"
+
