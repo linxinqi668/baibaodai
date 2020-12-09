@@ -151,12 +151,14 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
 }
 
 void init_cache() {
+    printf("start initializa the cache...\n");
     int i, j;
     for (i = 0; i < SET_NUM; i++)
         for (j = 0; j < LINE_PER_SET; j++)
             M_CACHE.m_set[i][j].is_valid = false;
     M_CACHE.m_cache_read = cache_read;
     M_CACHE.m_cache_write = cache_write;
+    printf("load cache done.\n");
 }
 
 #undef BLOCK_SIZE
