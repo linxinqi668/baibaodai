@@ -47,6 +47,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
         int i;
         // 随机选取一行进行替换
         line_ind = rand() % LINE_PER_SET;
+        printf("line to rp: %d\n", line_ind);
         uint32_t byte_addr = addr >> BLOCK_BIT << BLOCK_BIT;
         
         // read a block. this performance can be proved.
@@ -62,7 +63,6 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     }
 
     char* data_addr = (char* )cache->m_set[set_ind][line_ind].m_block + block_ind;
-    printf("%x\n", *data_addr);
     return (unalign *)data_addr;
 }
 
