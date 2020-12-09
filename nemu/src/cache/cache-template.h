@@ -103,7 +103,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     uint32_t addr_ed = addr_st + ((uint32_t)(-1) >> (32 - BLOCK_BIT)); // 块的终止地址
     bool is_unalign = (addr_ed < addr + len) ? true : false;
 #ifdef DEBUG
-    printf("addr_st: %x, addr_ed: %x, is_unalign: %c",
+    printf("addr_st: %x, addr_ed: %x, is_unalign: %d",
             addr_st, addr_ed, is_unalign);
 #endif
     if (is_unalign) {
