@@ -135,7 +135,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
 #ifdef M_DEBUG
     int i;
     for (i = 0; i < 10; i++)
-        printf("%u ", (__u_char)dram_read(addr + i, len));
+        printf("%x ", (__u_char)dram_read(addr + i, len));
     printf("\n");
     uint32_t answer = dram_read(addr, len);
     printf("the answer is: %x\n", answer);
