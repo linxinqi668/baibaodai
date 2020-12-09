@@ -1,3 +1,4 @@
+#include "common.h"
 
 #ifndef __CACHE_H__
 #define __CACHE_H__
@@ -7,6 +8,9 @@
  * 2. 写直通
  * 3. 不采取写分配
 */
+
+uint32_t dram_read(hwaddr_t, size_t);
+void dram_write(hwaddr_t, size_t, uint32_t);
 
 
 #define BLOCK_BIT 6 // 6 bit
