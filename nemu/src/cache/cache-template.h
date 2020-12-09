@@ -120,7 +120,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
         unalign* data = align_read(cache, addr);
         result = unalign_rw_helper(data, len);
     }
-    printf("end read........................\n");
+    printf("end read........................\n\n");
     
 #ifdef M_DEBUG
     uint32_t answer = dram_read(addr, len);
