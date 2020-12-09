@@ -149,6 +149,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
 
 /* write cache */
 void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
+    assert(addr < 0x600000);
     printf("start write........................\n");
     // 判断是否存在该块
     int line_ind = find(cache, addr);
