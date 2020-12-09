@@ -7,6 +7,8 @@
 #define BLOCK_SIZE (1 << BLOCK_BIT)
 #define SET_NUM (1 << SET_INDEX_BIT)
 
+#define DEBUG
+
 // implement the member funtions.
 
 /* 判断缓存是否命中 */
@@ -68,7 +70,9 @@ unalign* align_read(Cache* cache, uint32_t addr) {
 /* 辅助函数 */
 uint32_t unalign_rw_helper(unalign* addr, size_t len) {
     char c = len;
+#ifdef DEBUG
     printf("%d\n", (int)len);
+#endif
     switch (c) {
         case 1:
             return unalign_rw(addr, 1);
@@ -98,6 +102,9 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     if (is_unalign) {
         size_t len_1 = addr_ed - addr + 1;
         size_t len_2 = len - len_1;
+#ifdef DEBUG
+        printf("len_1: %d len_2: %d", (int)len_1, (int)len_2);
+#endif
         unalign* p1 = align_read(cache, addr); // low bit.
         unalign* p2 = align_read(cache, addr + len_1);
         result = (unalign_rw_helper(p1, len_1) << (len_2 * 8)) // shift to store p2.
