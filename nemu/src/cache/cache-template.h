@@ -17,7 +17,7 @@ int find(Cache* cache, uint32_t addr) {
     printf("%d\n", SET_INDEX_BIT);
     uint32_t tag = addr >> (SET_INDEX_BIT + BLOCK_BIT);
     uint32_t set_ind = addr << (TAG_BIT) >> (TAG_BIT + BLOCK_BIT);
-    assert(tag != 0x3fff);
+    // assert(tag != 0x3fff);
 
 #ifdef M_DEBUG
     printf("this is find function............\n");
@@ -113,7 +113,7 @@ uint32_t unalign_rw_helper(unalign* addr, size_t len) {
 
 /* read len bytes from cache */
 uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
-    assert(addr < 0x600000);
+    // assert(addr < 0x600000);
     printf("start read........................\n");
 #ifdef M_DEBUG
         printf("total_len: %d\n", (int)len);
