@@ -70,9 +70,6 @@ unalign* align_read(Cache* cache, uint32_t addr) {
 /* 辅助函数 */
 uint32_t unalign_rw_helper(unalign* addr, size_t len) {
     char c = len;
-#ifdef M_DEBUG
-    printf("%d\n", (int)len);
-#endif
     switch (c) {
         case 1:
             return unalign_rw(addr, 1);
@@ -91,6 +88,7 @@ uint32_t unalign_rw_helper(unalign* addr, size_t len) {
 
 /* read len bytes from cache */
 uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
+    printf("start read........................\n");
 #ifdef M_DEBUG
         printf("total_len: %d\n", (int)len);
 #endif
@@ -122,7 +120,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
         unalign* data = align_read(cache, addr);
         result = unalign_rw_helper(data, len);
     }
-    
+    printf("end read........................\n");
     return result;
 }
 
