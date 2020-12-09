@@ -167,44 +167,44 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
 void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
     printf("start write........................\n");
     // 判断是否存在该块
-    // int line_ind = find(cache, addr);
-    // bool is_exist = (line_ind == -1) ? false : true;
+    int line_ind = find(cache, addr);
+    bool is_exist = (line_ind == -1) ? false : true;
 
-    // char* _data = (char *)&data + 3; // shift the pointer to lower bit.
+    char* _data = (char *)&data + 3; // shift the pointer to lower bit.
 
     // 如果存在就单独处理, 因为采取了写直通, 所以内存必定修改
-    // if (is_exist) {
-    //     // 判断读取是否对齐
-    //     uint32_t addr_st = addr >> BLOCK_BIT << BLOCK_BIT; // 块的起始地址
-    //     uint32_t addr_ed = addr_st + ((uint32_t)(-1) >> (32 - BLOCK_BIT)); // 块的终止地址
-    //     bool is_unalign = (addr_ed < addr + len - 1) ? true : false;
+    if (is_exist) {
+        // 判断读取是否对齐
+        uint32_t addr_st = addr >> BLOCK_BIT << BLOCK_BIT; // 块的起始地址
+        uint32_t addr_ed = addr_st + ((uint32_t)(-1) >> (32 - BLOCK_BIT)); // 块的终止地址
+        bool is_unalign = (addr_ed < addr + len - 1) ? true : false;
 
-    //     if (is_unalign) {
-    //         size_t len_1 = addr_ed - addr + 1;
-    //         size_t len_2 = len - len_1;
-    //     #ifdef M_DEBUG
-    //         // printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
-    //     #endif
-    //         // 找到指针
-    //         // printf("xxxxxxxxxxxxxxx\n");
-    //         char* p1 = (char *)align_read(cache, addr);
-    //         char* p2 = (char *)align_read(cache, addr + len_1);
-    //         // printf("yyyyyyyyyyyyyyyy\n");
-    //         // 写入
-    //         int i;
-    //         for (i = 0; i < len_1; i++, _data--, p1++)
-    //             *p1 = *_data;
-    //         // printf("yyyyyyyyyyyyyyyy\n");
-    //         for (i = 0; i < len_2; i++, _data--, p2++)
-    //             *p2 = *_data;
-    //         // printf("yyyyyyyyyyyyyyyy\n");
-    //     } else {
-    //         char* p = (char *)align_read(cache, addr);
-    //         int i;
-    //         for (i = 0; i < len; i++, _data++, p++)
-    //             *p = *_data;
-    //     }
-    // }
+        if (is_unalign) {
+            size_t len_1 = addr_ed - addr + 1;
+            size_t len_2 = len - len_1;
+        #ifdef M_DEBUG
+            printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
+        #endif
+            // 找到指针
+            // printf("xxxxxxxxxxxxxxx\n");
+            char* p1 = (char *)align_read(cache, addr);
+            char* p2 = (char *)align_read(cache, addr + len_1);
+            // printf("yyyyyyyyyyyyyyyy\n");
+            // 写入
+            int i;
+            for (i = 0; i < len_1; i++, _data--, p1++)
+                *p1 = *_data;
+            // printf("yyyyyyyyyyyyyyyy\n");
+            for (i = 0; i < len_2; i++, _data--, p2++)
+                *p2 = *_data;
+            // printf("yyyyyyyyyyyyyyyy\n");
+        } else {
+            char* p = (char *)align_read(cache, addr);
+            int i;
+            for (i = 0; i < len; i++, _data++, p++)
+                *p = *_data;
+        }
+    }
 
     // 修改内存
     dram_write(addr, len, data);
