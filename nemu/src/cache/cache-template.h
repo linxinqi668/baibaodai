@@ -172,7 +172,7 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
     int line_ind = find(cache, addr);
     bool is_exist = (line_ind == -1) ? false : true;
 
-    char* _data = (char *)&data + 3; // shift the pointer to lower bit.
+    char* _data = (char *)&data; // shift the pointer to lower bit.
 
     // 如果存在就单独处理, 因为采取了写直通, 所以内存必定修改
     if (is_exist) {
