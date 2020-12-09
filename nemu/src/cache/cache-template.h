@@ -38,6 +38,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     bool is_exist = (line_ind == -1) ? false : true;
 
 #ifdef M_DEBUG
+    printf("lind ind: %d\n", line_ind);
     printf("is_exist: %d\n", is_exist);
     printf("block ind: %u\n", block_ind);
 #endif
