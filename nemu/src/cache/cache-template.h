@@ -39,6 +39,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
 
 #ifdef M_DEBUG
     printf("is_exist: %d\n", is_exist);
+    printf("block ind: %u\n", block_ind);
 #endif
     
     // 找不到的话就先替换
