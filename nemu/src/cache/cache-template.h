@@ -62,6 +62,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     }
 
     char* data_addr = (char* )cache->m_set[set_ind][line_ind].m_block + block_ind;
+    printf("%x\n", *data_addr);
     return (unalign *)data_addr;
 }
 
