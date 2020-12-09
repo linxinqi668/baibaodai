@@ -5,7 +5,6 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 
 #include "cache/cache.h"
 
-
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
