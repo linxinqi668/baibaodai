@@ -177,6 +177,7 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
                 *p1 = *_data;
             for (i = 0; i < len_2; i++, _data++, p2++)
                 *p2 = *_data;
+            printf("yyyyyyyyyyyyyyyy\n");
         } else {
             char* p = (char *)align_read(cache, addr);
             int i;
