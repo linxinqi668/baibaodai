@@ -124,6 +124,8 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     
 #ifdef M_DEBUG
     uint32_t answer = dram_read(addr, len);
+    printf("the answer is: %x\n", answer);
+    printf("read result is: %x\n", result);
     assert(answer == result);
 #endif
     return result;
