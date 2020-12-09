@@ -176,10 +176,12 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
             for (i = 0; i < len_2; i++, _data++, p2++)
                 *p2 = *_data;
         } else {
+            printf("xxxxxxxxxxxxxxx\n");
             char* p = (char *)align_read(cache, addr);
             int i;
             for (i = 0; i < len; i++, _data++, p++)
                 *p = *_data;
+            printf("yyyyyyyyyyyyyyyy\n");
         }
     }
 
