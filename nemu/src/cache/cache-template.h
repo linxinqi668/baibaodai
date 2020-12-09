@@ -102,7 +102,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     bool is_unalign = (addr_ed < addr + len) ? true : false;
 #ifdef M_DEBUG
     printf("addr is: %x\n", addr);
-    printf("addr_st: %x, addr_ed: %x, is_unalign: %d",
+    printf("addr_st: %x, addr_ed: %x, is_unalign: %d\n",
             addr_st, addr_ed, is_unalign);
 #endif
     if (is_unalign) {
