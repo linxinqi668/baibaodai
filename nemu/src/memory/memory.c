@@ -14,7 +14,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t cache_ans = M_CACHE.m_cache_read(&M_CACHE, addr, len);
 	printf("ans: %x cache: %x\n\n\n", answer, cache_ans);
 	// assert(answer == cache_ans);
-	return answer;
+	return cache_ans;
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
