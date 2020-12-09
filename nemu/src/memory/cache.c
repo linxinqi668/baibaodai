@@ -1,3 +1,5 @@
+
+
 #include "common.h"
 
 #ifndef __CACHE_H__
@@ -9,6 +11,7 @@
  * 3. 不采取写分配
 */
 
+// 必须有前置声明, 链接的时候自动查找
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 

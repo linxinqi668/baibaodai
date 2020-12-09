@@ -1,5 +1,6 @@
 
 #include <stdlib.h>
+#include "common.h"
 
 // do some computation.
 #define BLOCK_SIZE (1 << BLOCK_BIT)
