@@ -1,4 +1,5 @@
 #include "nemu.h" // include nemu.h 所以 CPU就可以被下面的代码调用
+#include "cache/cache.h"
 
 #define ENTRY_START 0x100000
 
