@@ -7,7 +7,7 @@
 #define BLOCK_SIZE (1 << BLOCK_BIT)
 #define SET_NUM (1 << SET_INDEX_BIT)
 
-// #define M_DEBUG
+#define M_DEBUG
 
 // implement the member funtions.
 
@@ -82,6 +82,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
 /* 辅助函数 */
 uint32_t unalign_rw_helper(unalign* addr, size_t len) {
     char c = len;
+    assert(len > 0);
     switch (c) {
         case 1:
             return unalign_rw(addr, 1);
@@ -92,7 +93,6 @@ uint32_t unalign_rw_helper(unalign* addr, size_t len) {
         case 4:
             return unalign_rw(addr, 4);
         default:
-            printf("you get here.. it's not a good thing.\n");
             return -1;
             break;
     }
