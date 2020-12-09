@@ -17,6 +17,12 @@ int find(Cache* cache, uint32_t addr) {
     uint32_t tag = addr >> (SET_INDEX_BIT + BLOCK_BIT);
     uint32_t set_ind = addr << (TAG_BIT) >> (TAG_BIT + BLOCK_BIT);
 
+#ifdef M_DEBUG
+    printf("this is find function............\n");
+    printf("tag is: %x\n", tag);
+    printf("set ind is: %x\n", set_ind);
+#endif
+
     // 查找
     int i;
     for (i = 0; i < LINE_PER_SET; i++)
