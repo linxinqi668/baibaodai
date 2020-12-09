@@ -91,6 +91,9 @@ uint32_t unalign_rw_helper(unalign* addr, size_t len) {
 
 /* read len bytes from cache */
 uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
+#ifdef DEBUG
+        printf("total_len: %d\n", (int)len);
+#endif
     // 准备结果
     uint32_t result = 0;
 
@@ -103,7 +106,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
         size_t len_1 = addr_ed - addr + 1;
         size_t len_2 = len - len_1;
 #ifdef DEBUG
-        printf("len_1: %d len_2: %d", (int)len_1, (int)len_2);
+        printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
 #endif
         unalign* p1 = align_read(cache, addr); // low bit.
         unalign* p2 = align_read(cache, addr + len_1);
