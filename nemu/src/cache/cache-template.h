@@ -7,7 +7,7 @@
 #define BLOCK_SIZE (1 << BLOCK_BIT)
 #define SET_NUM (1 << SET_INDEX_BIT)
 
-// #define DEBUG
+#define M_DEBUG
 
 // implement the member funtions.
 
