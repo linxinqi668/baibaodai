@@ -29,6 +29,7 @@ int find(Cache* cache, uint32_t addr) {
     for (i = 0; i < LINE_PER_SET; i++)
         if (cache->m_set[set_ind][i].m_tag == tag
             && cache->m_set[set_ind][i].is_valid) {
+            printf("cache tag is : %x\n", cache->m_set[set_ind][i].m_tag);
             printf("%d\n", cache->m_set[set_ind][i].is_valid);
             return i;
         }
