@@ -70,7 +70,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
 /* 辅助函数 */
 uint32_t unalign_rw_helper(unalign* addr, size_t len) {
     char c = len;
-#ifdef DEBUG
+#ifdef M_DEBUG
     printf("%d\n", (int)len);
 #endif
     switch (c) {
@@ -91,7 +91,7 @@ uint32_t unalign_rw_helper(unalign* addr, size_t len) {
 
 /* read len bytes from cache */
 uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
-#ifdef DEBUG
+#ifdef M_DEBUG
         printf("total_len: %d\n", (int)len);
 #endif
     // 准备结果
@@ -102,7 +102,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     // printf("%x", (-1) >> (32 - BLOCK_BIT)); 算数右移... 大意了
     uint32_t addr_ed = addr_st + ((uint32_t)(-1) >> (32 - BLOCK_BIT)); // 块的终止地址
     bool is_unalign = (addr_ed < addr + len) ? true : false;
-#ifdef DEBUG
+#ifdef M_DEBUG
     printf("addr is: %x\n", addr);
     printf("addr_st: %x, addr_ed: %x, is_unalign: %d",
             addr_st, addr_ed, is_unalign);
@@ -110,7 +110,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     if (is_unalign) {
         size_t len_1 = addr_ed - addr + 1;
         size_t len_2 = len - len_1;
-#ifdef DEBUG
+#ifdef M_DEBUG
         printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
 #endif
         unalign* p1 = align_read(cache, addr); // low bit.
