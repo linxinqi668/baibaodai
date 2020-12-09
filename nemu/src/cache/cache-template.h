@@ -7,7 +7,7 @@
 #define BLOCK_SIZE (1 << BLOCK_BIT)
 #define SET_NUM (1 << SET_INDEX_BIT)
 
-#define M_DEBUG
+// #define M_DEBUG
 
 // implement the member funtions.
 
@@ -61,7 +61,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     // 找不到的话就先替换
     if (!is_exist) {
         int i;
-        printf("reached this line!\n");
+        // printf("reached this line!\n");
         // 随机选取一行进行替换
         // line_ind = rand() % LINE_PER_SET;
         line_ind = 0;
@@ -119,7 +119,7 @@ uint32_t unalign_rw_helper(unalign* addr, size_t len) {
 /* read len bytes from cache */
 uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     // assert(addr < 0x600000);
-    printf("start read........................\n");
+    // printf("start read........................\n");
 #ifdef M_DEBUG
         // printf("total_len: %d\n", (int)len);
 #endif
@@ -137,7 +137,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     //        addr_st, addr_ed, is_unalign);
 #endif
     if (is_unalign) {
-        printf("get here!!!!!!!!!!\n");
+        // printf("get here!!!!!!!!!!\n");
         size_t len_1 = addr_ed - addr + 1;
         size_t len_2 = len - len_1;
 #ifdef M_DEBUG
@@ -162,13 +162,13 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     // printf("read result is: %x\n", result);
     // assert(answer == result);
 #endif
-    printf("end read........................\n\n");
+    // printf("end read........................\n\n");
     return result;
 }
 
 /* write cache */
 void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
-    printf("start write........................\n");
+    // printf("start write........................\n");
     // 判断是否存在该块
     int line_ind = find(cache, addr);
     bool is_exist = (line_ind == -1) ? false : true;
@@ -211,7 +211,7 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
 
     // 修改内存
     dram_write(addr, len, data);
-    printf("end write................\n");
+    // printf("end write................\n");
 }
 
 void init_cache() {
