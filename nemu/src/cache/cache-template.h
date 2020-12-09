@@ -165,6 +165,9 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
         if (is_unalign) {
             size_t len_1 = addr_ed - addr + 1;
             size_t len_2 = len - len_1;
+        #ifdef M_DEBUG
+            printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
+        #endif
             // 找到指针
             printf("xxxxxxxxxxxxxxx\n");
             char* p1 = (char *)align_read(cache, addr);
