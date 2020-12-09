@@ -22,7 +22,8 @@ typedef struct cache{
     /* functions */
 
     /* find something in cache */
-    bool (*m_find) (struct cache* cache, uint32_t addr);
+    // 好像不需要
+    // bool (*m_find) (struct cache* cache, uint32_t addr);
 
     /* read cache */
     uint32_t (*m_cache_read) (struct cache* cache, uint32_t addr, size_t len);
@@ -38,7 +39,7 @@ typedef struct cache{
 } Cache;
 
 // define my cache
-Cache CACHE;
+Cache M_CACHE;
 
 // implement the member funtions.
 void init_cache(Cache* cache) {
@@ -124,7 +125,6 @@ uint32_t unalign_rw_helper(unalign* addr, size_t len) {
 }
 
 /* read len bytes from cache */
-/* 这可能跨越block */
 uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     // 准备结果
     uint32_t result = 0;
@@ -191,3 +191,6 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
 }
 
 /* install funtions */
+// M_CACHE.m_cache_read = cache_read;
+// M_CACHE.m_cache_write = cache_write;
+// M_CACHE.m_init = init_cache;
