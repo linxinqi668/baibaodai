@@ -1,20 +1,12 @@
-
-
-#include "common.h"
-
 #ifndef __CACHE_H__
 #define __CACHE_H__
 
-/* 要求: 
- * 1. 随机替换
- * 2. 写直通
- * 3. 不采取写分配
-*/
+#include "common.h"
+#include <stdlib.h>
 
 // 必须有前置声明, 链接的时候自动查找
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
-
 
 #define BLOCK_BIT 6 // 6 bit
 #define LOG_CACHE_SIZE 16 // cache size = 2 << 16 -> 64kb

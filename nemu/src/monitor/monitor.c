@@ -1,4 +1,4 @@
-#include "nemu.h"
+#include "nemu.h" // include nemu.h 所以 CPU就可以被下面的代码调用
 
 #define ENTRY_START 0x100000
 
@@ -94,5 +94,5 @@ void restart() {
 	cpu.EFLAGS.init_val = 0x00000002;
 
 	/* initialize cache */
-	
+
 }
