@@ -36,6 +36,10 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     // 判断是否存在该块
     int line_ind = find(cache, addr);
     bool is_exist = (line_ind == -1) ? false : true;
+
+#ifdef M_DEBUG
+    printf("is_exist: %d\n", is_exist);
+#endif
     
     // 找不到的话就先替换
     if (!is_exist) {
@@ -117,7 +121,6 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
                  + unalign_rw_helper(p2, len_2);
     } else {
         // 对齐了就直接读取
-        printf("reached this line\n");
         unalign* data = align_read(cache, addr);
         result = unalign_rw_helper(data, len);
     }

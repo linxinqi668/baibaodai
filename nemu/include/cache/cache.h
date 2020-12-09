@@ -9,8 +9,8 @@ uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
 #define BLOCK_BIT 6 // 6 bit
-#define LOG_CACHE_SIZE 16 // cache size = 2 << 16 -> 64kb
-#define LOG_LINE_PER_SET 3 // line number = 2 << 3 -> 8
+#define LOG_CACHE_SIZE 16 // cache size = 1 << 16 -> 64kb
+#define LOG_LINE_PER_SET 3 // line number = 1 << 3 -> 8
 #define LINE_PER_SET 1 << LOG_LINE_PER_SET
 #define CACHE_SIZE 1 << LOG_CACHE_SIZE
 #define SET_INDEX_BIT (LOG_CACHE_SIZE - LOG_LINE_PER_SET - BLOCK_BIT)
