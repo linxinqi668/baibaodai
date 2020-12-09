@@ -53,8 +53,15 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     // 找不到的话就先替换
     if (!is_exist) {
         int i;
-        // 随机选取一行进行替换
-        line_ind = rand() % LINE_PER_SET;
+        // 顺序搜索空闲行
+        bool has_invalid_line = false;
+        for (i = 0; i < LINE_PER_SET; i++)
+            if (!cache->m_set[set_ind][i].is_valid) {
+                has_invalid_line = true;
+                line_ind = i;
+                break;
+            }
+        line_ind = has_invalid_line ? line_ind : rand() % LINE_PER_SET;
         uint32_t byte_addr = addr >> BLOCK_BIT << BLOCK_BIT;
         
         // read a block. this performance can be proved.
@@ -111,7 +118,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
 
     // 判断读取是否对齐
     uint32_t addr_st = addr >> BLOCK_BIT << BLOCK_BIT; // 块的起始地址
-    // printf("%x", (-1) >> (32 - BLOCK_BIT)); 算数右移... 大意了
+    /* BUG1: printf("%x", (-1) >> (32 - BLOCK_BIT)); 算数右移... 大意了 */
     uint32_t addr_ed = addr_st + ((uint32_t)(-1) >> (32 - BLOCK_BIT)); // 块的终止地址
     bool is_unalign = (addr_ed < addr + len - 1) ? true : false;
 #ifdef M_DEBUG
@@ -120,7 +127,6 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     //        addr_st, addr_ed, is_unalign);
 #endif
     if (is_unalign) {
-        // printf("get here!!!!!!!!!!\n");
         size_t len_1 = addr_ed - addr + 1;
         size_t len_2 = len - len_1;
 #ifdef M_DEBUG
@@ -145,13 +151,11 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     // printf("read result is: %x\n", result);
     // assert(answer == result);
 #endif
-    // printf("end read........................\n\n");
     return result;
 }
 
 /* write cache */
 void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
-    // printf("start write........................\n");
     // 判断是否存在该块
     int line_ind = find(cache, addr);
     bool is_exist = (line_ind == -1) ? false : true;
@@ -172,18 +176,15 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
             printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
         #endif
             // 找到指针
-            // printf("xxxxxxxxxxxxxxx\n");
             char* p1 = (char *)align_read(cache, addr);
             char* p2 = (char *)align_read(cache, addr + len_1);
-            // printf("yyyyyyyyyyyyyyyy\n");
             // 写入
             int i;
+            /* BUG2: p_data-- -> p_data++; */
             for (i = 0; i < len_1; i++, p_data++, p1++)
                 *p1 = *p_data;
-            // printf("yyyyyyyyyyyyyyyy\n");
             for (i = 0; i < len_2; i++, p_data++, p2++)
                 *p2 = *p_data;
-            // printf("yyyyyyyyyyyyyyyy\n");
         } else {
             char* p = (char *)align_read(cache, addr);
             int i;
@@ -194,11 +195,10 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
 
     // 修改内存
     dram_write(addr, len, data);
-    // printf("end write................\n");
 }
 
 void init_cache() {
-    printf("start initializa the cache...\n");
+    printf("start initialize the cache...\n");
     int i, j;
     for (i = 0; i < SET_NUM; i++)
         for (j = 0; j < LINE_PER_SET; j++)
