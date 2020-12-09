@@ -19,9 +19,9 @@ int find(Cache* cache, uint32_t addr) {
     uint32_t set_ind = addr << (TAG_BIT) >> (TAG_BIT + BLOCK_BIT);
 
 #ifdef M_DEBUG
-    printf("this is find function............\n");
-    printf("tag is: %x\n", tag);
-    printf("set ind is: %x\n", set_ind);
+    // printf("this is find function............\n");
+    // printf("tag is: %x\n", tag);
+    // printf("set ind is: %x\n", set_ind);
 #endif
 
     // 查找
@@ -50,9 +50,10 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     bool is_exist = (line_ind == -1) ? false : true;
 
 #ifdef M_DEBUG
-    printf("lind ind: %d\n", line_ind);
-    printf("is_exist: %d\n", is_exist);
-    printf("block ind: %u\n", block_ind);
+    // printf("lind ind: %d\n", line_ind);
+    // printf("is_exist: %d\n", is_exist);
+    // printf("block ind: %u\n", block_ind);
+    printf("%s\n", is_exist ? "hit!!!!" : "miss!!!!");
 #endif
     
     // 找不到的话就先替换
@@ -117,7 +118,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     // assert(addr < 0x600000);
     printf("start read........................\n");
 #ifdef M_DEBUG
-        printf("total_len: %d\n", (int)len);
+        // printf("total_len: %d\n", (int)len);
 #endif
     // 准备结果
     uint32_t result = 0;
@@ -128,15 +129,15 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     uint32_t addr_ed = addr_st + ((uint32_t)(-1) >> (32 - BLOCK_BIT)); // 块的终止地址
     bool is_unalign = (addr_ed < addr + len - 1) ? true : false;
 #ifdef M_DEBUG
-    printf("addr is: %x\n", addr);
-    printf("addr_st: %x, addr_ed: %x, is_unalign: %d\n",
-            addr_st, addr_ed, is_unalign);
+    // printf("addr is: %x\n", addr);
+    // printf("addr_st: %x, addr_ed: %x, is_unalign: %d\n",
+    //        addr_st, addr_ed, is_unalign);
 #endif
     if (is_unalign) {
         size_t len_1 = addr_ed - addr + 1;
         size_t len_2 = len - len_1;
 #ifdef M_DEBUG
-        printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
+    //    printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
 #endif
         unalign* p1 = align_read(cache, addr); // low bit.
         unalign* p2 = align_read(cache, addr + len_1);
@@ -181,21 +182,21 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
             size_t len_1 = addr_ed - addr + 1;
             size_t len_2 = len - len_1;
         #ifdef M_DEBUG
-            printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
+            // printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
         #endif
             // 找到指针
-            printf("xxxxxxxxxxxxxxx\n");
+            // printf("xxxxxxxxxxxxxxx\n");
             char* p1 = (char *)align_read(cache, addr);
             char* p2 = (char *)align_read(cache, addr + len_1);
-            printf("yyyyyyyyyyyyyyyy\n");
+            // printf("yyyyyyyyyyyyyyyy\n");
             // 写入
             int i;
             for (i = 0; i < len_1; i++, _data--, p1++)
                 *p1 = *_data;
-            printf("yyyyyyyyyyyyyyyy\n");
+            // printf("yyyyyyyyyyyyyyyy\n");
             for (i = 0; i < len_2; i++, _data--, p2++)
                 *p2 = *_data;
-            printf("yyyyyyyyyyyyyyyy\n");
+            // printf("yyyyyyyyyyyyyyyy\n");
         } else {
             char* p = (char *)align_read(cache, addr);
             int i;
