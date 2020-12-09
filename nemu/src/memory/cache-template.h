@@ -137,9 +137,9 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     if (is_unalign) {
         size_t len_1 = addr_ed - addr + 1;
         size_t len_2 = len - len_1;
-        unalign* p1 = align_read(cache, addr);
+        unalign* p1 = align_read(cache, addr); // low bit.
         unalign* p2 = align_read(cache, addr + len_1);
-        result = (unalign_rw_helper(p1, len_1) << (len_2 * 8)) // shift to store p2
+        result = (unalign_rw_helper(p1, len_1) << (len_2 * 8)) // shift to store p2.
                  + unalign_rw_helper(p2, len_2);
     } else {
         // 对齐了就直接读取
@@ -150,4 +150,44 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     return result;
 }
 
+/* write cache */
+void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
+    // 判断是否存在该块
+    int line_ind = find(cache, addr);
+    bool is_exist = (line_ind == -1) ? false : true;
 
+    char* _data = (char *)&data;
+    _data += (4 - len); // shift to real data.
+
+    // 如果存在就单独处理, 因为采取了写直通, 所以内存必定修改
+    if (is_exist) {
+        // 判断读取是否对齐
+        uint32_t addr_st = addr >> BLOCK_BIT << BLOCK_BIT; // 块的起始地址
+        uint32_t addr_ed = addr_st + ((-1) >> (32 - BLOCK_BIT)); // 块的终止地址
+        bool is_unalign = (addr_ed < addr + len) ? true : false;
+
+        if (is_unalign) {
+            size_t len_1 = addr_ed - addr + 1;
+            size_t len_2 = len - len_1;
+            // 找到指针
+            char* p1 = (char *)align_read(cache, addr);
+            char* p2 = (char *)align_read(cache, addr + len_1);
+            // 写入
+            int i;
+            for (i = 0; i < len_1; i++, _data++, p1++)
+                *p1 = *_data;
+            for (i = 0; i < len_2; i++, _data++, p2++)
+                *p2 = *_data;
+        } else {
+            char* p = (char *)align_read(cache, addr);
+            int i;
+            for (i = 0; i < len; i++, _data++, p++)
+                *p = *_data;
+        }
+    }
+
+    // 修改内存
+    dram_write(addr, len, data);
+}
+
+/* install funtions */
