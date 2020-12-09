@@ -46,7 +46,8 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     if (!is_exist) {
         int i;
         // 随机选取一行进行替换
-        line_ind = rand() % LINE_PER_SET;
+        // line_ind = rand() % LINE_PER_SET;
+        line_ind = 0;
         // printf("line to rp: %d\n", line_ind);
         // printf("line per set: %d\n", LINE_PER_SET);
         uint32_t byte_addr = addr >> BLOCK_BIT << BLOCK_BIT;
