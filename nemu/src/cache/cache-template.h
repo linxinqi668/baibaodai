@@ -9,12 +9,9 @@
 
 // #define M_DEBUG
 
-// implement the member funtions.
-
 /* 判断缓存是否命中 */
 int find(Cache* cache, uint32_t addr) {
     // 解析地址
-    // printf("%d\n", SET_INDEX_BIT);
     uint32_t tag = addr >> (SET_INDEX_BIT + BLOCK_BIT);
     uint32_t set_ind = addr << (TAG_BIT) >> (TAG_BIT + BLOCK_BIT);
 
@@ -28,11 +25,8 @@ int find(Cache* cache, uint32_t addr) {
     int i;
     for (i = 0; i < LINE_PER_SET; i++)
         if (cache->m_set[set_ind][i].m_tag == tag
-            && cache->m_set[set_ind][i].is_valid) {
-            // printf("cache tag is : %x\n", cache->m_set[set_ind][i].m_tag);
-            // printf("%d\n", cache->m_set[set_ind][i].is_valid);
+            && cache->m_set[set_ind][i].is_valid)
             return i;
-        }
     return -1; // 返回-1表示没找到
 }
 
@@ -42,8 +36,6 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     uint32_t tag = addr >> (SET_INDEX_BIT + BLOCK_BIT);
     uint32_t set_ind = addr << (TAG_BIT) >> (TAG_BIT + BLOCK_BIT);
     uint32_t block_ind = addr << (32 - BLOCK_BIT) >> (32 - BLOCK_BIT);
-
-    // assert(tag != 0x3fff);
 
     // 判断是否存在该块
     int line_ind = find(cache, addr);
@@ -61,12 +53,8 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     // 找不到的话就先替换
     if (!is_exist) {
         int i;
-        // printf("reached this line!\n");
         // 随机选取一行进行替换
-        // line_ind = rand() % LINE_PER_SET;
-        line_ind = 0;
-        // printf("line to rp: %d\n", line_ind);
-        // printf("line per set: %d\n", LINE_PER_SET);
+        line_ind = rand() % LINE_PER_SET;
         uint32_t byte_addr = addr >> BLOCK_BIT << BLOCK_BIT;
         
         // read a block. this performance can be proved.
@@ -80,11 +68,6 @@ unalign* align_read(Cache* cache, uint32_t addr) {
         cache->m_set[set_ind][line_ind].is_valid = true;
         cache->m_set[set_ind][line_ind].m_tag = tag;
     }
-
-    // int i;
-    // for (i = 0; i < 36; i++)
-    //     printf("%x ", (__u_char)cache->m_set[set_ind][line_ind].m_block[i]);
-    // printf("\n");
 
     char* data_addr = (char* )cache->m_set[set_ind][line_ind].m_block + block_ind;
     return (unalign *)data_addr;
