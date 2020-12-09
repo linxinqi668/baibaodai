@@ -111,7 +111,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     uint32_t addr_st = addr >> BLOCK_BIT << BLOCK_BIT; // 块的起始地址
     // printf("%x", (-1) >> (32 - BLOCK_BIT)); 算数右移... 大意了
     uint32_t addr_ed = addr_st + ((uint32_t)(-1) >> (32 - BLOCK_BIT)); // 块的终止地址
-    bool is_unalign = (addr_ed < addr + len) ? true : false;
+    bool is_unalign = (addr_ed < addr + len - 1) ? true : false;
 #ifdef M_DEBUG
     printf("addr is: %x\n", addr);
     printf("addr_st: %x, addr_ed: %x, is_unalign: %d\n",
