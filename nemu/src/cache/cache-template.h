@@ -137,6 +137,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     //        addr_st, addr_ed, is_unalign);
 #endif
     if (is_unalign) {
+        printf("get here!!!!!!!!!!\n");
         size_t len_1 = addr_ed - addr + 1;
         size_t len_2 = len - len_1;
 #ifdef M_DEBUG
