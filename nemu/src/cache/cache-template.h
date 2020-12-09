@@ -134,6 +134,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
 #endif
         unalign* p1 = align_read(cache, addr); // low bit.
         unalign* p2 = align_read(cache, addr + len_1);
+        // BUG3: 答案写反了, 忘了大端序
         result = unalign_rw_helper(p1, len_1) // shift to store p2.
                  + (unalign_rw_helper(p2, len_2) << (len_1 * 8));
     } else {
