@@ -153,8 +153,7 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
     int line_ind = find(cache, addr);
     bool is_exist = (line_ind == -1) ? false : true;
 
-    char* _data = (char *)&data;
-    _data += (4 - len); // shift to real data.
+    char* _data = (char *)&data + 3; // shift the pointer to lower bit.
 
     // 如果存在就单独处理, 因为采取了写直通, 所以内存必定修改
     if (is_exist) {
@@ -173,10 +172,10 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
             printf("yyyyyyyyyyyyyyyy\n");
             // 写入
             int i;
-            for (i = 0; i < len_1; i++, _data++, p1++)
+            for (i = 0; i < len_1; i++, _data--, p1++)
                 *p1 = *_data;
             printf("yyyyyyyyyyyyyyyy\n");
-            for (i = 0; i < len_2; i++, _data++, p2++)
+            for (i = 0; i < len_2; i++, _data--, p2++)
                 *p2 = *_data;
             printf("yyyyyyyyyyyyyyyy\n");
         } else {
