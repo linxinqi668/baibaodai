@@ -68,6 +68,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
 /* 辅助函数 */
 uint32_t unalign_rw_helper(unalign* addr, size_t len) {
     char c = len;
+    printf("%d\n", (int)len);
     switch (c) {
         case 1:
             return unalign_rw(addr, 1);
