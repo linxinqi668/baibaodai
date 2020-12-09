@@ -143,7 +143,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
     //    printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
 #endif
         unalign* p1 = align_read(cache, addr); // low bit.
-        unalign* p2 = align_read(cache, addr + len_1 - 1);
+        unalign* p2 = align_read(cache, addr + len_1);
         result = (unalign_rw_helper(p1, len_1) << (len_2 * 8)) // shift to store p2.
                  + unalign_rw_helper(p2, len_2);
     } else {
@@ -194,10 +194,10 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
             // printf("yyyyyyyyyyyyyyyy\n");
             // 写入
             int i;
-            for (i = 0; i < len_1; i++, _data--, p1++)
+            for (i = 0; i < len_1; i++, _data++, p1++)
                 *p1 = *_data;
             // printf("yyyyyyyyyyyyyyyy\n");
-            for (i = 0; i < len_2; i++, _data--, p2++)
+            for (i = 0; i < len_2; i++, _data++, p2++)
                 *p2 = *_data;
             // printf("yyyyyyyyyyyyyyyy\n");
         } else {
