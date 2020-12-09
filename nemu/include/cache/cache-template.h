@@ -26,23 +26,12 @@ typedef struct cache{
     /* write cache */
     void (*m_cache_write) (struct cache* cache, uint32_t addr, uint32_t data, size_t len);
 
-    /* initialize the cache */
-    void (*m_init) (struct cache* cache);
-
     /* nothing else to do. */
 
 } Cache;
 
 // define my cache
-extern Cache M_CACHE;
-
-// implement the member funtions.
-void init_cache(Cache* cache) {
-    int i, j;
-    for (i = 0; i < SET_NUM; i++)
-        for (j = 0; j < LINE_PER_SET; j++)
-            cache->m_set[i][j].is_valid = false;
-}
+Cache M_CACHE;
 
 /* 判断缓存是否命中 */
 int find(Cache* cache, uint32_t addr) {
@@ -183,6 +172,16 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
 
     // 修改内存
     dram_write(addr, len, data);
+}
+
+// implement the member funtions.
+void init_cache() {
+    int i, j;
+    for (i = 0; i < SET_NUM; i++)
+        for (j = 0; j < LINE_PER_SET; j++)
+            M_CACHE.m_set[i][j].is_valid = false;
+    M_CACHE.m_cache_write = cache_write;
+    M_CACHE.m_cache_read = cache_read;
 }
 
 #undef BLOCK_SIZE

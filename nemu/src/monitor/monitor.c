@@ -95,5 +95,5 @@ void restart() {
 	cpu.EFLAGS.init_val = 0x00000002;
 
 	/* initialize cache */
-
+	init_cache();
 }
