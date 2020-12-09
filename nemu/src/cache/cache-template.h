@@ -14,7 +14,7 @@
 /* 判断缓存是否命中 */
 int find(Cache* cache, uint32_t addr) {
     // 解析地址
-    printf("%d\n", SET_INDEX_BIT);
+    // printf("%d\n", SET_INDEX_BIT);
     uint32_t tag = addr >> (SET_INDEX_BIT + BLOCK_BIT);
     uint32_t set_ind = addr << (TAG_BIT) >> (TAG_BIT + BLOCK_BIT);
 
