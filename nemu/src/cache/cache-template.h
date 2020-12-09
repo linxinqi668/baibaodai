@@ -65,7 +65,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     }
 
     int i;
-    for (i = 0; i < 50; i++)
+    for (i = 0; i < 36; i++)
         printf("%x ", (__u_char)cache->m_set[set_ind][line_ind].m_block[i]);
     printf("\n");
 
