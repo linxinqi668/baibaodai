@@ -92,4 +92,6 @@ void restart() {
 
 	/* Initialize ELAGS reg. */
 	cpu.EFLAGS.init_val = 0x00000002;
+
+	/* initialize cache */
 }
