@@ -117,6 +117,7 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
                  + unalign_rw_helper(p2, len_2);
     } else {
         // 对齐了就直接读取
+        printf("reached this line\n");
         unalign* data = align_read(cache, addr);
         result = unalign_rw_helper(data, len);
     }
