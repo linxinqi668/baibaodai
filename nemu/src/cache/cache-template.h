@@ -3,9 +3,20 @@
 
 #include "cache/cache-template.h"
 
-// do some computation.
+
+// preprocessing.
 #define BLOCK_SIZE (1 << BLOCK_BIT)
 #define SET_NUM (1 << SET_INDEX_BIT)
+
+#define line namespace(line)
+#define cache namespace(cache)
+#define Cache namespace(Cache)
+#define M_CACHE namespace(M_CACHE)
+#define find namespace(find)
+#define align_read namespace(align_read)
+#define cache_read namespace(cache_read)
+#define cache_write namespace(cache_write)
+#define init_cache namespace(init_cache)
 
 // #define M_DEBUG
 
@@ -211,3 +222,12 @@ void init_cache() {
 
 #undef BLOCK_SIZE
 #undef SET_NUM
+#undef line
+#undef cache
+#undef Cache
+#undef M_CACHE
+#undef find
+#undef align_read
+#undef cache_read
+#undef cache_write
+#undef init_cache

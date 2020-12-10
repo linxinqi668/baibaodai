@@ -15,6 +15,8 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 #define SET_INDEX_BIT (LOG_CACHE_SIZE - LOG_LINE_PER_SET - BLOCK_BIT)
 #define TAG_BIT (32 - SET_INDEX_BIT - BLOCK_BIT) // 标记位的长度
 
+#define cache_layer L1
+
 #include "cache-template.h"
 
 #undef BLOCK_BIT

@@ -1,5 +1,5 @@
-#ifndef __CACHE_H__
-#define __CACHE_H__
+#ifndef __L1_CACHE_H__
+#define __L1_CACHE_H__
 
 #include "common.h"
 #include <stdlib.h>
@@ -8,13 +8,21 @@
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
-#define BLOCK_BIT 6 // 6 bit
-#define LOG_CACHE_SIZE 16 // cache size = 1 << 16 -> 64kb
-#define LOG_LINE_PER_SET 3 // line number = 1 << 3 -> 8
+/*  Size of block = 2 ^ BLOCK_BIT
+ *  Number of lines in each set = 2 ^ LOG_LINE_PER_SET
+ *  Size of cache = 2 ^ LOG_CACHE_SIZE
+ *  Number of set bits = LOG_CACHE_SIZE - LOG_LINE_PER_SET- BLOCK_BIT
+ *  Number of tag bits = 32(nemu) - Number of set bits - BLOCK_BIT
+ */
+#define BLOCK_BIT 6
+#define LOG_CACHE_SIZE 16
+#define LOG_LINE_PER_SET 3
 #define LINE_PER_SET 1 << LOG_LINE_PER_SET
 #define CACHE_SIZE 1 << LOG_CACHE_SIZE
 #define SET_INDEX_BIT (LOG_CACHE_SIZE - LOG_LINE_PER_SET - BLOCK_BIT)
-#define TAG_BIT (32 - SET_INDEX_BIT - BLOCK_BIT) // 标记位的长度
+#define TAG_BIT (32 - SET_INDEX_BIT - BLOCK_BIT)
+
+#define cache_layer L1
 
 #include "cache-template.h"
 
@@ -25,5 +33,6 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 #undef CACHE_SIZE
 #undef SET_INDEX_BIT
 #undef TAG_BIT
+#undef cache_layer
 
 #endif
