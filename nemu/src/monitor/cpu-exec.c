@@ -66,9 +66,9 @@ char* running_message [] = {
 	"                  Two roads diverged in a wood, and I —\n\
                         一片树林里分出两条路，\n\n",
 	"                     I took the one less traveled by,\n\
-                      而我选了人迹更少的一条，\n\n",
-	"                 And that has made all the difference.\n\
-                  从此决定了我一生的道路。\n\n"
+                       而我选了人迹更少的一条，\n\n",
+	"                    And that has made all the difference.\n\
+                      从此决定了我一生的道路。\n\n"
 
 };
 
