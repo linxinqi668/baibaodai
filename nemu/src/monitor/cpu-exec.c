@@ -42,7 +42,7 @@ char* running_message [] = {
 	"                  Then took the other, as just as fair,\n\
                   And having perhaps the better claim,\n\
                   Because it was grassy and wanted wear;\n\
-                  它荒草萋萋，十分幽寂，显得更诱人、更美丽，\n\n",
+                 它荒草萋萋，十分幽寂，显得更诱人、更美丽，\n\n",
 	"             Though as for that the passing there\n,\
              虽然在这两条小路上，\n\n",
 	"             Had worn them really about the same,\n\
