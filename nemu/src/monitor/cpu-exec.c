@@ -24,6 +24,8 @@ char asm_buf[128];
 /* Used with exception handling. */
 jmp_buf jbuf;
 
+#define print(str) printf("\033[字背景颜色;字体颜色m str \033[0m" )
+
 char* running_message [] = {
 	// PART 1
 	"                     The Road Not Taken 《少有人走的路》\n\n\
@@ -91,11 +93,11 @@ void do_int3() {
 /* Simulate how the CPU works. */
 void cpu_exec(volatile uint32_t n) {
 	// output message...
-	uint32_t message_num = 18;
+	uint32_t message_num = 17;
 	uint32_t message_ind = 0;
 
 	if(nemu_state == END) {
-		printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
+		print("Program execution has ended. To restart the program, exit NEMU and run again.\n");
 		return;
 	}
 	nemu_state = RUNNING;
