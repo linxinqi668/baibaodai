@@ -1,8 +1,9 @@
 
 #include "./cache/helper-functions.h" // 必要的前置声明
-#include "./cache/L2-cache.h" // cache本体的声明
+#include "./cache/L2-cache.h" // L2 cache的声明 编译器会自动找到函数
+#include "./cache/L1-cache.h" // cache本体的声明
 
-#include "./cache/L2-cache-config_start.h" // 设置参数和命名空间
+#include "./cache/L1-cache-config_start.h" // 设置参数和命名空间
 
 // 实现cache中的函数
 // #define M_DEBUG
@@ -29,6 +30,9 @@ int find(Cache* cache, uint32_t addr) {
 }
 
 /* 底层接口 处理一定对齐的数据 */
+/* 1. 随机替换
+ * 2. 使用dirty bit.
+ */
 unalign* align_read(Cache* cache, uint32_t addr) {
     // 解析地址
     uint32_t tag = addr >> (SET_INDEX_BIT + BLOCK_BIT);
@@ -48,7 +52,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
     printf("%s\n", is_exist ? "hit!!!!" : "miss!!!!");
 #endif
     
-    // 找不到的话就先替换
+    // 找不到的话就先替换, 直接从L2 cache中获取数据, L2cache会自动进行替换
     if (!is_exist) {
         int i;
         // 顺序搜索空闲行
@@ -65,7 +69,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
         // read a block. this performance can be proved.
         for (i = 0; i < BLOCK_SIZE; i++, byte_addr++) {
             // read a byte
-            char data = dram_read(byte_addr, 1);
+            char data = L2_cache_read(&L2_M_CACHE, byte_addr, 1);
             // wirte it into the cache block.
             cache->m_set[set_ind][line_ind].m_block[i] = data;
         }
@@ -85,7 +89,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
  * 3. 这边是利用了：结构体指针指向哪里，哪里的数据就会被当做结构体
  */
 
-/* read cache */
+/* read len bytes from cache */
 uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
 #ifdef M_DEBUG
         // printf("total_len: %d\n", (int)len);
@@ -186,7 +190,7 @@ void init_cache() {
     printf("load cache done.\n");
 }
 
-#include "./cache/L2-cache-config_end.h"
+#include "./cache/L1-cache-config_end.h"
 
 
 
