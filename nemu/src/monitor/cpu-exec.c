@@ -30,7 +30,7 @@ char* running_message [] = {
 	"                 Two roads diverged in a yellow wood,\n\
              黄色的树林里分出两条路，黄色的树林里分出两条路，\n\n",
 	"                  And sorry I could not travel both\n\
-             可惜我不能同时去涉足，\n\n",
+                        可惜我不能同时去涉足，\n\n",
 	"             And be one traveler,long I stood\n\
              我在那路口久久伫立，\n\n",
 	"             And looked down one as far as I could\n\
