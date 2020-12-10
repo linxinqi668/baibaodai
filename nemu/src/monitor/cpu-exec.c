@@ -72,7 +72,7 @@ char* running_message [] = {
 
 };
 
-int message_num = 18;
+int message_num = 17;
 
 void print_bin_instr(swaddr_t eip, int len) {
 	int i;
