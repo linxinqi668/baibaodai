@@ -29,11 +29,11 @@ char* running_message [] = {
 	"                 The Road Not Taken 《少有人走的路》\n\n",
 	"                 Two roads diverged in a yellow wood,\n\
              黄色的树林里分出两条路，黄色的树林里分出两条路，\n\n",
-	"                  And sorry I could not travel both\n\
+	"                  And sorry I could not travel both,\n\
                         可惜我不能同时去涉足，\n\n",
-	"                   And be one traveler,long I stood\n\
+	"                   And be one traveler,long I stood,\n\
                         我在那路口久久伫立，\n\n",
-	"                 And looked down one as far as I could\n\
+	"                 And looked down one as far as I could,\n\
                         我向着一条路极目望去，\n\n",
 	"                  To where it bent in the undergrowth;\n\
                           直到它消失在丛林深处。\n\n",
@@ -49,7 +49,7 @@ char* running_message [] = {
                           都很少留下旅人的足迹，\n\n",
 
 	// PART 3
-	"                   And both that morning equally lay\n\
+	"                   And both that morning equally lay,\n\
                   In leaves no step had trodden black.\n\
                虽然那天清晨落叶满地，两条路都未经脚印污染。\n\n",
 	"                  Oh, I kept the first for another day!\n\
@@ -60,7 +60,7 @@ char* running_message [] = {
                            恐怕我难以再回返。\n\n",
 
 	 // PART 4
-	"                  I shall be telling this with a sigh\n\
+	"                  I shall be telling this with a sigh,\n\
                      Somewhere ages and ages hence:\n\
              也许多少年后在某个地方，我将轻声叹息把往事回顾\n\n",
 	"                  Two roads diverged in a wood, and I —\n\
