@@ -60,8 +60,8 @@ char* running_message [] = {
                            恐怕我难以再回返。\n\n",
 
 	 // PART 4
-	"             I shall be telling this with a sigh\n\
-             Somewhere ages and ages hence:\n\
+	"                  I shall be telling this with a sigh\n\
+                     Somewhere ages and ages hence:\n\
              也许多少年后在某个地方，我将轻声叹息把往事回顾\n\n",
 	"             Two roads diverged in a wood, and I —\n\
              一片树林里分出两条路，\n\n",
