@@ -119,7 +119,7 @@ void cpu_exec(volatile uint32_t n) {
 			/* Output some dots while executing the program. */
 			// fputc('.', stderr);
 			if (message_ind < message_num) {
-				fputs(running_message[message_ind], stderr);
+				print(running_message[message_ind]);
 				message_ind++;
 			}
 			else
