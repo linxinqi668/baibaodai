@@ -6,6 +6,8 @@
 #include <setjmp.h>
 #include <stdlib.h>
 
+#include "macro.h"
+
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -24,7 +26,9 @@ char asm_buf[128];
 /* Used with exception handling. */
 jmp_buf jbuf;
 
-#define print(str) printf("\033[字背景颜色;字体颜色m str \033[0m" )
+void print(char* str) {
+	printf("\033[1m\033[45;33m%s\033[0m", str);
+}
 
 char* running_message [] = {
 	// PART 1
