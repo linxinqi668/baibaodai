@@ -72,8 +72,6 @@ char* running_message [] = {
 
 };
 
-int message_num = 17;
-
 void print_bin_instr(swaddr_t eip, int len) {
 	int i;
 	int l = sprintf(asm_buf, "%8x:   ", eip);
@@ -92,7 +90,7 @@ void do_int3() {
 /* Simulate how the CPU works. */
 void cpu_exec(volatile uint32_t n) {
 	// output message...
-	uint32_t message_num = 18;
+	uint32_t message_num = 17;
 	uint32_t message_ind = 0;
 
 	if(nemu_state == END) {
@@ -110,7 +108,7 @@ void cpu_exec(volatile uint32_t n) {
 	for(; n > 0; n --) { // cpu执行指令的循环
 #ifdef DEBUG
 		swaddr_t eip_temp = cpu.eip;
-		if((n & 0xfffff) == 0) {
+		if((n & 0xffff) == 0) {
 			/* Output some dots while executing the program. */
 			// fputc('.', stderr);
 			if (message_ind < message_num) {
@@ -118,7 +116,7 @@ void cpu_exec(volatile uint32_t n) {
 				message_ind++;
 			}
 			else
-				fputs("....if you see this, it means nmeu is too slow.",
+				fputs("....if you see this, it means nmeu is too slow.\n",
 				      stderr);
 		}
 #endif
