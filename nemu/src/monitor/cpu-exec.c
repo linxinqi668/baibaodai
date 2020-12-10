@@ -53,7 +53,7 @@ char* running_message [] = {
                   In leaves no step had trodden black.\n\
                虽然那天清晨落叶满地，两条路都未经脚印污染。\n\n",
 	"                  Oh, I kept the first for another day!\n\
-                     呵，留下一条路等改日再见！\n\n",
+                       呵，留下一条路等改日再见！\n\n",
 	"             Yet knowing how way leads on to way,\n\
              但我知道路径延绵无尽头，\n\n",
 	"             I doubted if I should ever come back.\n\
