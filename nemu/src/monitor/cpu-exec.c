@@ -49,8 +49,8 @@ char* running_message [] = {
                           都很少留下旅人的足迹，\n\n",
 
 	// PART 3
-	"                       And both that morning equally lay\n\
-                   In leaves no step had trodden black.\n\
+	"                   And both that morning equally lay\n\
+                    In leaves no step had trodden black.\n\
                   虽然那天清晨落叶满地，两条路都未经脚印污染。\n\n",
 	"             Oh, I kept the first for another day!\n\
              呵，留下一条路等改日再见！\n\n",
