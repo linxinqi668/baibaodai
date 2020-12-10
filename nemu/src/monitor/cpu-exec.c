@@ -34,7 +34,7 @@ char* running_message [] = {
 	"                   And be one traveler,long I stood\n\
                         我在那路口久久伫立，\n\n",
 	"                 And looked down one as far as I could\n\
-             我向着一条路极目望去，\n\n",
+                        我向着一条路极目望去，\n\n",
 	"             To where it bent in the undergrowth;\n\
              直到它消失在丛林深处。\n\n",
 
