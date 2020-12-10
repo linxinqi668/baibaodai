@@ -1,23 +1,10 @@
 
+#include "./cache/helper-functions.h" // 必要的前置声明
+#include "./cache/L1-cache.h" // cache本体的声明
 
+#include "./cache/L1-cache-config_start.h" // 设置参数和命名空间
 
-#include "cache/cache-template.h"
-
-
-// preprocessing.
-#define BLOCK_SIZE (1 << BLOCK_BIT)
-#define SET_NUM (1 << SET_INDEX_BIT)
-
-#define line namespace(line)
-#define cache namespace(cache)
-#define Cache namespace(Cache)
-#define M_CACHE namespace(M_CACHE)
-#define find namespace(find)
-#define align_read namespace(align_read)
-#define cache_read namespace(cache_read)
-#define cache_write namespace(cache_write)
-#define init_cache namespace(init_cache)
-
+// 实现cache中的函数
 // #define M_DEBUG
 
 /* 判断缓存是否命中 */
@@ -98,29 +85,8 @@ unalign* align_read(Cache* cache, uint32_t addr) {
  * 3. 这边是利用了：结构体指针指向哪里，哪里的数据就会被当做结构体
  */
 
-/* 辅助函数 */
-uint32_t unalign_rw_helper(unalign* addr, size_t len) {
-    char c = len;
-    assert(len > 0);
-    switch (c) {
-        case 1:
-            return unalign_rw(addr, 1);
-        case 2:
-            return unalign_rw(addr, 2);
-        case 3:
-            return unalign_rw(addr, 3);
-        case 4:
-            return unalign_rw(addr, 4);
-        default:
-            return -1;
-            break;
-    }
-}
-
 /* read len bytes from cache */
 uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
-    // assert(addr < 0x600000);
-    // printf("start read........................\n");
 #ifdef M_DEBUG
         // printf("total_len: %d\n", (int)len);
 #endif
@@ -220,14 +186,7 @@ void init_cache() {
     printf("load cache done.\n");
 }
 
-#undef BLOCK_SIZE
-#undef SET_NUM
-#undef line
-#undef cache
-#undef Cache
-#undef M_CACHE
-#undef find
-#undef align_read
-#undef cache_read
-#undef cache_write
-#undef init_cache
+#include "./cache/L1-cache-config_end.h"
+
+
+
