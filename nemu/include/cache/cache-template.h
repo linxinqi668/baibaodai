@@ -3,6 +3,7 @@
 
 /* line struct */
 typedef struct {
+    bool is_dirty; // used in task2.
     bool is_valid;
     uint32_t m_tag : TAG_BIT; // used as tag.
     char m_block[ BLOCK_SIZE ]; // used as block.

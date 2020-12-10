@@ -1,8 +1,8 @@
 
 #include "./cache/helper-functions.h" // 必要的前置声明
-#include "./cache/L1-cache.h" // cache本体的声明
+#include "./cache/L2-cache.h" // cache本体的声明
 
-#include "./cache/L1-cache-config_start.h" // 设置参数和命名空间
+#include "./cache/L2-cache-config_start.h" // 设置参数和命名空间
 
 // 实现cache中的函数
 // #define M_DEBUG
@@ -186,7 +186,7 @@ void init_cache() {
     printf("load cache done.\n");
 }
 
-#include "./cache/L1-cache-config_end.h"
+#include "./cache/L2-cache-config_end.h"
 
 
 
