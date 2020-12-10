@@ -27,7 +27,7 @@ char asm_buf[128];
 jmp_buf jbuf;
 
 void print(char* str) {
-	printf("\033[1m\033[45;33m%s\033[0m", str);
+	printf("\033[1m\033[45;33m HELLO_WORLD \033[0m\n");
 }
 
 char* running_message [] = {
