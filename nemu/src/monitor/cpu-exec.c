@@ -46,7 +46,7 @@ char* running_message [] = {
 	"                  Though as for that the passing there\n,\
                           虽然在这两条小路上，\n\n",
 	"                  Had worn them really about the same,\n\
-                        都很少留下旅人的足迹，\n\n",
+                          都很少留下旅人的足迹，\n\n",
 
 	// PART 3
 	"             And both that morning equally lay\n\
