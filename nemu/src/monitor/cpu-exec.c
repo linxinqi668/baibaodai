@@ -44,9 +44,9 @@ char* running_message [] = {
                   Because it was grassy and wanted wear;\n\
                  它荒草萋萋，十分幽寂，显得更诱人、更美丽，\n\n",
 	"                  Though as for that the passing there\n,\
-                        虽然在这两条小路上，\n\n",
-	"             Had worn them really about the same,\n\
-             都很少留下旅人的足迹，\n\n",
+                          虽然在这两条小路上，\n\n",
+	"                  Had worn them really about the same,\n\
+                        都很少留下旅人的足迹，\n\n",
 
 	// PART 3
 	"             And both that morning equally lay\n\
