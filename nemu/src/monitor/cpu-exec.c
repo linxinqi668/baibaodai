@@ -24,6 +24,56 @@ char asm_buf[128];
 /* Used with exception handling. */
 jmp_buf jbuf;
 
+char* running_message [] = {
+	// PART 1
+	"The Road Not Taken 《少有人走的路》\n\n",
+	"Two roads diverged in a yellow wood,\n\
+	 黄色的树林里分出两条路，黄色的树林里分出两条路，\n",
+	"And sorry I could not travel both\n\
+	 可惜我不能同时去涉足，\n",
+	"And be one traveler,long I stood\n\
+	 我在那路口久久伫立，\n",
+	"And looked down one as far as I could\n\
+	 我向着一条路极目望去，\n",
+	"To where it bent in the undergrowth;\n\
+	 直到它消失在丛林深处。\n",
+
+	// PART 2
+	"Then took the other, as just as fair,\n\
+	 And having perhaps the better claim,\n\
+	 Because it was grassy and wanted wear;\n\
+	 它荒草萋萋，十分幽寂，显得更诱人、更美丽，\n",
+	"Though as for that the passing there\n,\
+	 虽然在这两条小路上，\n",
+	"Had worn them really about the same,\n\
+	 都很少留下旅人的足迹，\n",
+
+	// PART 3
+	"And both that morning equally lay\n\
+	 In leaves no step had trodden black.\n\
+	 虽然那天清晨落叶满地，两条路都未经脚印污染。\n",
+	"Oh, I kept the first for another day!\n\
+	 呵，留下一条路等改日再见！\n",
+	"Yet knowing how way leads on to way,\n\
+	 但我知道路径延绵无尽头，\n",
+	"I doubted if I should ever come back.\n\
+	 恐怕我难以再回返。\n",
+
+	 // PART 4
+	"I shall be telling this with a sigh\n\
+	 Somewhere ages and ages hence:\n\
+	 也许多少年后在某个地方，我将轻声叹息把往事回顾\n",
+	"Two roads diverged in a wood, and I —\n\
+	 一片树林里分出两条路，\n",
+	"I took the one less traveled by,\n\
+	 而我选了人迹更少的一条，\n",
+	"And that has made all the difference.\n\
+	 从此决定了我一生的道路。\n"
+
+};
+
+int message_num = 18;
+
 void print_bin_instr(swaddr_t eip, int len) {
 	int i;
 	int l = sprintf(asm_buf, "%8x:   ", eip);
@@ -41,6 +91,10 @@ void do_int3() {
 
 /* Simulate how the CPU works. */
 void cpu_exec(volatile uint32_t n) {
+	// output message...
+	uint32_t message_num = 18;
+	uint32_t message_ind = 0;
+
 	if(nemu_state == END) {
 		printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
 		return;
@@ -58,7 +112,14 @@ void cpu_exec(volatile uint32_t n) {
 		swaddr_t eip_temp = cpu.eip;
 		if((n & 0xffff) == 0) {
 			/* Output some dots while executing the program. */
-			fputc('.', stderr);
+			// fputc('.', stderr);
+			if (message_ind < message_num) {
+				fputs(running_message[message_ind], stderr);
+				message_ind++;
+			}
+			else
+				fputs("....if you see this, it means nmeu is too slow.",
+				      stderr);
 		}
 #endif
 
