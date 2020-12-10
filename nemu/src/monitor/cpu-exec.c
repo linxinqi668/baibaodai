@@ -57,7 +57,7 @@ char* running_message [] = {
 	"                  Yet knowing how way leads on to way,\n\
                        但我知道路径延绵无尽头，\n\n",
 	"                  I doubted if I should ever come back.\n\
-                        恐怕我难以再回返。\n\n",
+                             恐怕我难以再回返。\n\n",
 
 	 // PART 4
 	"             I shall be telling this with a sigh\n\
