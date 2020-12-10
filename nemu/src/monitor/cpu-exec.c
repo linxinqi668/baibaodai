@@ -26,8 +26,8 @@ jmp_buf jbuf;
 
 char* running_message [] = {
 	// PART 1
-	"                     The Road Not Taken 《少有人走的路》\n\n",
-	"                                          ---ROBERT FROST\n\n",
+	"                     The Road Not Taken 《少有人走的路》\n\n\
+                                          ---ROBERT FROST\n\n",
 	"                 Two roads diverged in a yellow wood,\n\
              黄色的树林里分出两条路，黄色的树林里分出两条路，\n\n",
 	"                  And sorry I could not travel both,\n\
