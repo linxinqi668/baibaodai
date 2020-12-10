@@ -3,7 +3,7 @@
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
-#include "cache/L2-cache.h"
+#include "cache/L1-cache.h"
 
 
 /* Memory accessing interfaces */
@@ -11,7 +11,7 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	// uint32_t answer = dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 	// return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
-	uint32_t cache_ans = L2_M_CACHE.m_cache_read(&L2_M_CACHE, addr, len);
+	uint32_t cache_ans = L1_M_CACHE.m_cache_read(&L1_M_CACHE, addr, len);
 	// printf("ans: %x cache: %x\n\n\n", answer, cache_ans);
 	// assert(answer == cache_ans);
 	return cache_ans;
@@ -19,7 +19,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	// dram_write(addr, len, data);
-	L2_M_CACHE.m_cache_write(&L2_M_CACHE, addr, data, len);
+	L1_M_CACHE.m_cache_write(&L1_M_CACHE, addr, data, len);
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {

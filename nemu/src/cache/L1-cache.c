@@ -91,7 +91,6 @@ unalign* align_read(Cache* cache, uint32_t addr) {
 
 /* read len bytes from cache */
 uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
-    assert(1 == 0);
     printf("reached L1 cache......\n");
 #ifdef M_DEBUG
         // printf("total_len: %d\n", (int)len);
