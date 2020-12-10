@@ -29,6 +29,9 @@ int find(Cache* cache, uint32_t addr) {
 }
 
 /* 底层接口 处理一定对齐的数据 */
+/* 1. 随机替换
+ * 2. 使用dirty bit.
+ */
 unalign* align_read(Cache* cache, uint32_t addr) {
     // 解析地址
     uint32_t tag = addr >> (SET_INDEX_BIT + BLOCK_BIT);
@@ -60,7 +63,19 @@ unalign* align_read(Cache* cache, uint32_t addr) {
                 break;
             }
         line_ind = has_invalid_line ? line_ind : rand() % LINE_PER_SET;
+
+        // check dirty bit.
+        bool is_dirty = cache->m_set[set_ind][line_ind].is_dirty;
         uint32_t byte_addr = addr >> BLOCK_BIT << BLOCK_BIT;
+        if (is_dirty) {
+            // write this dirty block into memory.
+            for (i = 0; i < BLOCK_SIZE; i++, byte_addr++) {
+                char data = cache->m_set[set_ind][line_ind].m_block[i];
+                // write a byte
+                dram_write(byte_addr, 1, data);
+            }
+        }
+        byte_addr = addr >> BLOCK_BIT << BLOCK_BIT;
         
         // read a block. this performance can be proved.
         for (i = 0; i < BLOCK_SIZE; i++, byte_addr++) {
@@ -72,6 +87,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
         // set the line
         cache->m_set[set_ind][line_ind].is_valid = true;
         cache->m_set[set_ind][line_ind].m_tag = tag;
+        cache->m_set[set_ind][line_ind].is_dirty = false;
     }
 
     char* data_addr = (char* )cache->m_set[set_ind][line_ind].m_block + block_ind;
@@ -134,56 +150,53 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
 
 /* write cache */
 void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
-    // 判断是否存在该块
-    int line_ind = find(cache, addr);
-    bool is_exist = (line_ind == -1) ? false : true;
 
     char* p_data = (char *)&data; // shift the pointer to lower bit.
 
-    // 如果存在就单独处理, 因为采取了写直通, 所以内存必定修改
-    if (is_exist) {
-        // 判断读取是否对齐
-        uint32_t addr_st = addr >> BLOCK_BIT << BLOCK_BIT; // 块的起始地址
-        uint32_t addr_ed = addr_st + ((uint32_t)(-1) >> (32 - BLOCK_BIT)); // 块的终止地址
-        bool is_unalign = (addr_ed < addr + len - 1) ? true : false;
+    // 无论存在与否, 最终结果都是写入cache.
+    uint32_t addr_st = addr >> BLOCK_BIT << BLOCK_BIT; // 块的起始地址
+    uint32_t addr_ed = addr_st + ((uint32_t)(-1) >> (32 - BLOCK_BIT)); // 块的终止地址
+    bool is_unalign = (addr_ed < addr + len - 1) ? true : false;
 
-        if (is_unalign) {
-            size_t len_1 = addr_ed - addr + 1;
-            size_t len_2 = len - len_1;
-        #ifdef M_DEBUG
-            printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
-        #endif
-            // 找到指针
-            char* p1 = (char *)align_read(cache, addr);
-            char* p2 = (char *)align_read(cache, addr + len_1);
-            // 写入
-            int i;
-            /* BUG2: p_data-- -> p_data++; */
-            for (i = 0; i < len_1; i++, p_data++, p1++)
-                *p1 = *p_data;
-            for (i = 0; i < len_2; i++, p_data++, p2++)
-                *p2 = *p_data;
-        } else {
-            char* p = (char *)align_read(cache, addr);
-            int i;
-            for (i = 0; i < len; i++, p_data++, p++)
-                *p = *p_data;
-        }
+    if (is_unalign) {
+        size_t len_1 = addr_ed - addr + 1;
+        size_t len_2 = len - len_1;
+    #ifdef M_DEBUG
+        printf("len_1: %d len_2: %d\n", (int)len_1, (int)len_2);
+    #endif
+        // 找到指针
+        char* p1 = (char *)align_read(cache, addr);
+        char* p2 = (char *)align_read(cache, addr + len_1);
+        // 写入
+        int i;
+        /* BUG2: p_data-- -> p_data++; */
+        for (i = 0; i < len_1; i++, p_data++, p1++)
+            *p1 = *p_data;
+        for (i = 0; i < len_2; i++, p_data++, p2++)
+            *p2 = *p_data;
+    } else {
+        char* p = (char *)align_read(cache, addr);
+        int i;
+        for (i = 0; i < len; i++, p_data++, p++)
+            *p = *p_data;
     }
 
-    // 修改内存
-    dram_write(addr, len, data);
+    // 设置dirty bit.
+    int line_ind = find(cache, addr);
+    uint32_t set_ind = addr << (TAG_BIT) >> (TAG_BIT + BLOCK_BIT);
+    assert(line_ind != -1); // 绝对命中.
+    cache->m_set[set_ind][line_ind].is_dirty = true;
 }
 
 void init_cache() {
-    printf("start initialize the cache...\n");
+    printf("start initialize L2 cache...\n");
     int i, j;
     for (i = 0; i < SET_NUM; i++)
         for (j = 0; j < LINE_PER_SET; j++)
             M_CACHE.m_set[i][j].is_valid = false;
     M_CACHE.m_cache_read = cache_read;
     M_CACHE.m_cache_write = cache_write;
-    printf("load cache done.\n");
+    printf("load L2 cache done.\n");
 }
 
 #include "./cache/L2-cache-config_end.h"

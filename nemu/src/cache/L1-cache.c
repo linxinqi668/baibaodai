@@ -30,8 +30,7 @@ int find(Cache* cache, uint32_t addr) {
 }
 
 /* 底层接口 处理一定对齐的数据 */
-/* 1. 随机替换
- * 2. 使用dirty bit.
+/* 1. 随机替换 no dirty bit
  */
 unalign* align_read(Cache* cache, uint32_t addr) {
     // 解析地址
@@ -89,7 +88,7 @@ unalign* align_read(Cache* cache, uint32_t addr) {
  * 3. 这边是利用了：结构体指针指向哪里，哪里的数据就会被当做结构体
  */
 
-/* read len bytes from cache */
+/* read cache */
 uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
 #ifdef M_DEBUG
         // printf("total_len: %d\n", (int)len);
@@ -137,6 +136,10 @@ uint32_t cache_read(Cache* cache, uint32_t addr, size_t len) {
 }
 
 /* write cache */
+
+/* 1. 写直通
+ * 2. 不采取写分配
+ */
 void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
     // 判断是否存在该块
     int line_ind = find(cache, addr);
@@ -175,19 +178,20 @@ void cache_write(Cache* cache, uint32_t addr, uint32_t data, size_t len) {
         }
     }
 
-    // 修改内存
-    dram_write(addr, len, data);
+    // 修改L2 Cache
+    L2_M_CACHE.m_cache_write(&L2_M_CACHE, addr, data, len);
+    // dram_write(addr, len, data);
 }
 
 void init_cache() {
-    printf("start initialize the cache...\n");
+    printf("start initialize L1 cache...\n");
     int i, j;
     for (i = 0; i < SET_NUM; i++)
         for (j = 0; j < LINE_PER_SET; j++)
             M_CACHE.m_set[i][j].is_valid = false;
     M_CACHE.m_cache_read = cache_read;
     M_CACHE.m_cache_write = cache_write;
-    printf("load cache done.\n");
+    printf("load L1 cache done.\n");
 }
 
 #include "./cache/L1-cache-config_end.h"
