@@ -39,9 +39,9 @@ char* running_message [] = {
                           直到它消失在丛林深处。\n\n",
 
 	// PART 2
-	"             Then took the other, as just as fair,\n\
-             And having perhaps the better claim,\n\
-             Because it was grassy and wanted wear;\n\
+	"                  Then took the other, as just as fair,\n\
+                  And having perhaps the better claim,\n\
+                  Because it was grassy and wanted wear;\n\
              它荒草萋萋，十分幽寂，显得更诱人、更美丽，\n\n",
 	"             Though as for that the passing there\n,\
              虽然在这两条小路上，\n\n",
