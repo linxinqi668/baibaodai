@@ -68,7 +68,7 @@ char* running_message [] = {
 	"                     I took the one less traveled by,\n\
                           而我选了人迹更少的一条，\n\n",
 	"                    And that has made all the difference.\n\
-                         从此决定了我一生的道路。\n\n"
+                            从此决定了我一生的道路。\n\n"
 
 };
 
