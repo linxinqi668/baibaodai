@@ -75,7 +75,8 @@ char* running_message [] = {
 	"                     I took the one less traveled by,\n\
                           而我选了人迹更少的一条，\n\n",
 	"                    And that has made all the difference.\n\
-                           从此决定了我一生的道路。\n\n"
+                           从此决定了我一生的道路。\n\n",
+	"                                ....END...."
 
 };
 
@@ -97,7 +98,7 @@ void do_int3() {
 /* Simulate how the CPU works. */
 void cpu_exec(volatile uint32_t n) {
 	// output message...
-	uint32_t message_num = 17;
+	uint32_t message_num = 18;
 	uint32_t message_ind = 0;
 
 	if(nemu_state == END) {
@@ -122,8 +123,6 @@ void cpu_exec(volatile uint32_t n) {
 				print(running_message[message_ind]);
 				message_ind++;
 			}
-			else
-				print("                                ....END....");
 		}
 #endif
 
