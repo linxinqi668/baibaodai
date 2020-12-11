@@ -123,8 +123,7 @@ void cpu_exec(volatile uint32_t n) {
 				message_ind++;
 			}
 			else
-				fputs("         ....if you see this, it means nmeu is too slow.....\n",
-				      stderr);
+				print("           ....END....");
 		}
 #endif
 
