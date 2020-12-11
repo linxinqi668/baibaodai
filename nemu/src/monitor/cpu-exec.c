@@ -62,7 +62,7 @@ char* running_message [] = {
 	"                  Oh, I kept the first for another day!\n\
                        呵，留下一条路等改日再见！\n\n",
 	"                  Yet knowing how way leads on to way,\n\
-                       但我知道路径延绵无尽头，\n\n",
+                          但我知道路径延绵无尽头，\n\n",
 	"                  I doubted if I should ever come back.\n\
                            恐怕我难以再回返。\n\n",
 
@@ -115,7 +115,7 @@ void cpu_exec(volatile uint32_t n) {
 	for(; n > 0; n --) { // cpu执行指令的循环
 #ifdef DEBUG
 		swaddr_t eip_temp = cpu.eip;
-		if((n % (0x3f3f3f3f >> 10)) == 0) {
+		if((n % (0x3f3f3f3f >> 13)) == 0) {
 			/* Output some dots while executing the program. */
 			// fputc('.', stderr);
 			if (message_ind < message_num) {
@@ -123,7 +123,7 @@ void cpu_exec(volatile uint32_t n) {
 				message_ind++;
 			}
 			else
-				print("           ....END....");
+				print("                      ....END....");
 		}
 #endif
 
