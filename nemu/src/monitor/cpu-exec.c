@@ -116,7 +116,7 @@ void cpu_exec(volatile uint32_t n) {
 	for(; n > 0; n --) { // cpu执行指令的循环
 #ifdef DEBUG
 		swaddr_t eip_temp = cpu.eip;
-		if((n % (0x3f3f3f3f >> 13)) == 0) {
+		if((n % (0x3f3f3f3f >> 10)) == 0) {
 			/* Output some dots while executing the program. */
 			// fputc('.', stderr);
 			if (message_ind < message_num) {
