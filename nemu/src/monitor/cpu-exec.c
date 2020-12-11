@@ -123,7 +123,7 @@ void cpu_exec(volatile uint32_t n) {
 				message_ind++;
 			}
 			else
-				print("                                        ....END....");
+				print("                                ....END....");
 		}
 #endif
 
