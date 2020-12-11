@@ -43,7 +43,7 @@ char* running_message [] = {
 	"                 And looked down one as far as I could,\n\
                         我向着一条路极目望去，\n\n",
 	"                  To where it bent in the undergrowth;\n\
-                          直到它消失在丛林深处。\n\n",
+                        直到它消失在丛林深处。\n\n",
 
 	// PART 2
 	"                  Then took the other, as just as fair,\n\
