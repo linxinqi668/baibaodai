@@ -41,8 +41,8 @@ hwaddr_t page_translate(lnaddr_t addr){
 		uint32_t addr_start = second_content.addr;
 		hwaddr_t hwaddr = (addr_start << 12) + offset;
 		write_tlb(addr,hwaddr);
-		// printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-		// printf("xxx %x\n", hwaddr);
+		printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+		printf("xxx %x\n", hwaddr);
 		return hwaddr;
 	}else return addr;
 }
