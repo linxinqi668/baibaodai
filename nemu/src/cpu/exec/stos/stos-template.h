@@ -3,6 +3,7 @@
 make_helper(concat(stos_, SUFFIX)) {
     // printf("safe start.\n");
     swaddr_t addr_dest = reg_l(R_EDI);
+    printf("here");
 
     MEM_W(addr_dest, REG(R_EAX));
 
