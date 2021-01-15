@@ -14,7 +14,7 @@
 do { \
 	cli(); \
 	Log("\33[1;31msystem panic: " format, ## __VA_ARGS__); \
-	// HIT_BAD_TRAP; \
+	HIT_BAD_TRAP; \
 } while(0)
 
 #define assert(cond) \
