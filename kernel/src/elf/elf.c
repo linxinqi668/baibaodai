@@ -29,7 +29,7 @@ uint32_t loader() {
 #else
 	ramdisk_read(buf, ELF_OFFSET_IN_DISK, 4096); // 已经读取了4096个字节了.
 #endif
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1); r
 	// buf 暂时没用. 不知道后面的PA是否有用.
 	elf = (void*)buf;
 	// nemu_assert(0 == 1);
@@ -40,6 +40,7 @@ uint32_t loader() {
 	const uint32_t elf_magic = *p; // 然后读取.
 
 	uint32_t *p_magic = (void *)buf; // 测试.
+	nemu_assert(0 == 1);
 	nemu_assert(*p_magic == elf_magic);
 
 	// (1) 取出程序头表的偏移(地址).
