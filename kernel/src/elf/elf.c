@@ -89,7 +89,7 @@ uint32_t loader() {
 			// uint32_t mem_size = ph->p_memsz;
 			// uint32_t file_size = ph->p_filesz;
 			// uint32_t offset = ph->p_offset;
-			nemu_assert(0 == 1);
+			// nemu_assert(0 == 1);
 			// debug.
 			// if (cnt == 0) {
 			// 	nemu_assert(offset == 0);
@@ -123,6 +123,7 @@ uint32_t loader() {
 		}
 		// nemu_assert(0 == 1);
 		ph++;
+		nemu_assert(0 == 1);
 	}
 	// nemu_assert(0 == 1);
 	volatile uint32_t entry = elf->e_entry;
