@@ -21,7 +21,7 @@ void init_cond();
  * The assembly code in start.S will finally jump here.
  */
 void init() {
-	nemu_assert(0 == 1);
+#define IA32_PAGE
 #ifdef IA32_PAGE
 	/* We must set up kernel virtual memory first because our kernel thinks it 
 	 * is located at 0xc0100000, which is set by the linking options in Makefile.
