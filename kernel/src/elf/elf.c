@@ -123,7 +123,6 @@ uint32_t loader() {
 		}
 		// nemu_assert(0 == 1);
 		ph++;
-		nemu_assert(0 == 1);
 	}
 	nemu_assert(0 == 1); // 到不了这里????
 
