@@ -114,7 +114,7 @@ uint32_t loader() {
 		}
 		ph++;
 	}
-
+	nemu_assert(0 == 1);
 	volatile uint32_t entry = elf->e_entry;
 	// printf("%x\n", entry);
 	// getchar();
