@@ -125,7 +125,7 @@ uint32_t loader() {
 		// nemu_assert(0 == 1);
 		ph++;
 		ccc++;
-		nemu_assert(ccc < 10);
+		nemu_assert(ccc < 1);
 	}
 	nemu_assert(0 == 1); // 到不了这里????
 
