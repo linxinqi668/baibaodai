@@ -45,8 +45,8 @@ void init() {
 
 /* Initialization phase 2 */
 void init_cond() { // 跳不到这个函数.
-	int check = 0;
-	nemu_assert(check == 1);
+	// int check = 0;
+	// nemu_assert(check == 1);
 #ifdef IA32_INTR
 	/* Reset the GDT, since the old GDT in start.S cannot be used in the future. */
 	init_segment();
