@@ -133,7 +133,7 @@ void cpu_exec(volatile uint32_t n) {
 		if (cpu.eip == 0x100823)
 		{
 			printf("823 %d\n", instr_len);
-			getchar();
+			instr_len = 4;
 		}
 
 		cpu.eip += instr_len;
