@@ -80,15 +80,15 @@ uint32_t loader() {
 			// nemu_assert(0 == 1);
 			ph -> p_vaddr = mm_malloc(ph -> p_vaddr,ph -> p_memsz);
 			// nemu_assert(0 == 1); reached
-//			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
+			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
 			// ramdisk_read((void*)(ph -> p_vaddr),ph -> p_offset,ph -> p_filesz);
 			// nemu_assert(0 == 1); reached
-			memset((void*)(ph -> p_vaddr + ph -> p_filesz),0,ph -> p_memsz - ph -> p_filesz);
+			// memset((void*)(ph -> p_vaddr + ph -> p_filesz),0,ph -> p_memsz - ph -> p_filesz);
 			// debug.
 			// nemu_assert(0x800000 <= (uint32_t)st_addr && (uint32_t)st_addr <= 0x900000);
-			// uint32_t mem_size = ph->p_memsz;
-			// uint32_t file_size = ph->p_filesz;
-			// uint32_t offset = ph->p_offset;
+			uint32_t mem_size = ph->p_memsz;
+			uint32_t file_size = ph->p_filesz;
+			uint32_t offset = ph->p_offset;
 			// nemu_assert(0 == 1);
 			// debug.
 			// if (cnt == 0) {
@@ -103,14 +103,14 @@ uint32_t loader() {
 			// }
 
 			// 写入内存.
-//			memcpy(st_addr, elf_file + offset, file_size);
+			memcpy(st_addr, elf_file + offset, file_size);
 			
 			
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			// 清零内存空间.
-//			memset(st_addr + file_size, 0, mem_size - file_size);
+			memset(st_addr + file_size, 0, mem_size - file_size);
 
 
 #ifdef IA32_PAGE
