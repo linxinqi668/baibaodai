@@ -88,6 +88,7 @@ void init_cond() { // 跳不到这个函数.
 #endif
 
 	/* Load the program. */
+	nemu_assert(0 == 1);
 	uint32_t eip = loader();
 	// 无法到达这里。
 	// eip = 0x3f3f3f3f;
