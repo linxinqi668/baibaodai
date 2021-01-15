@@ -32,8 +32,8 @@ void init() {
 #endif
 
 	/* Jump to init_cond() to continue initialization. */
-	int x = 0;
-	nemu_assert(x == 1); // reached this line.
+	// int x = 0;
+	// nemu_assert(x == 1); // reached this line.
 	
 	asm volatile("jmp *%0" : : "r"(init_cond)); // 直接跳到0x800e70了?
 	// 查看反汇编可以知道0x800e70没错, 但是kernel不应该待在这里, 说明kernel存放位置不对.
