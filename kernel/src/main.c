@@ -81,7 +81,6 @@ void init_cond() { // 跳不到这个函数.
 	 * the serial port is available in NEMU.
 	 */
 	Log("Hello, NEMU world!");
-	printf("hello");
 
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Write some test data to the video memory. */
