@@ -25,7 +25,6 @@ make_helper(concat(scas_, SUFFIX)) {
         low_byte &= (low_byte - 1); // 不断清除右边的1
     cpu.EFLAGS.PF = (count % 2 == 0) ? 1 : 0;
 
-
     // set SF
     cpu.EFLAGS.SF = (DATA_TYPE)minus_res >> (DATA_BYTE * 8 - 1);
 
