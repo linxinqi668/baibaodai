@@ -10,7 +10,11 @@ typedef struct {
 	size_t size; // 操作数的大小 有些不会更新.
 	union {
 		uint32_t reg; // 寄存器的编号
-		swaddr_t addr; // 内存的地址
+		// swaddr_t addr; // 内存的地址
+		struct {
+			swaddr_t addr;
+			uint8_t sreg;
+		};
 		uint32_t imm; // 立即数的大小
 		int32_t simm; // 有符号立即数的大小
 	};

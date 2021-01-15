@@ -43,6 +43,7 @@
 
 #include "jmp/jmp.h" // rel, 8 bit, 32 bit.
                      // rm, 32 bit.
+                     // ljmp, 32 bit.
 #include "jcc/jbe.h" // rel, 8 bit, 32 bit.
 #include "leave/leave.h" // 改变esp 或者 sp.
 #include "setne/setne.h" // rm. 8 bit.
@@ -66,6 +67,8 @@
 #include "scas/scas.h" // 8 bit.
 
 #include "cdq/cdq.h"  // 16 or 32.
+
+#include "lgdt/lgdt.h" // lgdt
 
 
 

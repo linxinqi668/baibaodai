@@ -60,6 +60,18 @@ static void init_ramdisk() {
 }
 #endif
 
+static void init_cr0(){
+	cpu.cr0.protect_enable = 0;//real mode
+	cpu.cr0.paging = 0;// paging mode
+}
+
+static void init_CS(){
+	cpu.cs.base = 0;
+	cpu.cs.limit = 0xffffffff;
+}
+
+
+
 static void load_entry() {
 	int ret;
 	FILE *fp = fopen("entry", "rb");
@@ -96,4 +108,7 @@ void restart() {
 	/* initialize cache */
 	L1_init_cache();
 	L2_init_cache();
+
+	init_cr0();
+	init_CS();
 }
