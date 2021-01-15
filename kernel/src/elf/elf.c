@@ -46,7 +46,7 @@ uint32_t loader() {
 
 	// (1) 取出程序头表的偏移(地址).
 	uint32_t ph_offset = elf->e_phoff;
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1); r
 	// (2) 取出ELF文件.
 	uint8_t * elf_file = (uint8_t *)0x0;
 	// (3) 更新ph. elf文件就在0内存处.
@@ -61,6 +61,7 @@ uint32_t loader() {
 	/* Load each program segment */
 	// panic("please implement me");
 	uint32_t cnt = 0;
+	nemu_assert(0 == 1);
 	for(; cnt < ph_num; cnt++) {
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
