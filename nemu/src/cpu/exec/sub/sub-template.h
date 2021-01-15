@@ -86,7 +86,6 @@ make_helper(concat(sub_i2A_, SUFFIX)) {
         printf("dest: %d\n", dest);
         printf("src: %d\n", src);
         printf("res: %d\n", minus_res);
-        getchar();
     }
 
     REG(R_EAX) = minus_res;
