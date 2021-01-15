@@ -66,7 +66,7 @@ uint32_t loader() {
 		// nemu_assert(0 == 1); r
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
-			nemu_assert(0 == 1);
+			// nemu_assert(0 == 1); reached
 			// panic("hello~\n"); // reached this line.
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
@@ -76,7 +76,8 @@ uint32_t loader() {
 			// 2. 每个segment都有自己的物理地址, 以及file size, memsize.
 			// 3. 根据offset找到节的内容.
 			// 3. 每个文件的开头都是0x0. 读取前4个字节就是魔数.
-			// 仿照另一个elf.c文件就可以写出来了.
+			// 仿照另一个elf.c文件就可以写出来了
+			nemu_assert(0 == 1);
 			ph -> p_vaddr = mm_malloc(ph -> p_vaddr,ph -> p_memsz);
 //			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
 			ramdisk_read((void*)(ph -> p_vaddr),ph -> p_offset,ph -> p_filesz);
