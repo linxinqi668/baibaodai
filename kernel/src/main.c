@@ -26,11 +26,11 @@ void init() {
 	 * is located at 0xc0100000, which is set by the linking options in Makefile.
 	 * Before setting up correct paging, no global variable can be used. */
 	init_page();
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1);
 	/* After paging is enabled, transform %esp to virtual address. */
 	asm volatile("addl %0, %%esp" : : "i"(KOFFSET));
 #endif
-
+	nemu_assert(0 == 1);
 	/* Jump to init_cond() to continue initialization. */
 	// int x = 0;
 	// nemu_assert(x == 1); // reached this line.
