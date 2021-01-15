@@ -13,6 +13,7 @@ make_instr_helper(r2rm)
 make_instr_helper(rm2r)
 
 make_helper(concat(mov_a2moffs_, SUFFIX)) {
+	current_sreg = R_DS;
 	swaddr_t addr = instr_fetch(eip + 1, 4);
 	MEM_W(addr, REG(R_EAX));
 
@@ -21,6 +22,7 @@ make_helper(concat(mov_a2moffs_, SUFFIX)) {
 }
 
 make_helper(concat(mov_moffs2a_, SUFFIX)) {
+	current_sreg = R_DS;
 	swaddr_t addr = instr_fetch(eip + 1, 4);
 	REG(R_EAX) = MEM_R(addr);
 
@@ -86,7 +88,7 @@ make_helper(movswl) {
 
 make_helper( concat(movs_, SUFFIX) ) {
 	// no need to decode ^_^.
-
+	current_sreg = R_DS;
 	// debug.
 	// if (cpu.eip == 0x1013d7) {
 	// 	printf("\n");

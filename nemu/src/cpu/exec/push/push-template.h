@@ -3,6 +3,7 @@
 #define instr push
 
 static void do_execute() {
+    current_sreg = R_SS;
     // change the esp.... i need to read i386 carefully
     if (DATA_BYTE == 2) {
         reg_l(R_ESP) = reg_l(R_ESP) - DATA_BYTE;

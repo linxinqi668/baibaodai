@@ -170,7 +170,7 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args){
-
+	current_sreg = R_DS;
 	if (args == NULL) {
 		printf("请输入: x number_of_dword addr.\n");
 		return 0;
@@ -228,7 +228,7 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
-	
+	current_sreg = R_DS;
 	if (args == NULL) {
 		printf("请输入正确表达式.\n");
 		return 0;
@@ -305,7 +305,7 @@ static int cmd_free(char *args) {
 
 static int cmd_bt(char *args) {
 	// 不适用于库函数
-
+	current_sreg = R_SS;
 	// 创建当前栈帧.
 	// 调用函数前, 先push参数, 然后是返回地址, 最后是ebp.
 	StackFrame __this__;

@@ -3,6 +3,7 @@
 #define instr pop
 
 static void do_execute() {
+    current_sreg = R_SS;
     // write into src... FUCK.
     DATA_TYPE val = MEM_R( reg_l(R_ESP) );
     OPERAND_W(op_src, val);

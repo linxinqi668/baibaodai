@@ -2,6 +2,7 @@
 
 make_helper(concat(scas_, SUFFIX)) {
     // printf("safe start.\n");
+    current_sreg = R_ES;
     swaddr_t addr_dest = reg_l(R_EDI);
 
     DATA_TYPE_S dest = MEM_R(addr_dest);
