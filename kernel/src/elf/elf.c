@@ -63,7 +63,6 @@ uint32_t loader() {
 	uint32_t cnt = 0;
 	// nemu_assert(0 == 1); r
 	for(; cnt < ph_num; cnt++) {
-		break;
 		// nemu_assert(0 == 1); r
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
@@ -84,7 +83,7 @@ uint32_t loader() {
 //			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
 			ramdisk_read((void*)(ph -> p_vaddr),ph -> p_offset,ph -> p_filesz);
 			// nemu_assert(0 == 1); reached
-			memset((void*)(ph -> p_vaddr + ph -> p_filesz),0,ph -> p_memsz - ph -> p_filesz);
+			// memset((void*)(ph -> p_vaddr + ph -> p_filesz),0,ph -> p_memsz - ph -> p_filesz);
 			// debug.
 			// nemu_assert(0x800000 <= (uint32_t)st_addr && (uint32_t)st_addr <= 0x900000);
 			// uint32_t mem_size = ph->p_memsz;
@@ -129,7 +128,7 @@ uint32_t loader() {
 
 	// nemu_assert(0 == 1);
 	volatile uint32_t entry = elf->e_entry;
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1);
 	// printf("%x\n", entry);
 	// getchar();
 
