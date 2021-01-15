@@ -112,7 +112,7 @@ uint32_t loader() {
 #endif
 			// 更新ph.
 		}
-		nemu_assert(0 == 1);
+		// nemu_assert(0 == 1);
 		ph++;
 	}
 
