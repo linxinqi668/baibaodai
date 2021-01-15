@@ -125,10 +125,11 @@ uint32_t loader() {
 		// nemu_assert(0 == 1);
 		ph++;
 	}
-	nemu_assert(0 == 1); // 到不了这里????
+	// nemu_assert(0 == 1); // 到不了这里????
 
 	// nemu_assert(0 == 1);
 	volatile uint32_t entry = elf->e_entry;
+	nemu_assert(0 == 1);
 	// printf("%x\n", entry);
 	// getchar();
 
