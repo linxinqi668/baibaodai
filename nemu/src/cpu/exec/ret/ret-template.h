@@ -4,6 +4,7 @@
 
 #if DATA_BYTE == 4
 make_helper(ret) {
+    current_sreg = R_SS;
     // set eip
     cpu.eip = MEM_R( REG(R_ESP) );
 
@@ -17,6 +18,7 @@ make_helper(ret) {
 #endif
 
 static void do_execute() {
+    current_sreg = R_SS;
     // pop dword to eip
     cpu.eip = swaddr_read(reg_l(R_ESP), 4);
 

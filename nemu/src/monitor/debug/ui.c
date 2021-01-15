@@ -228,7 +228,6 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
-	current_sreg = R_DS;
 	if (args == NULL) {
 		printf("请输入正确表达式.\n");
 		return 0;

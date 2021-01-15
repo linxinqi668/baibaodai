@@ -2,6 +2,7 @@
 
 
 make_helper( concat(leave_, SUFFIX) ) {
+    current_sreg = R_SS;
     // ESP <- EBP
     // 这边一定是32位的运算. 因为StackAddressSize是32.
     reg_l(R_ESP) = reg_l(R_EBP);
