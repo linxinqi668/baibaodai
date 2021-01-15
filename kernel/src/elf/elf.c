@@ -61,8 +61,9 @@ uint32_t loader() {
 	/* Load each program segment */
 	// panic("please implement me");
 	uint32_t cnt = 0;
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1); r
 	for(; cnt < ph_num; cnt++) {
+		nemu_assert(0 == 1);
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
 			// panic("hello~\n"); // reached this line.
