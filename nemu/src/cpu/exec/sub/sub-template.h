@@ -113,6 +113,7 @@ make_helper(concat(sub_i2A_, SUFFIX)) {
         cpu.EFLAGS.CF = 1;
     else
         cpu.EFLAGS.CF = 0;
+    print_asm_template2();
 
     return 1 + len;
 }
