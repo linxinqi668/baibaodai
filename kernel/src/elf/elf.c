@@ -67,8 +67,6 @@ uint32_t loader() {
 		// nemu_assert(0 == 1); r
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
-			// nemu_assert(0 == 1); reached
-			// panic("hello~\n"); // reached this line.
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
