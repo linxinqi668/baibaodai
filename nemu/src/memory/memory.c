@@ -50,7 +50,7 @@ hwaddr_t page_translate(lnaddr_t addr){
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t answer = dram_read(addr, len) & (~0u >> ((4 - len) << 3));
-	// return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 	uint32_t cache_ans = L1_M_CACHE.m_cache_read(&L1_M_CACHE, addr, len);
 	printf("ans: %x cache: %x\n\n\n", answer, cache_ans);
 	assert(answer == cache_ans);
