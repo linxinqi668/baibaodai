@@ -16,7 +16,6 @@ static inline uint32_t instr_fetch(swaddr_t addr, size_t len) {
 	if (addr == 0x100823) {
 		printf("this is len: %d\n", (int)len);
 		printf("this is ret: %u", ret);
-		getchar();
 	}
 	return ret;
 }
