@@ -63,6 +63,7 @@ uint32_t loader() {
 	uint32_t cnt = 0;
 	// nemu_assert(0 == 1); r
 	for(; cnt < ph_num; cnt++) {
+		break;
 		// nemu_assert(0 == 1); r
 		/* Scan the program header table, load each segment into memory */
 		if(ph->p_type == PT_LOAD) {
