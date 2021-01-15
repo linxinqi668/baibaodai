@@ -32,7 +32,7 @@ uint32_t loader() {
 
 	// buf 暂时没用. 不知道后面的PA是否有用.
 	elf = (void*)buf;
-
+	nemu_assert(0 == 1);
 	/* TODO: fix the magic number with the correct one */
 	
 	// 前4个字节就是魔数.

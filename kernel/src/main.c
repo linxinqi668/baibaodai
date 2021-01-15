@@ -89,7 +89,8 @@ void init_cond() { // 跳不到这个函数.
 
 	/* Load the program. */
 	uint32_t eip = loader();
-	eip = 0x3f3f3f3f;
+	// 无法到达这里。
+	// eip = 0x3f3f3f3f;
 	
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Read data in the video memory to check whether 
