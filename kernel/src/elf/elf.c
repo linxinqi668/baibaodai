@@ -18,7 +18,7 @@ void create_video_mapping();
 uint32_t get_ucr3();
 
 uint32_t loader() {
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1); r
 	Elf32_Ehdr *elf;
 	Elf32_Phdr *ph = NULL; // 程序头数组
 
@@ -29,7 +29,7 @@ uint32_t loader() {
 #else
 	ramdisk_read(buf, ELF_OFFSET_IN_DISK, 4096); // 已经读取了4096个字节了.
 #endif
-
+	nemu_assert(0 == 1);
 	// buf 暂时没用. 不知道后面的PA是否有用.
 	elf = (void*)buf;
 	// nemu_assert(0 == 1);
