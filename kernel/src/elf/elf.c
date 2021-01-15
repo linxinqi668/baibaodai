@@ -62,6 +62,7 @@ uint32_t loader() {
 	// panic("please implement me");
 	uint32_t cnt = 0;
 	// nemu_assert(0 == 1); r
+	int ccc = 0;
 	for(; cnt < ph_num; cnt++) {
 		// nemu_assert(0 == 1); r
 		/* Scan the program header table, load each segment into memory */
@@ -123,7 +124,8 @@ uint32_t loader() {
 		}
 		// nemu_assert(0 == 1);
 		ph++;
-		break;
+		ccc++;
+		nemu_assert(ccc < 10);
 	}
 	nemu_assert(0 == 1); // 到不了这里????
 
