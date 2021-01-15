@@ -3,6 +3,7 @@
 
 make_helper( concat(jge_rel_, SUFFIX) ) {
     // decode
+    current_sreg = R_CS;
     DATA_TYPE_S rel = instr_fetch(eip + 1, DATA_BYTE);
 
     // judge
