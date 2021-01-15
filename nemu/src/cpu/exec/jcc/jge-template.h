@@ -11,7 +11,7 @@ make_helper( concat(jge_rel_, SUFFIX) ) {
     else
         cpu.eip = cpu.eip + 1 + DATA_BYTE;
 
-    print_asm_template1();
+    print_asm_template2();
     return 0;
 }
 

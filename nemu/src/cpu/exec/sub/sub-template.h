@@ -81,6 +81,14 @@ make_helper(concat(sub_i2A_, SUFFIX)) {
     DATA_TYPE_S dest = REG(R_EAX);
     DATA_TYPE_S minus_res = dest - src;
 
+    if (eip == 0x100823)
+    {
+        printf("dest: %d\n", dest);
+        printf("src: %d\n", src);
+        printf("res: %d\n", minus_res);
+        getchar();
+    }
+
     REG(R_EAX) = minus_res;
 
     // set ZF
