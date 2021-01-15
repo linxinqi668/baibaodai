@@ -40,7 +40,7 @@ uint32_t loader() {
 	const uint32_t elf_magic = *p; // 然后读取.
 
 	uint32_t *p_magic = (void *)buf; // 测试.
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1); r
 	nemu_assert(*p_magic == elf_magic);
 
 	// (1) 取出程序头表的偏移(地址).
