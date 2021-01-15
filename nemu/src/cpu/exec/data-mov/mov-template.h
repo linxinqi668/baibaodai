@@ -97,19 +97,32 @@ make_helper( concat(movs_, SUFFIX) ) {
 	// }
 	
 	// [esi] -> [edi]
+	// current_sreg = R_DS;
+	// MEM_W(
+	// 	reg_l(R_EDI), MEM_R(reg_l(R_ESI))
+	// );
+	// current_sreg = R_ES;
+
+	// if (cpu.EFLAGS.DF == 0) {
+	// 	reg_l(R_EDI) += DATA_BYTE;
+	// 	reg_l(R_ESI) += DATA_BYTE;
+	// } else {
+	// 	reg_l(R_EDI) -= DATA_BYTE;
+	// 	reg_l(R_ESI) -= DATA_BYTE;
+	// }
 	current_sreg = R_DS;
-	MEM_W(
-		reg_l(R_EDI), MEM_R(reg_l(R_ESI))
-	);
-	current_sreg = R_ES;
-	
+    uint32_t tmp = MEM_R(reg_l(R_ESI));
+    current_sreg = R_ES;
+    swaddr_write(reg_l(R_EDI),DATA_BYTE,tmp);
 	if (cpu.EFLAGS.DF == 0) {
-		reg_l(R_EDI) += DATA_BYTE;
-		reg_l(R_ESI) += DATA_BYTE;
-	} else {
-		reg_l(R_EDI) -= DATA_BYTE;
-		reg_l(R_ESI) -= DATA_BYTE;
-	}
+        reg_l(R_EDI) += DATA_BYTE;
+        reg_l(R_ESI) += DATA_BYTE;
+    }else {
+        reg_l(R_EDI) -= DATA_BYTE;
+        reg_l(R_ESI) -= DATA_BYTE;
+    }
+	print_asm("movs");
+    return 1;
 
 	return 1;
 }
