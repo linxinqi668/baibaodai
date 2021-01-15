@@ -42,10 +42,11 @@ uint32_t loader() {
 	uint32_t *p_magic = (void *)buf; // 测试.
 	// nemu_assert(0 == 1); r
 	nemu_assert(*p_magic == elf_magic);
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1);
 
 	// (1) 取出程序头表的偏移(地址).
 	uint32_t ph_offset = elf->e_phoff;
+	nemu_assert(0 == 1);
 	// (2) 取出ELF文件.
 	uint8_t * elf_file = (uint8_t *)0x0;
 	// (3) 更新ph. elf文件就在0内存处.
