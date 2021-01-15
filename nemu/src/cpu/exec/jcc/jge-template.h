@@ -3,8 +3,13 @@
 
 make_helper( concat(jge_rel_, SUFFIX) ) {
     // decode
-    current_sreg = R_CS;
     DATA_TYPE_S rel = instr_fetch(eip + 1, DATA_BYTE);
+
+    if (eip == 0x100828)
+    {
+        printf("%d\n", rel);
+        getchar();
+    }
 
     // judge
     if ((cpu.EFLAGS.SF == cpu.EFLAGS.OF) || cpu.EFLAGS.ZF == 1)
