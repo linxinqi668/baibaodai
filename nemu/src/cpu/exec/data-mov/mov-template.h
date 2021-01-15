@@ -88,7 +88,6 @@ make_helper(movswl) {
 
 make_helper( concat(movs_, SUFFIX) ) {
 	// no need to decode ^_^.
-	current_sreg = R_DS;
 	// debug.
 	// if (cpu.eip == 0x1013d7) {
 	// 	printf("\n");
@@ -98,10 +97,12 @@ make_helper( concat(movs_, SUFFIX) ) {
 	// }
 	
 	// [esi] -> [edi]
+	current_sreg = R_DS;
 	MEM_W(
 		reg_l(R_EDI), MEM_R(reg_l(R_ESI))
 	);
-
+	current_sreg = R_ES;
+	
 	if (cpu.EFLAGS.DF == 0) {
 		reg_l(R_EDI) += DATA_BYTE;
 		reg_l(R_ESI) += DATA_BYTE;
