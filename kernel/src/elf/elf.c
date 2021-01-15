@@ -42,6 +42,7 @@ uint32_t loader() {
 	uint32_t *p_magic = (void *)buf; // 测试.
 	// nemu_assert(0 == 1); r
 	nemu_assert(*p_magic == elf_magic);
+	nemu_assert(0 == 1);
 
 	// (1) 取出程序头表的偏移(地址).
 	uint32_t ph_offset = elf->e_phoff;
