@@ -91,7 +91,7 @@ void init_cond() { // 跳不到这个函数.
 	// nemu_assert(0 == 1); reached here.
 	uint32_t eip = loader();
 	// 无法到达这里。
-	// eip = 0x3f3f3f3f;
+	eip = 0x3f3f3f3f;
 	
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Read data in the video memory to check whether 
