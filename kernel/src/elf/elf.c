@@ -72,13 +72,14 @@ uint32_t loader() {
 			// 3. 每个文件的开头都是0x0. 读取前4个字节就是魔数.
 			// 仿照另一个elf.c文件就可以写出来了.
 			ph -> p_vaddr = mm_malloc(ph -> p_vaddr,ph -> p_memsz);
-			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
-			
+//			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
+			ramdisk_read((void*)(ph -> p_vaddr),ph -> p_offset,ph -> p_filesz);
+			memset((void*)(ph -> p_vaddr + ph -> p_filesz),0,ph -> p_memsz - ph -> p_filesz);
 			// debug.
 			// nemu_assert(0x800000 <= (uint32_t)st_addr && (uint32_t)st_addr <= 0x900000);
-			uint32_t mem_size = ph->p_memsz;
-			uint32_t file_size = ph->p_filesz;
-			uint32_t offset = ph->p_offset;
+			// uint32_t mem_size = ph->p_memsz;
+			// uint32_t file_size = ph->p_filesz;
+			// uint32_t offset = ph->p_offset;
 
 			// debug.
 			// if (cnt == 0) {
@@ -93,14 +94,14 @@ uint32_t loader() {
 			// }
 
 			// 写入内存.
-			memcpy(st_addr, elf_file + offset, file_size);
+//			memcpy(st_addr, elf_file + offset, file_size);
 			
 			
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			// 清零内存空间.
-			memset(st_addr + file_size, 0, mem_size - file_size);
+//			memset(st_addr + file_size, 0, mem_size - file_size);
 
 
 #ifdef IA32_PAGE
@@ -109,9 +110,10 @@ uint32_t loader() {
 			uint32_t new_brk = ph->p_vaddr + ph->p_memsz - 1;
 			if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
+			// 更新ph.
+			ph++;
 		}
-		// 更新ph.
-		ph++;
+
 	}
 
 	volatile uint32_t entry = elf->e_entry;
