@@ -113,7 +113,7 @@ void init_cond() { // 跳不到这个函数.
 	/* Here we go! */
 	((void(*)(void))eip)();
 
-	// HIT_GOOD_TRAP;
+	HIT_GOOD_TRAP;
 
 	panic("should not reach here");
 }
