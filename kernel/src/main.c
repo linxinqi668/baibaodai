@@ -89,7 +89,6 @@ void init_cond() { // 跳不到这个函数.
 
 	/* Load the program. */
 	uint32_t eip = loader();
-	eip = 0xc0000000;
 	
 #if defined(IA32_PAGE) && defined(HAS_DEVICE)
 	/* Read data in the video memory to check whether 
@@ -114,7 +113,7 @@ void init_cond() { // 跳不到这个函数.
 	/* Here we go! */
 	((void(*)(void))eip)();
 
-	HIT_GOOD_TRAP;
+	// HIT_GOOD_TRAP;
 
 	panic("should not reach here");
 }
