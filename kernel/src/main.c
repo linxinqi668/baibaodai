@@ -40,7 +40,7 @@ void init() {
 	// 它应该待在0x100000左右.
 	// nemu_assert(x == 1); // not reach here.
 
-	panic("should not reach here");
+	// panic("should not reach here");
 }
 
 /* Initialization phase 2 */
