@@ -71,6 +71,7 @@
 #include "lgdt/lgdt.h" // lgdt
 
 #include "std/std.h" // std in page
+#include "logic/cld.h"
 
 
 
