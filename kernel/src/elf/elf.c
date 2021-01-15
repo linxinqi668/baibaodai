@@ -82,14 +82,14 @@ uint32_t loader() {
 			// nemu_assert(0 == 1); reached
 //			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
 			ramdisk_read((void*)(ph -> p_vaddr),ph -> p_offset,ph -> p_filesz);
-			nemu_assert(0 == 1);
+			// nemu_assert(0 == 1); reached
 			memset((void*)(ph -> p_vaddr + ph -> p_filesz),0,ph -> p_memsz - ph -> p_filesz);
 			// debug.
 			// nemu_assert(0x800000 <= (uint32_t)st_addr && (uint32_t)st_addr <= 0x900000);
 			// uint32_t mem_size = ph->p_memsz;
 			// uint32_t file_size = ph->p_filesz;
 			// uint32_t offset = ph->p_offset;
-
+			nemu_assert(0 == 1);
 			// debug.
 			// if (cnt == 0) {
 			// 	nemu_assert(offset == 0);
