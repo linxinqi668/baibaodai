@@ -2,6 +2,7 @@
 
 make_helper(concat(stos_, SUFFIX)) {
     // printf("safe start.\n");
+    current_sreg = R_ES;
     swaddr_t addr_dest = reg_l(R_EDI);
     printf("here");
 
