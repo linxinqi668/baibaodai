@@ -90,7 +90,7 @@ void init_cond() { // 跳不到这个函数.
 	/* Load the program. */
 	// nemu_assert(0 == 1); reached here.
 	uint32_t eip = loader();
-	eip = -100000;
+	// eip = -100000;
 	// 无法到达这里。
 	// eip = 0x3f3f3f3f;
 	

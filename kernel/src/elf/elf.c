@@ -124,11 +124,10 @@ uint32_t loader() {
 		}
 		// nemu_assert(0 == 1);
 		ph++;
-		break;
 		ccc++;
-		nemu_assert(ccc == 1);
+		// nemu_assert(ccc == 1);
 	}
-	// nemu_assert(0 == 1); // 到不了这里????
+	nemu_assert(0 == 1); // 到不了这里????
 
 	// nemu_assert(0 == 1);
 	volatile uint32_t entry = elf->e_entry;
