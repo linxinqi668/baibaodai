@@ -79,9 +79,10 @@ uint32_t loader() {
 			// 仿照另一个elf.c文件就可以写出来了
 			// nemu_assert(0 == 1);
 			ph -> p_vaddr = mm_malloc(ph -> p_vaddr,ph -> p_memsz);
-			nemu_assert(0 == 1);
+			// nemu_assert(0 == 1); reached
 //			uint8_t * st_addr = (uint8_t *)ph->p_vaddr;
 			ramdisk_read((void*)(ph -> p_vaddr),ph -> p_offset,ph -> p_filesz);
+			nemu_assert(0 == 1);
 			memset((void*)(ph -> p_vaddr + ph -> p_filesz),0,ph -> p_memsz - ph -> p_filesz);
 			// debug.
 			// nemu_assert(0x800000 <= (uint32_t)st_addr && (uint32_t)st_addr <= 0x900000);
