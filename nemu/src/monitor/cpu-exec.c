@@ -130,11 +130,6 @@ void cpu_exec(volatile uint32_t n) {
 		 * instruction decode, and the actual execution. */
 		int instr_len = exec(cpu.eip); // 执行一条指令
 
-		if (cpu.eip == 0x100823)
-		{
-			printf("823 %d\n", instr_len);
-		}
-
 		cpu.eip += instr_len;
 
 
