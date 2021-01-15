@@ -70,6 +70,8 @@
 
 #include "lgdt/lgdt.h" // lgdt
 
+#include "std/std.h" // std in page
+
 
 
 #include "arith/dec.h"
