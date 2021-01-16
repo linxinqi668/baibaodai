@@ -44,7 +44,6 @@ hwaddr_t page_translate(lnaddr_t addr){
 	}else return addr;
 }
 
-
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
