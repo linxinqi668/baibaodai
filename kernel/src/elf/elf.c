@@ -48,11 +48,14 @@ uint32_t loader() {
 			 */
 			
 			ph -> p_vaddr = mm_malloc(ph -> p_vaddr,ph -> p_memsz);
+			
 			ramdisk_read((void*)(ph -> p_vaddr),ph -> p_offset,ph -> p_filesz);
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			memset((void*)(ph -> p_vaddr + ph -> p_filesz),0,ph -> p_memsz - ph -> p_filesz);
+
+			ph ++;
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
@@ -61,9 +64,8 @@ uint32_t loader() {
 			if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
 		}
-		ph ++;
 	}
-	// nemu_assert(0 == 1);
+
 	volatile uint32_t entry = elf->e_entry;
 
 #ifdef IA32_PAGE
@@ -77,6 +79,6 @@ uint32_t loader() {
 	write_cr3(get_ucr3());
 	
 #endif
-	// nemu_assert(0 == 1);
+
 	return entry;
 }
