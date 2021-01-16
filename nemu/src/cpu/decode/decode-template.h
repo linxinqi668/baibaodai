@@ -14,7 +14,6 @@ make_helper(concat(decode_i_, SUFFIX)) {
 	op_src->type = OP_TYPE_IMM;
 	op_src->imm = instr_fetch(eip, DATA_BYTE);
 	op_src->val = op_src->imm;
-	op_src->size = DATA_BYTE;
 
 #ifdef DEBUG
 	snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->imm);
@@ -30,16 +29,12 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	/* TODO: Use instr_fetch() to read `DATA_BYTE' bytes of memory pointed
 	 * by `eip'. Interpret the result as an signed immediate, and assign
 	 * it to op_src->simm.
-	 *
-	op_src->simm = ???
+	 * op_src->simm = ???
 	 */
-	// panic("please implement me");
-	// so easy.
-	DATA_TYPE_S val = instr_fetch(eip, DATA_BYTE);
-	op_src->simm = val; // sign extend.
+	
+	op_src -> simm = (DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
 
 	op_src->val = op_src->simm;
-	op_src->size = DATA_BYTE;
 
 #ifdef DEBUG
 	snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->val);
@@ -65,7 +60,6 @@ static int concat3(decode_r_, SUFFIX, _internal) (swaddr_t eip, Operand *op) {
 	op->type = OP_TYPE_REG;
 	op->reg = ops_decoded.opcode & 0x7;
 	op->val = REG(op->reg);
-	op->size = DATA_BYTE;
 
 #ifdef DEBUG
 	snprintf(op->str, OP_STR_SIZE, "%%%s", REG_NAME(op->reg));
@@ -87,11 +81,6 @@ static int concat3(decode_rm_, SUFFIX, _internal) (swaddr_t eip, Operand *rm, Op
 /* Eb <- Gb
  * Ev <- Gv
  */
-
-/* 可以看出decode r2rm 实际上调用了decode rm
- * 传入的参数是op_dest与op_src, 所以它的译码结果保留在dest与src中.
- */
-
 make_helper(concat(decode_r2rm_, SUFFIX)) {
 	return decode_rm_internal(eip, op_dest, op_src);
 }
