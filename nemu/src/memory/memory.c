@@ -58,6 +58,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	// dram_write(addr, len, data);
+	printf("cache used.");
 	L1_M_CACHE.m_cache_write(&L1_M_CACHE, addr, data, len);
 }
 
