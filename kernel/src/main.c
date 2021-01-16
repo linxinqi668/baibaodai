@@ -44,7 +44,7 @@ void init() {
 }
 
 /* Initialization phase 2 */
-void init_cond() { // 跳不到这个函数.
+void init_cond() {
 	// int check = 0;
 	// nemu_assert(check == 1);
 #ifdef IA32_INTR
