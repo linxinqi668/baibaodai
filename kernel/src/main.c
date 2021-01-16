@@ -103,13 +103,13 @@ void init_cond() {
 	/* Clear the test data we just written in the video memory. */
 	video_mapping_clear();
 #endif
-
+	nemu_assert(0 == 1);
 #ifdef IA32_PAGE
 	/* Set the %esp for user program, which is one of the
 	 * convention of the "advanced" runtime environment. */
 	asm volatile("movl %0, %%esp" : : "i"(KOFFSET));
 #endif
-	assert(0 == 1);
+	// assert(0 == 1); // not reached this line.
 	/* Keep the `bt' command happy. */
 	asm volatile("movl $0, %ebp");
 	asm volatile("subl $16, %esp");
