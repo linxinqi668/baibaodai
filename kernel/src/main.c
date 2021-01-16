@@ -16,7 +16,7 @@ void video_mapping_clear();
 
 void init_cond();
 
-volatile int x = 0;
+// volatile int x = 0;
 
 /* Initialization phase 1
  * The assembly code in start.S will finally jump here.
@@ -24,14 +24,14 @@ volatile int x = 0;
 void init() {
 #ifdef IA32_PAGE
 	
-	x += 1;
+	// x += 1;
 	/* We must set up kernel virtual memory first because our kernel thinks it 
 	 * is located at 0xc0100000, which is set by the linking options in Makefile.
 	 * Before setting up correct paging, no global variable can be used. */
 	init_page();
 	//x=1;
 	/* After paging is enabled, transform %esp to virtual address. */
-	asm volatile("addl %0, %%esp" : : "i"(KOFFSET));
+	// asm volatile("addl %0, %%esp" : : "i"(KOFFSET));
 #endif
 
 	/* Jump to init_cond() to continue initialization. */
