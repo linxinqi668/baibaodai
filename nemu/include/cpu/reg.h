@@ -33,7 +33,7 @@ typedef struct {
 		} gpr[8];
 		struct {
 			uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-			union{
+			union {
 				struct{
 					uint32_t CF:	1;
 					uint32_t :		1;
@@ -54,8 +54,8 @@ typedef struct {
 					uint32_t VM:	1;
 					uint32_t :		14;
 				};
-				uint32_t EFLAGS;
-			};
+				uint32_t value;
+			} EFLAGS;
 		};
 	};
 

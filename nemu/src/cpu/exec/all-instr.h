@@ -2,31 +2,78 @@
 
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
-#include "data-mov/push.h"
-#include "data-mov/pop.h"
-#include "data-mov/cltd.h"
-#include "data-mov/leave.h"
-#include "data-mov/movext.h"
-#include "data-mov/movzb.h"
-#include "data-mov/movzw.h"
-#include "data-mov/movsx.h"
-#include "data-mov/lgdt.h"
 
-#include "call-jump-ret/call.h"
-#include "call-jump-ret/je.h"
-#include "call-jump-ret/ret.h"
-#include "call-jump-ret/jmp.h"
-#include "call-jump-ret/jbe.h"
-#include "call-jump-ret/jne.h"
-#include "call-jump-ret/jle.h"
-#include "call-jump-ret/jg.h"
-#include "call-jump-ret/jl.h"
-#include "call-jump-ret/jge.h"
-#include "call-jump-ret/ja.h"
-#include "call-jump-ret/js.h"
-#include "call-jump-ret/jns.h"
-#include "call-jump-ret/jb.h"
-#include "call-jump-ret/jae.h"
+// my instruction
+#include "call/call.h" // rel, 32bit.   no ELAGS.
+
+#include "push/push.h" // reg, 32bit.   no ELAGS.
+                       // m, 16 or 32 bit.
+
+#include "test/test.h" // r2rm, 8 or 16 or 32 bit.
+                       // 有-v
+                       // i2rm, 8 bit.
+
+#include "jcc/je.h" // rel, 8bit.
+
+#include "cmp/cmp.h" // 8 bit imm to 16 or 32 bit rm.
+                     // 有-v
+                     // r2rm, 8 or 16 bit or 32 bit.
+                     // 有-v
+                     // i2 reg of a. 8 or 16 or 32 bit.
+
+#include "pop/pop.h" // reg, 16 or 32 bit.
+                     // 有-v
+
+#include "ret/ret.h" // 32bit.
+
+#include "sub/sub.h" // 8 bit imm to 16 or 32 bit rm.
+                     // 有-v
+                     // rm2r, 16 or 32 bit.
+                     // 有-v.
+#include "sbb/sbb.h" // r2rm, 16 or 32 bit.
+                     // -v
+
+#include "add/add.h" // 8 bit imm to 16 or 32 bit rm.
+                     // r2rm, 16 bit or 32 bit.
+                     // -v
+                     // rm2r, 16 bit or 32 bit.
+                     // -v
+#include "adc/adc.h" // the same as add.h
+
+
+#include "jmp/jmp.h" // rel, 8 bit, 32 bit.
+                     // rm, 32 bit.
+                     // ljmp, 32 bit.
+#include "jcc/jbe.h" // rel, 8 bit, 32 bit.
+#include "leave/leave.h" // 改变esp 或者 sp.
+#include "setne/setne.h" // rm. 8 bit.
+
+#include "jcc/jne.h" // rel, 8 bit
+                     // rel, 16 or 32 bit.
+                     // -v.
+#include "jcc/jle.h" // rel, 8 bit.
+                     // rel, 16 or 32 bit.
+                     // -v.
+#include "jcc/jg.h" // rel, 8 bit.
+#include "jcc/jl.h" // rel, 8 bit. 
+#include "jcc/jge.h" // rel, 8 bit. 
+#include "jcc/ja.h" // rel, 8 bit. 
+#include "jcc/js.h" // rel, 8 bit.
+#include "jcc/jns.h" // rel, 8 bit.
+#include "jcc/jb.h" // rel, 8 bit.
+
+#include "lods/lods.h" // 8 16 32.
+#include "stos/stos.h" // 8 bit. 16 32 也是可以的。
+#include "scas/scas.h" // 8 bit.
+
+#include "cdq/cdq.h"  // 16 or 32.
+
+#include "lgdt/lgdt.h" // lgdt
+
+#include "std/std.h" // std in page
+#include "logic/cld.h"
+
+
 
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -35,11 +82,6 @@
 #include "arith/mul.h"
 #include "arith/idiv.h"
 #include "arith/div.h"
-#include "arith/cmp.h"
-#include "arith/add.h"
-#include "arith/adc.h"
-#include "arith/sub.h"
-#include "arith/sbb.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
@@ -49,16 +91,8 @@
 #include "logic/shl.h"
 #include "logic/shr.h"
 #include "logic/shrd.h"
-#include "logic/test.h"
-#include "logic/setne.h"
-#include "logic/std.h"
-#include "logic/cld.h"
 
 #include "string/rep.h"
-#include "string/movs.h"
-#include "string/lods.h"
-#include "string/scas.h"
-#include "string/stos.h"
 
 #include "misc/misc.h"
 

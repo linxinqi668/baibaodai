@@ -3,21 +3,36 @@
 #define instr dec
 
 static void do_execute () {
-	DATA_TYPE ret = op_src->val - 1;
-	OPERAND_W(op_src, ret);
+	DATA_TYPE result = op_src->val - 1;
+	OPERAND_W(op_src, result);
 
 	/* TODO: Update EFLAGS. */
-	cpu.ZF = !ret;
-    cpu.SF = ret >> ((DATA_BYTE << 3) - 1);
-    cpu.CF = op_src -> val < 1;
-    int tmp1 = (op_src -> val) >> ((DATA_BYTE << 3) - 1);
-    int tmp2 = 0;
-    cpu.OF = (tmp1 != tmp2 && tmp2 == cpu.SF);
-    ret ^= ret >> 4;
-    ret ^= ret >> 2;
-    ret ^= ret >> 1;
-    ret &= 1;
-    cpu.PF = !ret;
+	// panic("please implement me");
+	// set ZF
+    cpu.EFLAGS.ZF = (result == 0) ? 1 : 0;
+
+    // set PF
+    uint8_t low_byte = result;
+    uint32_t count;
+    for (count = 0; low_byte; ++count)
+        low_byte &= (low_byte - 1); // 不断清除右边的1
+    cpu.EFLAGS.PF = (count % 2 == 0) ? 1 : 0;
+
+
+    // set SF
+    cpu.EFLAGS.SF = (DATA_TYPE)result >> (DATA_BYTE * 8 - 1);
+
+    // set OF in subtraction.
+    // 符号不同, 且结果与减数符号相同.
+    if (
+        (!(((DATA_TYPE)result >> (DATA_BYTE * 8 - 1)) ^
+        ((DATA_TYPE)1 >> (DATA_BYTE * 8 - 1)))) &&
+        (((DATA_TYPE)op_src->val >> (DATA_BYTE * 8 - 1)) ^
+        ((DATA_TYPE)1 >> (DATA_BYTE * 8 - 1)))
+    )
+        cpu.EFLAGS.OF = 1;
+    else
+        cpu.EFLAGS.OF = 0;
 
 	print_asm_template1();
 }

@@ -20,6 +20,9 @@ make_helper(lea) {
 	int len = load_addr(eip + 1, &m, op_src);
 	reg_l(m.reg) = op_src->addr;
 
+	// debug.
+	// if(cpu.eip == 0x100021) printf("lea res is : %x\n", op_src->addr);
+
 	print_asm("leal %s,%%%s", op_src->str, regsl[m.reg]);
 	return 1 + len;
 }

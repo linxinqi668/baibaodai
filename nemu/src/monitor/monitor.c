@@ -103,7 +103,7 @@ void restart() {
 	init_ddr3();
 
 	/* Initialize ELAGS reg. */
-	cpu.EFLAGS = 0x00000002;
+	cpu.EFLAGS.value = 0x00000002;
 
 	/* initialize cache */
 	L1_init_cache();
