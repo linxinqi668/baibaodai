@@ -6,12 +6,12 @@ static void do_execute () {
 	DATA_TYPE ret = op_dest -> val - op_src -> val;
 	OPERAND_W(op_dest, ret);
 
-    if (cpu.eip == 0x100853)
-    {
-        printf("dest: %d\n", op_dest -> val);
-        printf("src: %d\n", op_src -> val);
-        printf("res: %d\n", ret);
-    }
+    // if (cpu.eip == 0x100853)
+    // {
+    //     printf("dest: %d\n", op_dest -> val);
+    //     printf("src: %d\n", op_src -> val);
+    //     printf("res: %d\n", ret);
+    // }
 
 	/* TODO: Update EFLAGS. */
     cpu.ZF = !ret;
