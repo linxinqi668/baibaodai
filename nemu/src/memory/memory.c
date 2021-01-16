@@ -17,8 +17,6 @@ lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg_id){
 
 hwaddr_t page_translate(lnaddr_t addr){
 	if (cpu.cr0.protect_enable == 1 && cpu.cr0.paging == 1){
-		printf("%x\n",addr);
-		printf("eip: %x\n", cpu.eip);
 		uint32_t dir = addr >> 22;
 		uint32_t page = (addr >> 12) & 0x3ff;
 		uint32_t offset = addr & 0xfff;
