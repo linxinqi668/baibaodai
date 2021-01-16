@@ -78,6 +78,6 @@ uint32_t loader() {
 	write_cr3(get_ucr3());
 	
 #endif
-
+	nemu_assert(0 == 1);
 	return entry;
 }
