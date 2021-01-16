@@ -62,9 +62,6 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-	//printf("%x\n",addr);
-/*To Avoid Potential Errors (len = 1 + 3)*/
-
 // #ifdef DEBUG
 // 	assert(len == 1 || len == 2 || len == 4);
 // #endif
@@ -84,8 +81,6 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
-
-/*To Avoid Potential Errors (len = 1 + 3)*/
 
 // #ifdef DEBUG
 // 	assert(len == 1 || len == 2 || len == 4);
