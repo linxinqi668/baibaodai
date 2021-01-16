@@ -1,5 +1,7 @@
 #include "cpu/exec/template-start.h"
 
+#define instr jge
+
 
 make_helper( concat(jge_rel_, SUFFIX) ) {
     // decode
