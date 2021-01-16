@@ -90,6 +90,7 @@ void init_cond() {
 	/* Load the program. */
 	// nemu_assert(0 == 1); reached here.
 	uint32_t eip = loader();
+	nemu_assert(0 == 1);
 	// eip = -100000;
 	// 无法到达这里。
 	// eip = 0x3f3f3f3f;
@@ -103,7 +104,7 @@ void init_cond() {
 	/* Clear the test data we just written in the video memory. */
 	video_mapping_clear();
 #endif
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1);
 #ifdef IA32_PAGE
 	/* Set the %esp for user program, which is one of the
 	 * convention of the "advanced" runtime environment. */
