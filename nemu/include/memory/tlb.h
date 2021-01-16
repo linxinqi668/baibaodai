@@ -8,7 +8,7 @@ typedef struct{
     bool valid;
     uint32_t tag;
     uint32_t page_num;
-}TLB;
+} TLB;
 
 TLB tlb[TLB_SIZE];
 
