@@ -13,13 +13,6 @@ static void do_execute() {
 	REG(R_EAX) = a / b;
 	REG(R_EDX) = a % b;
 
-	// long long int res = a / b;
-	// if (cpu.eip == 0x100191) {
-	// 	printf("ddddddddddddddddddddddddd\n");
-	// 	printf("两个数字分别是: %x, %x\n", (int32_t)a, (int32_t)b);
-	// 	printf("结果是: %8x %8x \n\n", REG(R_EDX), REG(R_EAX));
-	// }
-
 	print_asm_template1();
 }
 
