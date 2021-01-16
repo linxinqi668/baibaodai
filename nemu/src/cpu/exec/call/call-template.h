@@ -1,24 +1,40 @@
 #include "cpu/exec/template-start.h"
 
-#define instr call
+make_helper( concat(call_rm_, SUFFIX) ) {
+    current_sreg = R_SS;
+    // decode
+    int len = concat(decode_rm_, SUFFIX) (eip + 1); // eip is pointting to opcode.
+    
+    // push address of next instruction.
+    REG(R_ESP) = REG(R_ESP) - 4;
+    MEM_W( REG(R_ESP), eip + len + 1); // 1 for opcode.
 
-make_helper(concat(call_rel_, SUFFIX)) {
-	int len = concat(decode_i_, SUFFIX)(cpu.eip + 1);
-    reg_l(R_ESP) -= DATA_BYTE;
-    swaddr_write(reg_l(R_ESP), 4, cpu.eip + len + 1);
-    DATA_TYPE_S imm = op_src -> val;
-    print_asm("call\t%x",cpu.eip + 1 + len + imm);
-    cpu.eip += imm;
-    return len + 1;
+    // set eip.
+    cpu.eip = op_src->val;
+
+    // ret
+    print_asm_template1();
+    return 0;
 }
 
-make_helper(concat(call_rm_, SUFFIX)){
-    int len = concat(decode_rm_, SUFFIX)(cpu.eip + 1);
-	reg_l(R_ESP) -= DATA_BYTE;
-	swaddr_write(reg_l(R_ESP) , 4, cpu.eip + len + 1);
-	DATA_TYPE_S imm = op_src -> val;
-	print_asm("call %x",imm);
-	cpu.eip = imm - len - 1;
-	return len + 1;
+make_helper( concat(call_rel_, SUFFIX) ) {
+    // push address of next instruction.
+    current_sreg = R_SS;
+    REG(R_ESP) = REG(R_ESP) - 4;
+    MEM_W( REG(R_ESP), eip + 0x5);
+
+    // decode
+    DATA_TYPE_S rel = instr_fetch(eip + 1, DATA_BYTE);
+
+    // set eip only for 4 byte(i am lazy~)
+    cpu.eip = cpu.eip + 1 + DATA_BYTE + rel;
+
+    // ret
+    print_asm_template1();
+    return 0;
 }
+
+
+
+
 #include "cpu/exec/template-end.h"
