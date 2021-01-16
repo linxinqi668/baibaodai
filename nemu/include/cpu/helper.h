@@ -8,15 +8,10 @@ extern uint8_t current_sreg;
 #define make_helper(name) int name(swaddr_t eip)
 
 static inline uint32_t instr_fetch(swaddr_t addr, size_t len) {
-
 	uint8_t past_sreg = current_sreg;
 	current_sreg = R_CS;
 	uint32_t ret = swaddr_read(addr, len);
 	current_sreg = past_sreg;
-	// if (addr == 0x100823) {
-	// 	printf("this is len: %d\n", (int)len);
-	// 	printf("this is ret: %u", ret);
-	// }
 	return ret;
 }
 

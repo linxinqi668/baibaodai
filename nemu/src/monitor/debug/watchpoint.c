@@ -1,116 +1,91 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
-#include <stdlib.h>
 
-#define NR_WP 100
+#define NR_WP 32
 
 static WP wp_pool[NR_WP];
 static WP *head, *free_;
 
 void init_wp_pool() {
 	int i;
-	for(i = 0; i < NR_WP; i ++) {
-		wp_pool[i].NO = i; // 监视点编号
-		wp_pool[i].next = &wp_pool[i + 1]; // 指向下一个监视点的指针
-		wp_pool[i].pred = &wp_pool[i - 1]; // 指向前一个监视点的指针
-		wp_pool[i].now_value = 0;
-		wp_pool[i].old_value = 0;
-		wp_pool[i].expr = NULL;
-		wp_pool[i].status = false; // 设置为空闲
+	for (i = 0; i < NR_WP; i ++) {
+		wp_pool[i].NO = i;
+		wp_pool[i].next = &wp_pool[i + 1];
 	}
 	wp_pool[NR_WP - 1].next = NULL;
-	wp_pool[0].pred = NULL;
 
 	head = NULL;
-	free_ = wp_pool; // 整个池都是空闲监视点
+	free_ = wp_pool;
 }
 
 /* TODO: Implement the functionality of watchpoint */
 
-// 返回一个空闲监视点， 空闲监视点为新的占用监视点链表表头
+
 WP* new_wp() {
-	// 确保仍然有空闲监视点
-	Assert(free_ != NULL, "无剩余空闲监视点.");
 
-	WP* res;
+	if (free_ == NULL) return NULL;
 
-	if (head == NULL) { // 若当前忙碌节点为空
-		head = free_;
-		free_ = free_->next;
-		if (free_ != NULL) // 如果空闲链表不止一个节点
-			free_->pred = NULL;
-		head->next = NULL;
-		head->pred = NULL;
-		res = head;
-	} else { // 若当前忙碌节点非空, 则返回的新节点作为表头
-		WP* backup = free_;
-		free_ = free_->next;
-		if (free_ != NULL) // 如果空闲链表不止一个节点
-			free_->pred = NULL;
-		head->pred = backup;
-		backup->next = head;
-		head = backup;
-		head->pred = NULL;
-		res = head;
+	WP *f_top, *h_tail;
+	f_top = free_;
+	h_tail = head;
+	free_ = free_ -> next;
+
+	f_top -> next = NULL;
+
+	if (h_tail == NULL) head = f_top;
+	else {
+		while (h_tail -> next != NULL)
+			h_tail = h_tail -> next;
+		h_tail -> next = f_top;
 	}
-
-	// 设置为忙碌
-	res->status = true;
-
-	return res;
+	return f_top;
 }
 
-// 归还空闲监视点
-void free_wp(WP* wp) {
+void free_wp(WP *wp) {
 
-	// 确保传入的不是空指针
-	Assert(wp != NULL, "free空指针\n");
-
-	// 如果本来就是空闲的
-	if (wp->status == false)
-		return;
-
-	// 设置为空闲
-	wp->status = false;
-
-	// 释放空间
-	free(wp->expr);
-	wp->expr = NULL;
-
-	// 首先将wp指向的节点退出忙碌链表
-	if (wp == head) { // 当wp指向头结点时
-		head = head->next;
-	} else if (wp->next == NULL) { // 当wp指向最后一个节点时
-		wp->pred->next = NULL;
-	} else { // 当wp指向中间节点时
-		wp->pred->next = wp->next;
-		wp->next->pred = wp->pred;
+	WP *h, *f;
+	h = head;
+	f = free_;
+	if (h == wp) {
+		head = wp -> next;
+	} else {
+		while (h != NULL && h -> next != wp) {
+			h = h -> next;
+		}
+		h -> next = h -> next -> next;
 	}
+	wp -> next = free_;
+	free_ = wp;
+	wp -> val = 0;
+	wp -> exprs[0] = '\0';
+}
 
-	// 然后将wp指向的节点插入空闲链表并且作为头结点
-	if (free_ == NULL) { // 若当前空闲链表为空
-		free_ = wp;
-		free_->pred = NULL;
-		free_->next = NULL;
-	} else { // 若空闲链表非空
-		wp->next = free_;
-		free_->pred = wp;
-		free_ = wp;
-		free_->pred = NULL;
+void print_w() {
+	WP *h = head;
+	while (h != NULL) {
+		printf("[Watchpoint NO.%d]\tExpression: %s\tValue: %d\n", h -> NO, h -> exprs, h -> val);
+		h = h -> next;
 	}
-
-	// 完成
 }
 
-WP* get_head() {
-	return head;
+WP* delete_wp(int id, bool* f) {
+	WP* ret = head;
+	while (ret != NULL && ret -> NO != id) {
+		ret = ret -> next;
+	}
+	if (ret == NULL) *f = false;
+	return ret;
 }
-
-WP* get_pool() {
-	return wp_pool;
+void check_wp(bool* f) {
+	WP* h = head;
+	while (h != NULL) {
+		bool tmp = true;
+		uint32_t nxtv = expr(h->exprs, &tmp);
+		if (nxtv != h -> val) {
+			printf("[Watchpoint NO.%d]\tExpression: %s\tOrigin Value: 0x%x\tNew Value: 0x%x\n", h -> NO, h -> exprs, h -> val, nxtv);
+			h -> val = nxtv;
+			*f = true;
+		}
+		h = h -> next;
+	}
 }
-
-int get_num() {
-	return NR_WP;
-}
-
