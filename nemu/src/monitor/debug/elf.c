@@ -5,8 +5,44 @@
 char *exec_file = NULL;
 
 static char *strtab = NULL;
-static Elf32_Sym *symtab = NULL;
-static int nr_symtab_entry;
+static Elf32_Sym *symtab = NULL; // 符号表.
+static int nr_symtab_entry; // 符号表的表项数.
+
+
+char * get_strtab() {
+	return strtab;
+}
+
+Elf32_Sym * get_symtab() {
+	return symtab;
+}
+
+int get_symtab_len() {
+	return nr_symtab_entry;
+}
+
+char * get_fun_name(swaddr_t addr) {
+	// 查找函数.
+	int i;
+	char * fun_name = (char *)malloc(30);
+	// printf("reached this line1\n");
+	for (i = 0; i < nr_symtab_entry; i++)
+		if ((symtab[i].st_info & 0x0f) == STT_FUNC) // type is function.
+			if (symtab[i].st_value <= addr &&
+				addr <= symtab[i].st_value + symtab[i].st_size) {
+					// 计算函数名的长度. 符号表中是\0结尾.
+					uint32_t fun_len = strlen(strtab + symtab[i].st_name);
+					// printf("len is %d\n", fun_len);
+					// 取出函数名.
+					strncpy(fun_name, strtab + symtab[i].st_name, fun_len);
+					fun_name[fun_len] = '\0';
+					// ok.
+				}
+	return fun_name;
+}
+
+
+
 
 void load_elf_tables(int argc, char *argv[]) {
 	int ret;
@@ -17,7 +53,7 @@ void load_elf_tables(int argc, char *argv[]) {
 	Assert(fp, "Can not open '%s'", exec_file);
 
 	uint8_t buf[sizeof(Elf32_Ehdr)];
-	ret = fread(buf, sizeof(Elf32_Ehdr), 1, fp);
+	ret = fread(buf, sizeof(Elf32_Ehdr), 1, fp); // 读取文件头. 直接读取一个结构体。学到了学到了.
 	assert(ret == 1);
 
 	/* The first several bytes contain the ELF header. */
@@ -40,9 +76,13 @@ void load_elf_tables(int argc, char *argv[]) {
 	/* Load symbol table and string table for future use */
 
 	/* Load section header table */
+	// 计算出节头的大小.
 	uint32_t sh_size = elf->e_shentsize * elf->e_shnum;
+	// 分配空间.
 	Elf32_Shdr *sh = malloc(sh_size);
+	// 查找节头表的offset. 这很重要. 我猜更改了fp指针的位置.
 	fseek(fp, elf->e_shoff, SEEK_SET);
+	// 然后从新的fp指针这里读取.
 	ret = fread(sh, sh_size, 1, fp);
 	assert(ret == 1);
 
@@ -77,36 +117,8 @@ void load_elf_tables(int argc, char *argv[]) {
 	free(shstrtab);
 
 	assert(strtab != NULL && symtab != NULL);
+	// printf("%s!!!!!!!!!", strtab);
 
 	fclose(fp);
 }
-uint32_t GetMarkValue(char* str,bool* success){
-	int i;
-	for (i = 0; i < nr_symtab_entry; i++){
-		if ((symtab[i].st_info & 0xf) == STT_OBJECT){
-			char syb[32];
-			int stlen = strlen(str);
-			strncpy(syb,strtab + symtab[i].st_name,stlen);
-			syb [stlen] = '\0';
-			if (strcmp(syb,str) == 0){
-				return symtab[i].st_value;
-			} 
-		}
-	}
-	*success = false;
-	return 0;
-}
 
-void GetFunctionAddr(swaddr_t cur_addr,char* name){
-	int i;
-	for (i = 0; i < nr_symtab_entry; i++){
-		if ((symtab[i].st_info & 0xf) == STT_FUNC){
-			// printf("0x%08x\n",symtab[i].st_value);
-			if (cur_addr >= symtab[i].st_value && symtab[i].st_value + symtab[i].st_size >= cur_addr){
-				strcpy(name,strtab + symtab[i].st_name);
-				return;
-			}
-		}
-	}
-	name[0]='\0';
-}

@@ -1,4 +1,4 @@
-#include "nemu.h"
+#include "nemu.h" // include nemu.h 所以 CPU就可以被下面的代码调用
 
 #define ENTRY_START 0x100000
 
@@ -60,6 +60,18 @@ static void init_ramdisk() {
 }
 #endif
 
+static void init_cr0(){
+	cpu.cr0.protect_enable = 0;//real mode
+	cpu.cr0.paging = 0;// paging mode
+}
+
+static void init_CS(){
+	cpu.cs.base = 0;
+	cpu.cs.limit = 0xffffffff;
+}
+
+
+
 static void load_entry() {
 	int ret;
 	FILE *fp = fopen("entry", "rb");
@@ -74,23 +86,8 @@ static void load_entry() {
 	fclose(fp);
 }
 
-static void init_CS(){
-	cpu.cs.base = 0;
-	cpu.cs.limit = 0xffffffff;
-}
-
-static void init_cr0(){
-	cpu.cr0.protect_enable = 0;//real mode
-	cpu.cr0.paging = 0;// paging mode
-}
-
-static void init_eflags(){
-	cpu.EFLAGS = 0x00000002;
-}
 void restart() {
 	/* Perform some initialization to restart a program */
-	init_eflags();
-
 #ifdef USE_RAMDISK
 	/* Read the file with name `argv[1]' into ramdisk. */
 	init_ramdisk();
@@ -105,15 +102,15 @@ void restart() {
 	/* Initialize DRAM. */
 	init_ddr3();
 
-	/* Initialize Cache. */
-	init_cache();
+	/* Initialize ELAGS reg. */
+	cpu.EFLAGS = 0x00000002;
 
-	/* Initialize CR0. */
+	/* initialize cache */
+	L1_init_cache();
+	L2_init_cache();
+
 	init_cr0();
-
-	/* Initialize CS. */
 	init_CS();
 
-	/* Initialize TLB. */
 	init_tlb();
 }

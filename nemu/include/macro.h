@@ -10,6 +10,9 @@
 #define concat4(x, y, z, w) concat3(concat(x, y), z, w)
 #define concat5(x, y, z, v, w) concat4(concat(x, y), z, v, w)
 
+/* myself */
+#define namespace(obj_name) concat3(cache_layer, _, obj_name)
+
 #define unalign_rw(addr, len)	(((unalign *)(addr))->concat(_, len))
 
 #endif
