@@ -15,13 +15,6 @@ static void do_execute() {
 	RET_DATA_TYPE result = (RET_DATA_TYPE)op_src->val * (RET_DATA_TYPE)op_src2->val;
 	OPERAND_W(op_dest, result);
 
-	
-	// debug.
-	//long long int res = result;
-	// if (cpu.eip == 0x10016a) {
-	// 	printf("两个数字分别是: %d, %d\n", (int32_t)op_src->val, (int32_t)op_src2->val);
-	// 	printf("结果是: %lld\n\n", (long long)res);
-	// }
 	/* There is no need to update EFLAGS, since no other instructions 
 	 * in PA will test the flags updated by this instruction.
 	 */
@@ -57,13 +50,6 @@ make_helper(concat(imul_rm2a_, SUFFIX)) {
 	/* There is no need to update EFLAGS, since no other instructions 
 	 * in PA will test the flags updated by this instruction.
 	 */
-
-	// debug.
-	// long long int res = result;
-	// if (cpu.eip == 0x1001a9) {
-	// 	printf("两个数字分别是: %x, %x\n", (int32_t)op_src->val, (int32_t)op_src2->val);
-	// 	printf("结果是: %lld\n\n", (long long)res);
-	// }
 
 	print_asm_template1();
 	return len + 1;

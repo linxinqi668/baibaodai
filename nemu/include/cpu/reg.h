@@ -54,8 +54,8 @@ typedef struct {
 					uint32_t VM:	1;
 					uint32_t :		14;
 				};
-				uint32_t value;
-			} EFLAGS;
+				uint32_t EFLAGS;
+			};
 		};
 	};
 
