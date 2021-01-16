@@ -64,7 +64,7 @@ uint32_t loader() {
 #endif
 		}
 	}
-	// nemu_assert(0 == 1);
+	nemu_assert(0 == 1);
 	volatile uint32_t entry = elf->e_entry;
 
 #ifdef IA32_PAGE
@@ -78,6 +78,6 @@ uint32_t loader() {
 	write_cr3(get_ucr3());
 	
 #endif
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1);
 	return entry;
 }
