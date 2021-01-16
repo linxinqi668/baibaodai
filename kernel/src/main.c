@@ -30,7 +30,7 @@ void init() {
 	/* After paging is enabled, transform %esp to virtual address. */
 	asm volatile("addl %0, %%esp" : : "i"(KOFFSET));
 #endif
-	nemu_assert(0 == 1);
+	// nemu_assert(0 == 1);
 	/* Jump to init_cond() to continue initialization. */
 	// int x = 0;
 	// nemu_assert(x == 1); // reached this line.
