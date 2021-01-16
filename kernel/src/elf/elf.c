@@ -54,8 +54,6 @@ uint32_t loader() {
 			 */
 			memset((void*)(ph -> p_vaddr + ph -> p_filesz),0,ph -> p_memsz - ph -> p_filesz);
 
-			ph ++;
-
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
 			extern uint32_t cur_brk, max_brk;
@@ -63,6 +61,7 @@ uint32_t loader() {
 			if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
 		}
+		ph ++;
 	}
 	nemu_assert(0 == 1);
 	volatile uint32_t entry = elf->e_entry;
