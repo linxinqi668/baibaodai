@@ -52,6 +52,7 @@ void init_page(void) {
 		ptable->val = make_pte(pframe_addr);
 		ptable --;
 	}
+	nemu_assert(pframe_addr == 0);
 	
 
 
