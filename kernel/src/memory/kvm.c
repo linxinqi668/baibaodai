@@ -12,8 +12,8 @@ PDE* get_kpdir() { return kpdir; }
 void init_page(void) {
 	CR0 cr0;
 	CR3 cr3;
-	PDE *pdir = (PDE *)va_to_pa(kpdir); // 获取物理地址
-	PTE *ptable = (PTE *)va_to_pa(kptable);
+	PDE *pdir = (PDE *)va_to_pa(kpdir); // 获取页目录数组的物理地址
+	PTE *ptable = (PTE *)va_to_pa(kptable); // 获取页表的物理地址
 	uint32_t pdir_idx;
 
 	/* make all PDEs invalid */
@@ -41,12 +41,11 @@ void init_page(void) {
 		"i"(PAGE_SIZE), "a"((PHY_MEM - PAGE_SIZE) | 0x7), "D"(ptable - 1)); */
 
 
-	
+
 		// ===== referenced code for the inline assembly above =====
 
-	uint32_t drop_page_number = (PHY_MEM / PAGE_SIZE) % NR_PTE;
-	uint32_t pframe_addr = PHY_MEM - PAGE_SIZE - drop_page_number * PAGE_SIZE;
-	ptable -= NR_PTE;
+	uint32_t pframe_addr = PHY_MEM - PAGE_SIZE + 1;
+	ptable --;
 
 	// fill PTEs reversely
 	for (; pframe_addr >= 0; pframe_addr -= PAGE_SIZE) {
