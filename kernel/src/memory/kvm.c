@@ -21,10 +21,10 @@ void init_page(void) {
 
 	/* fill PDEs */
 	for (pdir_idx = 0; pdir_idx < PHY_MEM / PT_SIZE; pdir_idx ++) {
-		pdir[pdir_idx].val = make_pde(ptable);
-		pdir[pdir_idx + KOFFSET / PT_SIZE].val = make_pde(ptable);
+		pdir[pdir_idx].val = make_pde(ptable); // 获取该页表对应虚拟内存的首地址
+		pdir[pdir_idx + KOFFSET / PT_SIZE].val = make_pde(ptable); // 映射到同一块区域
 
-		ptable += NR_PTE;
+		ptable += NR_PTE; // 到达下一个页表对应虚拟内存的起始地址
 	}
 
 	/* fill PTEs */
@@ -44,9 +44,8 @@ void init_page(void) {
 	
 		// ===== referenced code for the inline assembly above =====
 
-	uint32_t pframe_addr = PHY_MEM - PAGE_SIZE;
-	// ptable --;
-	ptable -= NR_PTE;
+	uint32_t pframe_addr = (PHY_MEM - PAGE_SIZE) | 0x7;
+	ptable --;
 
 	// fill PTEs reversely
 	for (; pframe_addr >= 0; pframe_addr -= PAGE_SIZE) {
