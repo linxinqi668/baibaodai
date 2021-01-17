@@ -12,7 +12,7 @@ PDE* get_kpdir() { return kpdir; }
 void init_page(void) {
 	CR0 cr0;
 	CR3 cr3;
-	PDE *pdir = (PDE *)va_to_pa(kpdir);
+	PDE *pdir = (PDE *)va_to_pa(kpdir); // 获取物理地址
 	PTE *ptable = (PTE *)va_to_pa(kptable);
 	uint32_t pdir_idx;
 
@@ -21,10 +21,10 @@ void init_page(void) {
 
 	/* fill PDEs */
 	for (pdir_idx = 0; pdir_idx < PHY_MEM / PT_SIZE; pdir_idx ++) {
-		pdir[pdir_idx].val = make_pde(ptable); // 获取该页表对应虚拟内存的首地址
+		pdir[pdir_idx].val = make_pde(ptable); // 获取该页表对应物理内存的首地址
 		pdir[pdir_idx + KOFFSET / PT_SIZE].val = make_pde(ptable); // 映射到同一块区域
 
-		ptable += NR_PTE; // 到达下一个页表对应虚拟内存的起始地址
+		ptable += NR_PTE; // 到达下一个页表对应物理内存的起始地址
 	}
 
 	/* fill PTEs */
@@ -44,7 +44,7 @@ void init_page(void) {
 	
 		// ===== referenced code for the inline assembly above =====
 
-	uint32_t pframe_addr = (PHY_MEM - PAGE_SIZE) | 0x7;
+	uint32_t pframe_addr = make_pte(PHY_MEM) - PAGE_SIZE;
 	ptable --;
 
 	// fill PTEs reversely
