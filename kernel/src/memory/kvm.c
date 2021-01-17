@@ -44,7 +44,8 @@ void init_page(void) {
 	
 		// ===== referenced code for the inline assembly above =====
 
-	uint32_t pframe_addr = PHY_MEM - PAGE_SIZE;
+	uint32_t drop_page_number = (PHY_MEM / PAGE_SIZE) % NR_PTE;
+	uint32_t pframe_addr = PHY_MEM - PAGE_SIZE - drop_page_number * PAGE_SIZE;
 	ptable -= NR_PTE;
 
 	// fill PTEs reversely
@@ -52,7 +53,6 @@ void init_page(void) {
 		ptable->val = make_pte(pframe_addr);
 		ptable --;
 	}
-	nemu_assert(pframe_addr == 0);
 	
 
 
